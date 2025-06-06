@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(find:*)",
-      "Bash(tmux capture-pane:*)"
+      "Bash(tmux capture-pane:*)",
+      "Bash(sed:*)"
     ],
     "deny": []
   }
