@@ -1,0 +1,6 @@
+# Force Unix line endings for shell scripts
+*.sh text eol=lf
+*.py text eol=lf
+
+# Let git handle other text files normally
+* text=auto
