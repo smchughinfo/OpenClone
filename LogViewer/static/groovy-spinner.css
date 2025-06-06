@@ -1,0 +1,21 @@
+.groovy-spinner div {
+    /* Finally, a use for "groove"! */
+    border: 6px groove #6edff6;
+  
+    display: table-cell;
+    border-radius: 999px;
+    animation: spin 15s linear infinite;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(45deg) }
+    to { transform: rotate(405deg) }
+  }
+  
+  .groovy-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin-top:6px;
+  }

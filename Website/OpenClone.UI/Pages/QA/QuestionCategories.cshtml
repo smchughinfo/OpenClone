@@ -1,0 +1,60 @@
+﻿@page "/QA"
+
+@* TODO: this should be done in razor *@
+
+@using OpenClone.Core.Models;
+@using OpenClone.UI.Extensions;
+@{
+    ViewData["Title"] = "QA";
+}
+@model OpenClone.Pages.QAModel
+@{
+    void AddQuestionCategoryCard(string categoryName, string urlFormattedCategoryName, int totalQuestions, List<Question> unansweredQuestions)
+    {
+        <div class="mb-4">
+            <div class="card p-0 h-100">
+
+                @{
+                    var img = "/images/qa-icons/" + urlFormattedCategoryName.ToLower();
+                }
+                <img src="@(img).png" class="card-img-top">
+
+                <div class="card-body">
+                    <h5 class="card-title">@categoryName</h5>
+                    <p class="card-text" style="margin-bottom:3em;">
+                        <a href="/QA/Answer/@urlFormattedCategoryName" class="btn btn-primary btn-sm mt-1 p-1" style="width:90%;position:absolute;bottom:1.8em;left:5%;">Answer</a>
+                    </p>
+                    <span style="position:absolute;right:5px;bottom:0;font-size:smaller">Answered @(totalQuestions - unansweredQuestions.Count())/@totalQuestions</span>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+
+<div class="container">
+    <p>
+        Pick a question category and start answering questions to teach your clone how to respond. For a well-rounded clone choose <a href="/QA/Answer/round-robin">Round Robin</a> to be cycled through each question category.
+    </p>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3 w-100">
+            <h1 class="display-6 mb-3 mb-md-0">Question Categories</h1>
+            <a href="/QA/Edit" class="btn btn-primary">
+                Edit + User Defined <i class="bi bi-pencil"></i>
+            </a>
+        </div>
+    <div class="row justify-content-start row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
+        @{
+            var unansweredQuestions_InAllCategories = Model._qaService.GetUnansweredQuestionsInAllSystemCategories(User.GetActiveCloneId());
+            var questionsCount_InAllCategories = Model.QuestionCategories.Sum(c => c.Questions.Count());
+            AddQuestionCategoryCard("Round Robin", "round-robin", questionsCount_InAllCategories, unansweredQuestions_InAllCategories);
+
+            @foreach (var questionCategory in @Model.QuestionCategories)
+            {
+                var unansweredQuestions = @Model._qaService.GetUnansweredQuestionsInCategory(User.GetActiveCloneId(), questionCategory.Id);
+                var questionsCount = questionCategory.Questions.Count();
+                AddQuestionCategoryCard(questionCategory.Name, questionCategory.NameToUrlFriendly(), questionsCount, unansweredQuestions);
+            }
+        }
+    </div>
+</div>

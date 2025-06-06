@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenClone.UI", "OpenClone.UI\OpenClone.UI.csproj", "{09D4CE0B-7DDE-41C7-BBE0-594D2DF36C41}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{59FA5DD0-1688-4FE0-B503-8666B594A849}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenClone.Services", "OpenClone.Services\OpenClone.Services.csproj", "{D06BA7E9-E3EC-400E-A1C5-8398C6C05365}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenClone.Core", "OpenClone.Core\OpenClone.Core.csproj", "{720B1A77-398A-4878-86C1-DE88179FD933}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09D4CE0B-7DDE-41C7-BBE0-594D2DF36C41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09D4CE0B-7DDE-41C7-BBE0-594D2DF36C41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09D4CE0B-7DDE-41C7-BBE0-594D2DF36C41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09D4CE0B-7DDE-41C7-BBE0-594D2DF36C41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D06BA7E9-E3EC-400E-A1C5-8398C6C05365}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D06BA7E9-E3EC-400E-A1C5-8398C6C05365}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D06BA7E9-E3EC-400E-A1C5-8398C6C05365}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D06BA7E9-E3EC-400E-A1C5-8398C6C05365}.Release|Any CPU.Build.0 = Release|Any CPU
+		{720B1A77-398A-4878-86C1-DE88179FD933}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{720B1A77-398A-4878-86C1-DE88179FD933}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{720B1A77-398A-4878-86C1-DE88179FD933}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{720B1A77-398A-4878-86C1-DE88179FD933}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {998EB145-D10E-4346-B9C6-8976740B312A}
+	EndGlobalSection
+EndGlobal

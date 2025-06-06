@@ -1,0 +1,113 @@
+/*** PUPPET PIPELINE ***/
+.puppetpipeline-row,
+.puppetpipeline-row * {
+    background-color: rgb(80, 74, 57) !important;
+}
+.puppetpipeline-row > td {
+    border-color: rgb(40, 34, 17) !important;
+    border-width: 4px;
+}
+.puppetpipeline-row:hover,
+.puppetpipeline-row:hover * {
+    background-color: rgb(100, 94, 77) !important;
+}
+.puppetpipeline-row:hover > td {
+    border-color: rgb(50, 44, 27) !important;
+}
+
+/*** sadtalker ***/
+.sadtalker-row,
+.sadtalker-row * {
+    background-color: rgb(45, 43, 85) !important;
+}
+.sadtalker-row > td {
+    border-color: rgb(15, 13, 55) !important;
+    border-width: 4px;
+}
+.sadtalker-row:hover,
+.sadtalker-row:hover * {
+    background-color: rgb(65, 63, 105) !important;
+}
+.sadtalker-row:hover > td {
+    border-color: rgb(25, 23, 65) !important;
+}
+
+/*** Website ***/
+.website-row,
+.website-row * {
+    background-color: rgb(10, 93, 97) !important;
+}
+.website-row > td {
+    border-color: rgb(6, 55, 57) !important;
+    border-width: 4px;
+}
+.website-row:hover,
+.website-row:hover * {
+    background-color: rgb(30, 113, 117) !important;
+}
+.website-row:hover > td {
+    border-color: rgb(16, 65, 67) !important;
+}
+
+/*** ST_FFMPEG ***/
+.st_ffmpeg-row,
+.st_ffmpeg-row * {
+    background-color: rgb(17, 97, 10) !important;
+}
+.st_ffmpeg-row > td {
+    border-color: rgb(8, 57, 0) !important;
+    border-width: 4px;
+}
+.st_ffmpeg-row:hover,
+.st_ffmpeg-row:hover * {
+    background-color: rgb(37, 127, 30) !important;
+}
+.st_ffmpeg-row:hover > td {
+    border-color: rgb(18, 67, 10) !important;
+}
+
+/*** SEMANTICS ***/
+.semantics-row,
+.semantics-row * {
+    background-color: rgb(108, 81, 23) !important;
+}
+.semantics-row > td {
+    border-color: rgb(88, 51, 0) !important;
+    border-width: 4px;
+}
+.semantics-row:hover,
+.semantics-row:hover * {
+    background-color: rgb(128, 101, 50) !important;
+}
+.semantics-row:hover > td {
+    border-color: rgb(98, 61, 10) !important;
+}
+
+/*** U-2-Net ***/
+.u-2-net-row,
+.u-2-net-row * {
+    background-color: rgb(56, 107, 216) !important;
+}
+.u-2-net-row > td {
+    border-color: rgb(36, 67, 186) !important;
+    border-width: 4px;
+}
+.u-2-net-row:hover,
+.u-2-net-row:hover * {
+    background-color: rgb(76, 127, 236) !important;
+}
+.u-2-net-row:hover > td {
+    border-color: rgb(46, 77, 196) !important;
+}
+
+/*** COMMON ***/
+.log-row.highlighted,
+.log-row.highlighted *:not(.log-header) {
+    background-color: rgb(255, 255, 255) !important;
+}
+.log-row.highlighted * {
+    color: black !important
+}
+tr.log-row.highlighted > td {
+    border-color: black !important;
+}

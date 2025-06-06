@@ -1,0 +1,225 @@
+{
+    "name": "CICD",
+    // DOCKER-COMPOSE.YML does the following things only:
+    // 1. used to set container and image name
+    // 2. used to mount directories where the source path is composed of a host environment variable
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "cicd", // this corresponds to docker-compose.yml > serices > cicd
+    "workspaceFolder": "/workspaces/CICD", // this corresponds to docker-compose.yml > services > CICD > volumes > */workspaces/CICD if you don't use a docker-compose.yml this the directory the devcontainer uses by defualt
+    "shutdownAction": "stopCompose",
+    // END DOCKERCOMPOSE.YML
+    "mounts": [ // todo: i think the directories in this block can be replaced with symlinks.
+        // directories
+        "source=${localWorkspaceFolder}/scripts,target=/scripts,type=bind",
+        "source=${localWorkspaceFolder}/terraform,target=/terraform,type=bind",
+        "source=${localWorkspaceFolder}/vultr-api,target=/vultr-api,type=bind",
+        // (host<->devcontainer) docker share
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+        // secrets file
+        "source=${localWorkspaceFolder}/setup-container.sh,target=/setup-container.sh,type=bind",
+        "source=${localWorkspaceFolder}/.vscode/settings.json,target=/.vscode/settings.json,type=bind"
+        // additional mounts:
+        // - for mounts that have an environment variable in the source use docker-compose.yml
+    ],
+      "containerEnv": {
+        "TF_VAR_postgres_password": "${localEnv:OpenClone_Postgres_Password}",
+        "TF_VAR_openclone_openclonedb_password": "${localEnv:OpenClone_openclonedb_password}", 
+        "TF_VAR_openclone_logdb_password": "${localEnv:OpenClone_logdb_password}",
+        "TF_VAR_vultr_api_key": "${localEnv:OpenClone_Vultr_API_Key}",
+        "TF_VAR_openclone_jwt_secretkey": "${localEnv:OpenClone_JWT_SecretKey}",
+        "TF_VAR_openclone_openai_api_key": "${localEnv:OpenClone_OPENAI_API_KEY}",
+        "TF_VAR_openclone_googleclientid": "${localEnv:OpenClone_GoogleClientId}",
+        "TF_VAR_openclone_googleclientsecret": "${localEnv:OpenClone_GoogleClientSecret}",
+        "TF_VAR_openclone_elevenlabsapikey": "${localEnv:OpenClone_ElevenLabsAPIKey}",
+        "TF_VAR_openclone_email_dkim": "${localEnv:OpenClone_email_dkim}",
+        "TF_VAR_OpenClone_FTP_User": "${localEnv:OpenClone_FTP_User}",
+        "TF_VAR_OpenClone_FTP_Password": "${localEnv:OpenClone_FTP_Password}",
+        "OpenClone_OpenClone_Server_0_IP_Address": "${localEnv:OpenClone_OpenClone_Server_0_IP_Address}",
+        "OpenClone_OpenClone_Server_0_Password": "${localEnv:OpenClone_OpenClone_Server_0_Password}",
+        "OpenClone_Server_0_IP_Address": "${localEnv:OpenClone_Server_0_IP_Address}",
+        "OpenClone_Server_0_Password": "${localEnv:OpenClone_Server_0_Password}",
+        "OpenClone_Server_0_Delta_Snapshot_ID": "${localEnv:OpenClone_Server_0_Delta_Snapshot_ID}",
+        "OpenClone_Server_0_Cluster_Password": "${localEnv:OpenClone_Server_0_Cluster_Password}",
+        "OpenClone_Resistry_User": "${localEnv:OpenClone_Resistry_User}",
+        "OpenClone_Registry_Password": "${localEnv:OpenClone_Registry_Password}"
+    },
+    "remoteEnv": {
+        "OpenClone_Root_Dir": "${localEnv:OpenClone_Root_Dir}"
+    },
+    "initializeCommand": "start powershell.exe -NoProfile -ExecutionPolicy Bypass -File ${localEnv:OpenClone_Root_Dir}/CICD/scripts/devcontainer-host/host-command-runner.ps1",
+    "postCreateCommand": "chmod -R 777 /setup-container.sh && /setup-container.sh",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "httpsterio.henna", // color theme
+                //"betajob.modulestf", // terraform - after using my destroy function this was occassionally throwing errors in the console on container rebuild. harmless but annoying. btw what does this extension do again? linting? 
+                "hashicorp.terraform", // terraform
+                "seunlanlege.action-buttons", // vs code macro buttons on status bar
+                "redhat.vscode-yaml", // yaml formatter
+                "opencloneai.openclone-devcontainer-statusbar" // set status bar message and color
+            ],
+            "settings": {
+                "workbench.colorTheme": "Henna",
+                //documentation --> https://marketplace.visualstudio.com/items?itemName=seunlanlege.action-buttons&ssr=false#overview 
+                // full icon list --> https://code.visualstudio.com/api/references/icons-in-labels
+                "actionButtons": {
+                    "defaultColor": "#ff0034", // Can also use string color names.
+                    "loadNpmCommands": false, // Disables automatic generation of actions for npm commands.
+                    "commands": [
+                        {
+                            "cwd": "/scripts/cluster_create_and_destroy",
+                            "name": "☸ Apply",
+                            "color": "#2F69DD",
+                            "singleInstance": true,
+                            "command": "./create.sh --create"
+                        },
+                        {
+                            "cwd": "/scripts/cluster_create_and_destroy",
+                            "name": "$(flame) Destroy",
+                            "color": "#FF8F8F",
+                            "singleInstance": true,
+                            "command": "./destroy.sh --destroy"
+                        },
+                        {
+                            "cwd": "/scripts/",
+                            "name": "$(compass-active) Switch Environment",
+                            "color": "#EF319E",
+                            "singleInstance": true,
+                            "command": "./environment.sh --switch_environment && source ~/.bashrc" // # source ~/.bashrc to update current shell with new values
+                        },
+                        {
+                            "cwd": "/scripts/docker-cli",
+                            "name": "$(extensions) Create kind Registry",
+                            "color": "#22D18B",
+                            "command": "./local-registry.sh --create_local_registry"
+                        },
+                        {
+                            "cwd": "/scripts/docker-cli",
+                            "name": "$(extensions) D",
+                            "color": "#22D18B",
+                            "command": "./push-containers.sh --push_container openclone-database"
+                        },
+                        {
+                            "cwd": "/scripts/docker-cli",
+                            "name": "$(extensions) O",
+                            "color": "#22D18B",
+                            "command": "./push-containers.sh --push_container openclone-website"
+                        },
+                        {
+                            "cwd": "/scripts/docker-cli",
+                            "name": "$(extensions) S",
+                            "color": "#22D18B",
+                            "command": "./push-containers.sh --push_container openclone-sadtalker"
+                        },
+                        {
+                            "cwd": "/scripts/docker-cli",
+                            "name": "$(extensions) U",
+                            "color": "#22D18B",
+                            "command": "./push-containers.sh --push_container openclone-u-2-net"
+                        },
+                        {
+                            "cwd": "/scripts/docker-cli",
+                            "name": "$(extensions) I",
+                            "color": "#FFFFFF",
+                            "command": "./push-containers.sh --push_container openclone-cicd"
+                        },
+                        {
+                            "cwd": "/scripts/server-0",
+                            "name": "$(squirrel) S",
+                            "color": "#FFFFFF",
+                            "singleInstance": true,
+                            "command": "./server-0.sh --create_cluster_with_server_0_delta"
+                        },
+                        {
+                            "cwd": "/scripts/server-0",
+                            "name": "$(arrow-circle-down) K",
+                            "color": "#FFFFFF",
+                            "singleInstance": true,
+                            "command": "./server-0.sh --get_kube_config"
+                        },
+                        {
+                            "cwd": "/scripts/server-0",
+                            "name": "$(terminal-view-icon) 0",
+                            "color": "#FFFFFF",
+                            "singleInstance": true,
+                            "command": "./server-0.sh --execute_server_0_command $OpenClone_Server_0_IP_Address $OpenClone_Server_0_Password"
+                        },
+{
+                            "cwd": "/scripts/server-0",
+                            "name": "$(terminal-view-icon) C",
+                            "color": "#FFFFFF",
+                            "singleInstance": true,
+                            "command": "./server-0.sh --open_container_terminal $OpenClone_Server_0_IP_Address $OpenClone_Server_0_Password"
+                        },
+                        {
+                            "cwd": "/scripts/server-0",
+                            "name": "$(terminal-view-icon) D0",
+                            "color": "#FFFFFF",
+                            "singleInstance": true,
+                            "command": "./server-0.sh --create_server_0_delta_terminal"
+                        },
+{
+                            "cwd": "/scripts/server-0",
+                            "name": "$(terminal-view-icon) DC",
+                            "color": "#FFFFFF",
+                            "singleInstance": true,
+                            "command": "./server-0.sh --create_server_0_delta_container_terminal"
+                        },
+                        {
+                            "cwd": "/scripts/docker-cli",
+                            "name": "$(note) List Containers",
+                            "color": "#22D18B",
+                            "command": "./tag-resolver.sh --list_container_images"
+                        },
+                        {
+                            "cwd": "/scripts/database",
+                            "name": "$(database) Restore DB",
+                            "color": "#22D18B",
+                            "command": "./database.sh --restore"
+                        },
+                        {
+                            "cwd": "/scripts",
+                            "name": "$(file-symlink-file) Push OpenCloneFS",
+                            "color": "#22D18B",
+                            "command": "./openclone-fs/openclone-fs.sh --push_openclone_fs"
+                        },
+                        {
+                            "cwd": "/vultr-api",
+                            "name": "$(sync) Recreate Registry",
+                            "color": "#FFA166",
+                            "command": "./registries.sh --delete_container_registry && ./registries.sh --create_container_registry"
+                        },
+                        {
+                            "cwd": "/scripts/metrics",
+                            "name": "$(pie-chart) Prometheus",
+                            "color": "#D1D121",
+                            "singleInstance": true,
+                            "command": "./metrics.sh --run_prometheus"
+                        },
+                        {
+                            "cwd": "/scripts/metrics",
+                            "name": "$(pie-chart) Grafana",
+                            "color": "#D1D121",
+                            "singleInstance": true,
+                            "command": "./metrics.sh --run_grafana"
+                        },
+                        {
+                            "cwd": "/scripts/openclone-fs/longhorn",
+                            "name": "$(link-external) Longhorn",
+                            "color": "#D1D121",
+                            "singleInstance": true,
+                            "command": "./longhorn.sh --configure_longhorn_for_external_access"
+                        },
+                        {
+                            "cwd": "/scripts/menu-bar/",
+                            "name": "$(tools) Utilities",
+                            "color": "#21D1D1",
+                            "singleInstance": true,
+                            "command": "source ./menu-bar.sh"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

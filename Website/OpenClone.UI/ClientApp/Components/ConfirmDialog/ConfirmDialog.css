@@ -1,0 +1,3 @@
+﻿#confirmDialog .openclone-modal-y-position {
+    transform: translateX(0%) translateY(var(--openclone-modal-y-position-top-translate-y, 0)) !important;
+}

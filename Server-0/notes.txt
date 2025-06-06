@@ -1,0 +1,6 @@
+you are using pm2 (a node.js thing) to start and keep your web server alive:
+
+pm2 status      # See running processes
+pm2 logs        # View logs
+pm2 restart all # Restart your app
+pm2 stop all    # Stop your app

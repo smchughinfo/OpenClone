@@ -1,0 +1,171 @@
+table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.log-header-column {
+    width: 25%;
+}
+
+.log-header > div {
+    display: flex;   
+    justify-content: space-between;
+}
+
+.open-clone-log-n {
+    opacity: .2
+}
+
+.log-body {
+    display: flex;   
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.log-body > .message {
+    flex-grow: 100;
+}
+
+.log-body-and-header-overflow {
+    height: 1px;
+}
+
+.log-body { 
+    height: 100%;
+}
+
+.highlighted, 
+.highlighted > td {
+    background-color: rgba(100, 100, 20, 1)
+}
+
+.settings-icon {
+    position: fixed;
+    top:16px;
+    right: 16px;
+    height: 48px;
+    width: 48px;
+    object-fit: cover;
+    border-radius: 100%;
+    transition: .4s;
+    z-index: 99999;
+    opacity: .25;
+}
+
+.settings-icon:hover {
+    filter:brightness(110%);
+    transform: rotate(15deg);
+    opacity: 1;
+}
+
+.settings-icon:active {
+    filter:brightness(115%);
+    transform: rotate(45deg);
+
+}
+
+.disabled-date {
+    opacity: .33 !important;
+}
+
+.checkbox-2x {
+    scale: 2;
+}
+
+.logtable-error-message {
+    position:fixed;
+    top:150px;
+    left: 50%;
+    transform: translate(-25%, -50%); 
+    z-index:9999999;
+    scale: 2;
+}
+.logtable-error-message,
+.logtable-error-message * {
+    cursor: default;
+}
+
+
+.quick-options {
+    position:fixed;
+    background-color: white;
+    border-radius: 4px;
+    top:8px;
+    display: inline-block;
+    right: 80px;
+    font-size: 18px;
+    cursor: default;
+    user-select: none;
+    opacity: .25;
+    transition: .4s;
+    padding: 5px;
+}
+
+.quick-options:hover {
+    opacity: 1;
+}
+
+    .quick-options > * {
+        transition: .4s;
+    }   
+    .quick-options > *:hover {
+        filter: brightness(120%);
+    }
+    .quick-options > *:active {
+        filter: brightness(130%);
+    }
+    .quick-options > *:not(:first-child) {
+        margin-left: .5em;
+    }
+
+.next-page-alert {
+    position:fixed;
+    bottom:-20px;
+    transform: translate(-50%, -50%); 
+    left: 50%;
+    padding-top:12px;
+    padding-bottom:12px;
+    width:200px;
+    text-align: center;
+    z-index: 99999;
+}
+
+.next-page-alert > .loading {
+    padding-bottom:4px;
+}
+
+
+/***********************************************************/
+/******** BOOTSTRAP ADJUSTMENTS ****************************/
+/***********************************************************/
+
+#displayedLogsChooser > .btn.btn-outline-secondary:hover {
+    border-color: rgb(116, 125, 133);
+    background-color: rgb(48,52,56);
+    color: rgb(116, 125, 133);
+}
+
+
+/***********************************************************/
+/******** GOTO DIALOG **************************************/
+/***********************************************************/
+
+#gotoModal > .modal-dialog {
+    width: 400px;
+}
+
+/*
+
+{LogPage.length > 0 && 
+                            Object.keys(LogPage[0]).map((column) => 
+                                <th key={column} className={column.replace(/_/g, "-")}>
+                                    {column}
+                                </th>
+                            )}
+
+
+
+                        {Object.keys(LogTableRecord).filter(c => c !== "message").map(column => 
+                            renderField(LogTableRecord[column])
+                        )}
+*/

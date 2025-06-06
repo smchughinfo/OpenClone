@@ -1,0 +1,1 @@
+* -text # The purpose of this is to prevent Git from applying automatic line ending conversions, ensuring that files are stored in the repository exactly as they are on disk.

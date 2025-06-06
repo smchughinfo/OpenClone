@@ -1,0 +1,72 @@
+﻿/*/////////////////////////////////////////////////////*/
+/*///// PROMPT VIEWER AND PROMPT EDITOR ///////////////*/
+/*/////////////////////////////////////////////////////*/
+
+.prompt-prefix-builder .prompt-prefix-viewer,
+.prompt-prefix-builder .prompt-prefix-editor {
+    position: relative;
+}
+
+    .prompt-prefix-builder .prompt-prefix-viewer > :first-child,
+    .prompt-prefix-builder .prompt-prefix-editor > textarea {
+        height: 300px;
+        padding: 5px;
+        overflow-y: scroll;
+    }
+
+    .prompt-prefix-builder .button-carrier {
+        position: absolute;
+        display: inline-block;
+        bottom: 10px;
+        right: 30px;
+    }
+
+        .prompt-prefix-builder .button-carrier button {
+            opacity: .25;
+            transition: all .5s;
+        }
+
+            .prompt-prefix-builder .button-carrier button:hover {
+                opacity: 1 !important;
+            }
+
+/*/////////////////////////////////////////////////////*/
+/*///// PROMPT VIEWER ONLY ////////////////////////////*/
+/*/////////////////////////////////////////////////////*/
+
+.prompt-prefix-builder .prompt-prefix-viewer > :first-child {
+    text-align: left;
+}
+
+    .prompt-prefix-builder .prompt-prefix-viewer > :first-child {
+        border: 1px solid gray;
+    }
+
+        .prompt-prefix-builder .prompt-prefix-viewer > :first-child .badge {
+            margin-left: .25em;
+            margin-right: .15em;
+            cursor: default;
+        }
+
+    .prompt-prefix-builder .prompt-prefix-editor .button-carrier {
+        opacity: .75;
+    }
+
+/*/////////////////////////////////////////////////////*/
+/*///// HIGHLIGHT BUTTONS /////////////////////////////*/
+/*/////////////////////////////////////////////////////*/
+
+.prompt-prefix-builder .highlight-buttons {
+    text-align: left;
+}
+
+    .prompt-prefix-builder .highlight-buttons .badge {
+        margin-left: .25em;
+        margin-right: .25em;
+        cursor: default;
+        user-select: none;
+    }
+
+    .prompt-prefix-builder .highlight-buttons .badge.bg-secondary {
+        opacity: .5;
+    }

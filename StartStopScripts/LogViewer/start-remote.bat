@@ -1,0 +1,1 @@
+start "" "../../logviewer/.venv/scripts/python.exe" "../../logviewer/API.py" "--environment" "remote"

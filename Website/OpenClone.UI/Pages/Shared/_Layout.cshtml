@@ -1,0 +1,92 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OpenClone</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <script src="~/js/idk-where-these-go/site.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/popper.js/umd/popper.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/react/babel.min.js"></script>
+    <script src="~/lib/react/react.production.min.js"></script>
+    <script src="~/lib/react/react-dom.production.min.js"></script>
+</head>
+<body>
+    @Html.Partial("_ErrorDialogPartial")
+    @Html.Partial("_LoaderDialogPartial")
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">OpenClone</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                @* you cant use asp-page here because i want the CloneManager url but that gets rerouted to the CloneCRUD page*@
+                                <a class="nav-link text-dark" href="/CloneManager">Clone Manager</a>
+                            </li>
+
+                            var hasClone = (await AuthorizationService.AuthorizeAsync(User, "HasActiveClone")).Succeeded;
+                            <li class="nav-item">
+                                <a class="nav-link @(hasClone ? "text-dark" : "disabled pointer-events-none")" asp-area="" asp-page="@(hasClone ? "/ChatBot" : "#")">ChatBot</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(hasClone ? "text-dark" : "disabled pointer-events-none")" asp-area="" asp-page="@(hasClone ? "/AvatarBuilder" : "#")">Avatar Builder</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(hasClone ? "text-dark" : "disabled pointer-events-none")" asp-area="" asp-page="@(hasClone ? "/PromptEngineering" : "#")">Prompt Engineering</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(hasClone ? "text-dark" : "disabled pointer-events-none")" asp-area="" asp-page="@(hasClone ? "/QA/QuestionCategories" : "#")">QA</a>
+                            </li>
+
+                            <li class="nav-item"> <!-- TODO: should this be DISABLED if user doesnt have a clone? -->
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Settings">Settings</a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/About">About</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/TestPage">Test Page</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <partial name="_LoginPartial" />
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - OpenClone - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false) @* TODO: delete this? *@
+</body>
+</html>

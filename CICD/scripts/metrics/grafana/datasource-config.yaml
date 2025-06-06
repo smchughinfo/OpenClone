@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: datasource-config
+  namespace: default
+data:
+  prometheus-datasource.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus-server.default.svc.cluster.local:80
+        isDefault: true
+        jsonData:
+          timeInterval: 5s
+        uid: openclone-prometheus-data-source

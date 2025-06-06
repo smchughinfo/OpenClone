@@ -1,0 +1,18 @@
+﻿textarea {
+    height:100px;
+}
+
+.subdued-link {
+    color: #6c757d; /* Bootstrap's muted text color */
+    text-decoration: none;
+}
+
+    .subdued-link:hover {
+        color: #5a6268; /* Slightly darker on hover to indicate it's a link */
+        text-decoration: underline; /* Optional: underline on hover for better accessibility */
+    }
+
+[id^='customAnswer'] {
+    border: none;
+    padding: 0;
+}

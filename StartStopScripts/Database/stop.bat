@@ -1,0 +1,1 @@
+PowerShell -Command "docker ps -q --filter 'ancestor=%openclone-database' | ForEach-Object {docker stop $_}"

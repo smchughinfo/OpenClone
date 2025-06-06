@@ -1,0 +1,53 @@
+﻿@page
+@using Microsoft.AspNetCore.Authorization;
+@using OpenClone.Authorization;
+@using OpenClone.Core.Models;
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>@if(User.Identity.IsAuthenticated)
+        {
+            <span>You are logged in</span>
+        }
+        else
+        {
+            <span>You are not logged in</span>
+        }
+    </p>
+    <p>
+        @if (User.IsInRole("Overlord"))
+        {
+            <span>You are an overlord</span>
+        }
+        else
+        {
+            <span>You are not an overlord - @User.Identity.Name</span>
+        }
+        <h4>@Model.IsAutho</h4>
+
+        @if ((await @Model._authorizationService.AuthorizeAsync(
+            User,
+            new ClaimAndPolicyQuestionExampleToBeDeleted() { Owner = "seanmchugh.info@gmail.com" },
+            AuthorizationOperations.Delete)).Succeeded)
+        {
+            <h4>should mirror: <span>Yep, Autho</span></h4>
+        }
+        else
+        {
+            <h4>should mirror: <span>Nope, Nautho</span></h4>
+        }
+
+        WHEN NOT LOGGED IN
+        <br />
+        HomePage is an ad
+        <br />
+        WHEN LOGGED IN
+        <br />
+        This is the homepage and it will have News and datadeed and social things and blog about the project.
+    </p>
+</div>

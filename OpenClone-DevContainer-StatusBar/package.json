@@ -1,0 +1,44 @@
+{
+  "name": "openclone-devcontainer-statusbar",
+  "displayName": "OpenClone-DevContainer-StatusBar",
+  "description": "Adds information to the status bar",
+  "publisher": "opencloneai",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onDidChangeConfiguration:opencloneDevContainerStatusBar.text"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "OpenClone DevContainer StatusBar Settings",
+      "properties": {
+        "opencloneDevContainerStatusBar.text": {
+          "type": "string",
+          "default": "OpenClone DevContainer StatusBar",
+          "description": "Text to display in the status bar."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.95.0",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "20.x",
+    "eslint": "^9.13.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}

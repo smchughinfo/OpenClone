@@ -1,0 +1,30 @@
+/* TODO: site.js and site.css shoudl be the only globally available css/js (aside from window.showerror and windowloader, etc. partial views). all other css/js should be loaded via import in each react page/component */
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.openclone-modal-y-position {
+    top: 25%;
+    margin-top: 0;
+    --openclone-modal-y-position-top-translate-y: -50%;
+}

@@ -1,0 +1,19 @@
+﻿@page
+
+@using System.IO
+@using Microsoft.AspNetCore.Hosting
+@inject IWebHostEnvironment Environment
+
+@model NotFoundModel
+@{
+    ViewData["Title"] = "404";
+    var _404ImagesPath = System.IO.Path.Combine(Environment.WebRootPath, "images", "404s");
+    var _404Images = Directory.GetFiles(_404ImagesPath);
+    var random = new Random();
+    var randomImage = _404Images[random.Next(_404Images.Length)];
+    var relativeImagePath = "/images/404s/" + (new FileInfo(randomImage)).Name;
+}
+
+<div class="container text-center">
+    <img src="@relativeImagePath" alt="404 Error Image" />
+</div>

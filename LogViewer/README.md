@@ -1,0 +1,1 @@
+Make sure to update the database connection parameters in GlobalVariables.py

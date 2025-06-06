@@ -1,0 +1,1 @@
+  ![Splash Image](Documentation/splash.png)

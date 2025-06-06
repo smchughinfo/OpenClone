@@ -1,0 +1,25 @@
+﻿/* i think the 1 rem here comes from .card-header padding-bottom: 1rem but that might be a coincidence. */
+
+.list {
+    height: 100%;
+    overflow: hidden;
+}
+
+    .list > .card-body {
+        height: calc(100% - 1rem);
+    }
+
+        .list > .card-body > .list-group {
+            height: calc(100% - 1rem);
+            overflow-y: auto;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .list > .card-body > .list-group::-webkit-scrollbar {
+            display: none;
+        }
+
+        .list > .card-body > .list-group > .list-group-item > div {
+            flex-grow: 1;
+        }

@@ -1,0 +1,29 @@
+﻿video {
+    width: 100%;
+    border: 1px solid red;
+}
+
+.img-thumbnail,
+.audio-thumbnail {
+    width: 100%;
+    height: 200px;
+    background-color: gray;
+}
+
+
+.img-thumbnail > img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.img-thumbnail > img[src$="person-bounding-box.svg"] {
+    filter: invert(75%);
+}
+
+.audio-thumbnail {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    align-content:center;
+}

@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  cicd:
+    image: openclone-cicd:1.0
+    container_name: openclone-cicd
+    build:
+      context: ..
+      dockerfile: ./Dockerfile
+    volumes:
+      - "${OpenClone_Root_Dir}/CICD:/workspaces/CICD" # this just emulates what the devcontainer does when you don't use a docker-compose.yml
+      - "${OpenClone_Root_Dir}/Database/:/Database"

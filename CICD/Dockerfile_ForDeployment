@@ -1,0 +1,64 @@
+FROM openclone-cicd:1.0
+
+# Set up repository mirrors with fallbacks (primary mirror + backup original repos)
+RUN cp /etc/apt/sources.list /etc/apt/sources.list.backup && \
+    echo "# Mirror repos (primary - faster when Ubuntu repos are down)" > /etc/apt/sources.list && \
+    echo "deb http://mirror.kakao.com/ubuntu/ noble main restricted universe multiverse" >> /etc/apt/sources.list && \
+    echo "deb http://mirror.kakao.com/ubuntu/ noble-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
+    echo "deb http://mirror.kakao.com/ubuntu/ noble-security main restricted universe multiverse" >> /etc/apt/sources.list && \
+    echo "" >> /etc/apt/sources.list && \
+    echo "# Original Ubuntu repos (fallback)" >> /etc/apt/sources.list && \
+    cat /etc/apt/sources.list.backup >> /etc/apt/sources.list
+
+# Update, install basic tools, and add Python repository
+RUN apt-get update || (sleep 10 && apt-get update) && \
+    apt-get install -y software-properties-common wget apt-transport-https && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update
+
+# Install Python, development packages, and set alternatives
+RUN apt-get install -y python3.12 python3.12-venv python3.12-dev python3-pip \
+    libpq-dev postgresql-client vim && \
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1 && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1
+
+# Download Microsoft repository, install PowerShell and .NET
+RUN wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
+    apt-get update && \
+    apt-get install -y powershell dotnet-sdk-8.0 aspnetcore-runtime-8.0 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install .NET EF Core tools globally
+RUN dotnet tool install --global dotnet-ef
+
+# Ensure dotnet tools are in PATH
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+# Copy local directories and make scripts executable
+COPY CICD/scripts/ /scripts/
+COPY CICD/terraform/ /terraform/
+COPY CICD/vultr-api/ /vultr-api/
+COPY CICD/setup-container.sh /setup-container.sh
+
+RUN chmod +x /setup-container.sh
+
+# Set up workspace
+RUN mkdir -p /workspaces/CICD
+WORKDIR /workspaces/CICD
+
+# Copy applications and set up Python environment
+COPY OpenClone/ /OpenClone/
+COPY Database/ /Database/
+COPY OpenCloneFS/ /OpenCloneFS/
+RUN chmod +x /Database/BatchScripts/restore.sh && \
+    cd /Database && \
+    python3 -m venv .venv && \
+    .venv/bin/pip install -r requirements.txt
+
+# Verify installations
+RUN pwsh --version && \
+    dotnet --version && \
+    dotnet ef --version

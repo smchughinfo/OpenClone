@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloneZone - On-Demand AI Playground</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 CloneZone www</h1>
+        <h4 id="loginStatus"></h4>
+        <p>Sign in to access your personal AI playground with on-demand GPU clusters. This should be on dev lol.</p>
+        <a href="/auth/google" class="btn">Sign in with Google</a>
+        
+        <div class="cluster-controls">
+            <h3>Cluster Management</h3>
+            <button id="startClusterBtn" class="btn">Start Cluster</button>
+            <div id="clusterStatus"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="scripts.js"></script>
+    <script>
+        document.getElementById('startClusterBtn').addEventListener('click', async () => {
+            const statusDiv = document.getElementById('clusterStatus');
+            const button = document.getElementById('startClusterBtn');
+            
+            // Disable button and show loading
+            button.disabled = true;
+            button.textContent = 'Starting...';
+            statusDiv.innerHTML = '<p style="color: blue;">Initiating cluster start...</p>';
+            
+            try {
+                const response = await fetch('/cluster/start-cluster', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({})
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    statusDiv.innerHTML = `<p style="color: green;">${result.message}</p>`;
+                    statusDiv.innerHTML += `<p><small>Started at: ${result.timestamp}</small></p>`;
+                } else {
+                    statusDiv.innerHTML = `<p style="color: red;">Error: ${result.error}</p>`;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<p style="color: red;">Failed to start cluster: ${error.message}</p>`;
+            } finally {
+                // Re-enable button
+                button.disabled = false;
+                button.textContent = 'Start Cluster';
+            }
+        });
+    </script>
+</body>
+</html>

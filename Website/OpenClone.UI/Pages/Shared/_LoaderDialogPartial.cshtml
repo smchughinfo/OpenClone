@@ -1,0 +1,167 @@
+﻿<style> 
+    #loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(0, 0, 0, .6);
+        z-index: 99999;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        visibility: hidden;
+    }
+
+    #loader.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+        #loader > .alert {
+            position: fixed;
+            left: 50%;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            width: 200px;
+            text-align: center;
+        }
+
+        #loader .openclone-modal-y-position {
+            transform: translateX(-50%) translateY(var(--openclone-modal-y-position-top-translate-y, 0));
+        }
+
+        #loader .groovy-spinner div {
+            border: 6px groove #6edff6;
+            display: table-cell;
+            border-radius: 999px;
+            animation: loader-spin 15s linear infinite;
+        }
+
+        @@keyframes loader-spin {
+            from {
+                transform: rotate(45deg);
+            }
+
+            to {
+                transform: rotate(405deg);
+            }
+        }
+
+        #loader .groovy-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+
+        /* BEGIN SUCCESS CSS */
+        #loader.show-success .alert{
+            background-color: rgb(214, 246, 212);
+            transition:all .4s;
+        }
+        #loader.show-success .groovy-spinner {
+            opacity: 0;
+        }
+
+        #loader .success-icon {
+            opacity: 0;
+            left: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%) scale(5);
+            top: 4em;
+        }
+        #loader.show-success .success-icon {
+            opacity: 1;
+        }
+        /* END SUCCESS CSS */
+</style>
+
+<div id="loader">
+    <div class="alert alert-info openclone-modal-y-position" role="alert">
+        <span id="loadingMessage">Loading...</span>
+        <div class="groovy-spinner">
+            <div>
+                <div>
+                    <div>
+                        <div>
+                            <div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="success-icon">
+            <i class="bi bi-check"></i>
+        </div>
+    </div>
+</div>
+
+<script>
+    // todo: fix these variable names. in react ive been using _ as the prefix for local variables that have the same name as class-wide variables. in c# its _ classwide and no _ for local. so they're opposite. anyways, probaby just use the react conention here
+    var defaultMessage = "Loading...";  
+    var loaderVisibleSince = null;
+    var loaderSuccesMessage = null;
+    var loaderRetainLoadingMessageUntilClosed = false;  
+
+    window.loader.SAVING_MESSAGE = "Saving...";
+    window.loader.CREATING_MESSAGE = "Creating...";
+    window.loader.UPDATING_MESSAGE = "Updating...";
+    window.loader.DELETING_MESSAGE = "Deleting...";
+
+    window.showLoader = function (loadingMessage, retainLoadingMessageUntilClosed, successMessage) {
+        if (loaderRetainLoadingMessageUntilClosed != true) {
+            document.getElementById("loadingMessage").innerText = loadingMessage ? loadingMessage : defaultMessage;
+        }
+
+        document.getElementById("loader").classList.add("visible");
+        loaderVisibleSince = new Date();
+
+        loaderSuccesMessage = loaderSuccesMessage ? loaderSuccesMessage : successMessage;
+        loaderRetainLoadingMessageUntilClosed = loaderRetainLoadingMessageUntilClosed ? true : retainLoadingMessageUntilClosed;
+    }
+
+    // todo: this is awaitable so you could add awaits to all calls to this. ...not sure if there's a good reason to do that though.
+    window.hideLoader = function (dontShowSuccessMessage) {
+        if(dontShowSuccessMessage) {
+            // this is for when, for example, window.showError executes in response to a failed get/post that was called from a function that hoped to display a success message
+            loaderSuccesMessage = null;
+        }
+
+        function hide(resolve) {
+            function hidehide() {
+                document.getElementById("loader").classList.remove("visible");
+                loaderSuccesMessage = null;
+                loaderRetainLoadingMessageUntilClosed = false;
+                resolve();
+            }
+
+            if (loaderSuccesMessage) {
+                document.getElementById("loader").classList.add("show-success");
+                document.getElementById("loadingMessage").innerText = loaderSuccesMessage;
+
+                setTimeout(function () {
+                    document.getElementById("loader").classList.remove("show-success");
+                    hidehide();
+                }, 1500);
+                return;
+            }
+            else {
+                hidehide();
+            }
+        }
+
+        return new Promise((resolve) => {
+            var now = new Date();
+            var delay = 1000 - (now - loaderVisibleSince);
+
+            if (delay > 0) {
+                setTimeout(()=>hide(resolve), delay);
+            } else {
+                hide(resolve);
+            }
+        });
+    }
+
+</script>

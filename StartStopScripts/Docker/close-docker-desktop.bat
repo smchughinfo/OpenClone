@@ -1,0 +1,1 @@
+powershell -Command "$app = Get-Process | Where-Object { $_.ProcessName -eq 'Docker Desktop' }; if ($app -ne $null) { Stop-Process -Id $app.Id }"

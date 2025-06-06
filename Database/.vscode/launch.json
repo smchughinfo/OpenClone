@@ -1,0 +1,54 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Backup",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Main.py",
+            "console": "integratedTerminal",
+            "args": ["backup"]
+        },
+        {
+            "name": "Restore",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "restore",
+                "--openclone_db_super_connection_string", "${env:OpenClone_DefaultConnection_Super}",
+                "--log_db_super_connection_string", "${env:OpenClone_LogDbConnection_Super}"
+            ]
+        },
+        {
+            "name": "Restore (dev.openclone.ai Test)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "restore",
+                "--remote",
+                "--openclone_db_super_connection_string", "Host=dev.database.openclone.ai;Database=openclone_db_prod;Username=postgres;Password=puppies;Include Error Detail=true;",
+                "--log_db_super_connection_string", "Host=dev.database.openclone.ai;Database=log_db_prod;Username=postgres;Password=puppies;Include Error Detail=true;",
+                "--openclone_db_user_name", "openclone_user_prod",
+                "--openclone_db_user_password", "kittens",
+                "--log_db_user_name", "log_user_prod",
+                "--log_db_user_password", "bunnies"
+            ]
+
+        },
+        {
+            "name": "Migrate",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Main.py",
+            "console": "integratedTerminal",
+            "args": ["migrate"]
+        }
+    ]
+}

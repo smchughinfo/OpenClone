@@ -1,0 +1,72 @@
+﻿<style>
+    #error {
+        position: fixed;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(0, 0, 0, .6);
+        z-index: 99999;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        visibility: hidden;
+    }
+
+    #error .openclone-modal-y-position {
+        transform: translateX(0%) translateY(var(--openclone-modal-y-position-top-translate-y, 0)) !important;
+    }
+
+
+    #error.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    #error > .row {
+        position: fixed;
+        padding-top: 12px;
+        width: 100%;
+    }
+
+    #errorText {
+        width: 100%;
+        height:250px;
+        padding: 8px;
+    }
+
+</style>
+
+<div id="error">
+    <div class="row openclone-modal-y-position">
+        <div class="col-1">&nbsp;</div>
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header bg-danger text-light">Error</div>
+                <div class="card-body">
+                    <!-- i think this dialog looks better without the bootstrap styles -->
+                    <textarea id="errorText" readonly></textarea>
+                    <a id="closeErrorDialog" href="#" class="btn btn-outline-dark">Close</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>    
+</div>
+
+<script>
+    window.showError = function (errorMessage) {
+        document.getElementById("errorText").value = errorMessage;
+
+        window.hideLoader(true);
+        document.getElementById("error").classList.add("visible");
+    }
+
+    window.hideError = function () {
+        document.getElementById("error").classList.remove("visible");
+    }
+
+    document.getElementById("closeErrorDialog").addEventListener("click", () => {
+        window.hideError();
+    });
+     
+    // MAKE IT SO THE USER HAS TO CLICK THE CLOSE BUTTON IN ORDER TO DISMISS THE DIALOG. THAT WAY THEY DON'T ACCIDENTALLY CLOSE IT BY CLICKING ON THE OVERLAY AND LOSE THE ERROR INFORMATION.
+</script>
