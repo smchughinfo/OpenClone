@@ -80,12 +80,16 @@ get_terraform_environment() {
     fi
 
     local env_file="/terraform/.terraform/environment"
+    local env_value="$ENV_VULTR_DEV"  # Default to vultr_dev
     
     if [[ -f "$env_file" ]]; then
-        env_value=$(cat "$env_file")
-        if [[ "$env_value" == "default" ]]; then
-            env_value=$ENV_VULTR_DEV
-            echo "$env_value" > "$env_file"
+        local file_value=$(cat "$env_file")
+        if [[ "$file_value" == "default" ]]; then
+            echo "$env_value" > "$env_file"  # Update file to vultr_dev
+        elif [[ "$file_value" == "$ENV_KIND" || "$file_value" == "$ENV_VULTR_DEV" || "$file_value" == "$ENV_VULTR_PROD" ]]; then
+            env_value="$file_value"  # Use valid environment from file
+        else
+            echo "$env_value" > "$env_file"  # Replace invalid value with default
         fi
     fi
 
