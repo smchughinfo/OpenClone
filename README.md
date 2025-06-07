@@ -64,7 +64,7 @@ OpenClone_U2Net_HostAddress=http://127.0.0.1:5002      # Background removal serv
 ```bash
 # File system paths
 OpenClone_Root_Dir=C:/Users/seanm/Desktop/OpenClone     # Repository location
-OpenClone_OpenCloneFS=C:\Users\seanm\Desktop\OpenClone\OpenCloneFS  # File storage
+OpenClone_OpenCloneFS=C:/Users/seanm/Desktop/OpenClone/OpenCloneFS  # File storage
 
 # FTP/SFTP Configuration
 OpenClone_FTP_User=openclone-ftp
