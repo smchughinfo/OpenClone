@@ -25,7 +25,7 @@ create() {
     -var="image_name_openclone_sadtalker=$(get_current_remote_image_name openclone-sadtalker)" \
     -var="image_name_openclone_u-2-net=$(get_current_remote_image_name openclone-u-2-net)" \
     -var="image_name_openclone_database=$(get_current_remote_image_name openclone-database)" \
-    -var="image_name_openclone_website=$(get_current_remote_image_name openclone)"
+    -var="image_name_openclone_website=$(get_current_remote_image_name openclone-website)"
 }
 
 ################################################################################
