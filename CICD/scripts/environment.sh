@@ -61,6 +61,8 @@ set_terraform_workspace() {
         return 1
     fi
 
+    #terraform -chdir="/terraform" init
+
     # Check if the workspace exists
     if terraform -chdir="$dir" workspace list | grep -q "^  $env$"; then
         echo "Switching to existing workspace: $env"

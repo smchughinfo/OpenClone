@@ -3,7 +3,8 @@
     "allow": [
       "Bash(find:*)",
       "Bash(tmux capture-pane:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }
