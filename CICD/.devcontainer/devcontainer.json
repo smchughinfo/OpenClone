@@ -106,7 +106,7 @@
                         },
                         {
                             "cwd": "/scripts/docker-cli",
-                            "name": "$(extensions) O",
+                            "name": "$(extensions) W",
                             "color": "#22D18B",
                             "command": "./push-containers.sh --push_container openclone-website"
                         },

@@ -7,8 +7,8 @@ vpcs_endpoint="vpcs"
 # Configuration
 MAX_RETRIES=3
 RETRY_DELAY=5
-DELETION_CHECK_INTERVAL=10
-DELETION_TIMEOUT=300  # 5 minutes max wait per VPC
+DELETION_CHECK_INTERVAL=5
+DELETION_TIMEOUT=15 
 
 get_vpcs() {
     vpcs=$(get_vultr "$vpcs_endpoint")
