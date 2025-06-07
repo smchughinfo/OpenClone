@@ -17,7 +17,8 @@
         "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
         // secrets file
         "source=${localWorkspaceFolder}/setup-container.sh,target=/setup-container.sh,type=bind",
-        "source=${localWorkspaceFolder}/.vscode/settings.json,target=/.vscode/settings.json,type=bind"
+        "source=${localWorkspaceFolder}/.vscode/settings.json,target=/.vscode/settings.json,type=bind",
+        "source=${localWorkspaceFolder}/CLAUDE.md,target=/CLAUDE.md,type=bind"
         // additional mounts:
         // - for mounts that have an environment variable in the source use docker-compose.yml
     ],
