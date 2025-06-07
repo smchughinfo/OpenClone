@@ -16,12 +16,8 @@ setup_container() {
     ################################################################################
 
     set_env_variable TF_VAR_openclone_domain_name "clonezone.me"
-    set_env_variable TF_VAR_openclone_openclonedb_user "openclone_user_prod"
-    set_env_variable TF_VAR_openclone_openclonedb_name "openclone_db_prod"
-    set_env_variable TF_VAR_openclone_logdb_user "log_user_prod"
-    set_env_variable TF_VAR_openclone_logdb_name "log_db_prod"
-    set_env_variable TF_VAR_openclone_jwt_issuer "https://openclone.ai"
-    set_env_variable TF_VAR_openclone_jwt_audience "openclone-prod"
+    set_env_variable TF_VAR_openclone_jwt_issuer "https://www.clonezone.me"
+    set_env_variable TF_VAR_openclone_jwt_audience "clonezone-prod"
     set_env_variable TF_VAR_openclone_opencloneloglevel "Information"
     set_env_variable TF_VAR_openclone_systemloglevel "Error"
     # probably can delete -> set_env_variable TF_VAR_OpenClone_OpenCloneFS "/OpenCloneFS"

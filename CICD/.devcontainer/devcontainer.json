@@ -24,7 +24,11 @@
     ],
       "containerEnv": {
         "TF_VAR_postgres_password": "${localEnv:OpenClone_Postgres_Password}",
+        "TF_VAR_openclone_openclonedb_name": "${localEnv:OpenClone_OpenCloneDB_Name}", 
+        "TF_VAR_openclone_openclonedb_user": "${localEnv:OpenClone_OpenCloneDB_User}", 
         "TF_VAR_openclone_openclonedb_password": "${localEnv:OpenClone_openclonedb_password}", 
+        "TF_VAR_openclone_logdb_name": "${localEnv:OpenClone_LogDB_Name}",
+        "TF_VAR_openclone_logdb_user": "${localEnv:OpenClone_LogDB_User}",
         "TF_VAR_openclone_logdb_password": "${localEnv:OpenClone_logdb_password}",
         "TF_VAR_vultr_api_key": "${localEnv:OpenClone_Vultr_API_Key}",
         "TF_VAR_openclone_jwt_secretkey": "${localEnv:OpenClone_JWT_SecretKey}",
