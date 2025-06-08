@@ -142,3 +142,20 @@ This architecture treats Server-0 as a "cluster vending machine" that only dispe
 - However, in practice this approach has proven to be fairly sane and maintainable
 
 This shared container strategy allows the CICD codebase to handle everything from local development to production cluster provisioning with a single, well-tested set of tools and scripts.
+
+### Vultr Resource Management Limitations
+
+**Terraform Destroy Limitations:**
+When running `terraform destroy`, Vultr doesn't automatically clean up certain resources that were created during cluster provisioning:
+
+- **Load Balancers** - Created by Kubernetes services but not destroyed by Terraform
+- **DNS Records** - Managed by Terraform but cleanup behavior is conditional
+- **VPC** - Automatically created by Vultr when cluster is created, but not managed by Terraform
+
+**Manual Cleanup via Vultr API:**
+The `/scripts/cluster_create_and_destroy/destroy.sh --destroy` script calls the Vultr API to manually delete these orphaned resources:
+
+- **Always Deleted:** VPC and Load Balancers
+- **Conditionally Deleted:** DNS records (logic depends on specific requirements)
+
+This manual cleanup prevents resource accumulation and unexpected charges from resources that Terraform can't properly destroy on its own.
