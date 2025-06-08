@@ -25,10 +25,9 @@ destroy_cluster() {
 
 cleanup_environment_specific_cluster_remnants() {
     # these ones don't get handled by terraform for some reason so do them manually
+    # todo: these should be done based on environment (dev/prod). see note in public-ip.tf
     delete_all_loadbalancers
     delete_all_vpcs
-
-    # todo: these should be done based on environment (dev/prod). see note in public-ip.tf
     delete_record "app" 
     delete_record "dev.sftp"
     delete_record "dev.database"
