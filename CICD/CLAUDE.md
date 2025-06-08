@@ -68,3 +68,56 @@ EOF
 ```
 
 This provides a bridge between the containerized CICD environment and the Windows host when necessary.
+
+## Server-0 Architecture
+
+**Cost-Efficient On-Demand GPU Cluster Management**
+
+The OpenClone project uses a two-tier architecture to minimize GPU hosting costs while maintaining user accessibility.
+
+### The Problem
+GPU clusters are expensive to run 24/7, but users need access to AI applications that require GPU resources.
+
+### Architecture Options Considered
+
+**Option 1: Always-On Hybrid CPU/GPU Cluster**
+- Keep CPU nodes running 24/7, spin up GPU nodes on-demand
+- More complex orchestration and resource management
+- Would eventually scale to multiple nodes with dedicated CPU/GPU separation
+
+**Option 2: Full On-Demand Cluster Creation** ✅ **Selected**
+- Create entire cluster (CPU + GPU) only when users need it
+- Simpler to implement for MVP
+- Currently uses single powerful node, but could eventually scale to multi-node CPU/GPU separation
+- Chosen to get project finished rather than over-engineering the architecture
+
+### Two-Tier Implementation
+
+**Server-0 (Always Running)**
+- Cheap VPS hosting simple Node.js landing page ("CloneZone")
+- Handles Google OAuth authentication and Stripe payments
+- Always online to catch users, minimal hosting costs
+- Located at `/Server-0/` in the codebase
+
+**Server-0-Delta (Created On-Demand)**
+- Only created after user payment verification
+- Server-0 spins up Server-0-Delta using VPS snapshot via `/scripts/server-0/server-0.sh`
+- More powerful instance needed for compute-intensive cluster creation
+- Server-0-Delta creates the actual GPU Kubernetes cluster
+- Temporary instance - destroyed when user session ends
+
+### User Flow
+1. User visits site → Server-0 serves landing page
+2. User authenticates and pays → Server-0 validates payment
+3. Server-0 creates Server-0-Delta instance
+4. Server-0-Delta provisions GPU Kubernetes cluster
+5. User gets access to OpenClone AI applications
+6. After session timeout, both Server-0-Delta and GPU cluster are destroyed
+
+### Cost Benefits
+- GPU resources only consumed during active user sessions
+- Server-0 stays cheap and always available as the "cluster vending machine"
+- Server-0-Delta is temporary and only exists during active sessions
+- Significant cost savings compared to 24/7 GPU cluster operation
+
+This architecture treats Server-0 as a "cluster vending machine" that only dispenses expensive GPU resources after payment validation.
