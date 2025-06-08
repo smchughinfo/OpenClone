@@ -121,3 +121,24 @@ GPU clusters are expensive to run 24/7, but users need access to AI applications
 - Significant cost savings compared to 24/7 GPU cluster operation
 
 This architecture treats Server-0 as a "cluster vending machine" that only dispenses expensive GPU resources after payment validation.
+
+### CICD Container Reuse Strategy
+
+**The CICD container gets extensive mileage across different contexts:**
+
+1. **Local Development** - Used as a dev container for development work
+2. **Server-0** - Runs CICD container to leverage existing variables and logic for creating Server-0-Delta instances
+3. **Server-0-Delta** - Runs CICD container to provision the actual Kubernetes cluster
+
+**Benefits of Shared CICD Code:**
+- All infrastructure logic, variables, and scripts are centralized
+- Server-0 can easily create Server-0-Delta because it already has all the provisioning logic
+- Consistent tooling and environment across all deployment contexts
+- Reduces code duplication and maintenance overhead
+
+**Potential Complexity:**
+- The overlap/underlap between different use cases could theoretically create blind spots
+- Same container serves different purposes in different contexts
+- However, in practice this approach has proven to be fairly sane and maintainable
+
+This shared container strategy allows the CICD codebase to handle everything from local development to production cluster provisioning with a single, well-tested set of tools and scripts.

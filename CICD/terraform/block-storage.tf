@@ -70,7 +70,7 @@ resource "kubernetes_deployment" "openclone_sftp" {
         container {
           name  = "openclone-sftp"
           image = "atmoz/sftp"
-          args = ["${var.OpenClone_FTP_User}:${var.OpenClone_FTP_Password}:1001"]
+          args = ["${var.OpenClone_FTP_User}:${var.OpenClone_FTP_Password}:100"]
           port {
             container_port = 22
           }
