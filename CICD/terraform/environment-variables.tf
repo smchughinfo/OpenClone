@@ -21,8 +21,8 @@ variable "openclone_jwt_audience"                       { default = "" }
 variable "openclone_jwt_secretkey"                      { default = "" }
 variable "openclone_opencloneloglevel"                  { default = "" }
 variable "openclone_systemloglevel"                     { default = "" }
-variable "OpenClone_FTP_User"                           { default = "" }
-variable "OpenClone_FTP_Password"                       { default = "" }
+variable "openclone_ftp_user"                           { default = "" }
+variable "openclone_ftp_password"                       { default = "" }
 
 variable "openclone_sadtalker_port"                     { default = "" }
 variable "openclone_sadtalker_hostaddress"              { default = "" }
@@ -49,3 +49,5 @@ variable "OpenClone_Root_Dir"                           { default = "" }
 variable "sftp_nodeport"                                { default = "" }
 variable "database_nodeport"                            { default = "" }
 variable "website_nodeport"                             { default = "" }
+
+variable "openclone_server_0_ip_address"                          { default = "" }

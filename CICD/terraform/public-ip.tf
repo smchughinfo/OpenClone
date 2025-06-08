@@ -134,7 +134,7 @@ resource "vultr_dns_record" "openclone_ai_root_record" {
   domain = vultr_dns_domain.openclone_ai[0].domain
   name   = "@"
   type   = "A"
-  data   = "149.28.35.104" # our vps's ip
+  data   = var.openclone_server_0_ip_address
 
   depends_on = [kubernetes_service.openclone_dev_lb[0]]
 
@@ -148,7 +148,7 @@ resource "vultr_dns_record" "openclone_ai_www_record" {
   domain = vultr_dns_domain.openclone_ai[0].domain
   name   = "www"
   type   = "A"
-  data   = "149.28.35.104" # our vps's ip
+  data   = var.openclone_server_0_ip_address
   depends_on = [kubernetes_service.openclone_dev_lb[0]]
 
   lifecycle {

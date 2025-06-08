@@ -16,8 +16,8 @@ push_openclone_fs() {
     fi
     #port="$TF_VAR_sftp_nodeport"
     port="22"
-    username="$OpenClone_FTP_User"
-    password="$OpenClone_FTP_Password"
+    username="$openclone_ftp_user"
+    password="$openclone_ftp_password"
     source_dir="$OpenCloneFS_Dir"
     dest_dir="/OpenCloneFS"
 
