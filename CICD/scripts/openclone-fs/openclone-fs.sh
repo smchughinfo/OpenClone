@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source /scripts/shell-helpers/aliases.sh
+source /scripts/devcontainer-host/host-commands.sh
 
 get_first_pod_with_mount() {
     pod_name=$(k get pods --selector=pod_id=openclone-website-pod --output=jsonpath='{.items[0].metadata.name}')
@@ -13,12 +14,14 @@ push_openclone_fs() {
         host="host.docker.internal"
     else
         host="dev.sftp.$TF_VAR_openclone_domain_name"
+        echo "Flushing DNS to ensure $host uses the right ip address."
+        run_host_command "ipconfig /flushdns" # TODO: linux
     fi
-    #port="$TF_VAR_sftp_nodeport"
+
     port="22"
-    username="$openclone_ftp_user"
-    password="$openclone_ftp_password"
-    source_dir="$OpenCloneFS_Dir"
+    username="$TF_VAR_openclone_ftp_user"
+    password="$TF_VAR_openclone_ftp_password"
+    source_dir="/OpenCloneFS"
     dest_dir="/OpenCloneFS"
 
     # Use lftp to mirror the local directory to the remote SFTP server, bypassing host key verification

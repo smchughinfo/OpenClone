@@ -13,6 +13,7 @@
         "source=${localWorkspaceFolder}/scripts,target=/scripts,type=bind",
         "source=${localWorkspaceFolder}/terraform,target=/terraform,type=bind",
         "source=${localWorkspaceFolder}/vultr-api,target=/vultr-api,type=bind",
+        "source=${localWorkspaceFolder}/../OpenCloneFS,target=/OpenCloneFS,type=bind",
         // (host<->devcontainer) docker share
         "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
         // secrets file
