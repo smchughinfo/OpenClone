@@ -6,7 +6,7 @@ LogViewer is a real-time web application for monitoring and analyzing logs gener
 ## Architecture
 - **Backend**: Python Flask application with PostgreSQL integration
 - **Frontend**: React application with Bootstrap UI
-- **Data Flow**: Queries PostgreSQL database where LogWeaver writes logs
+- **Data Flow**: Queries OpenClone log database
 - **Real-time Updates**: Uses localStorage caching with periodic database polling
 
 ## Key Features
