@@ -112,11 +112,28 @@ The `/Backups` directory contains complete bootstrap data for rapid system setup
 - Single OpenCloneFS version (not yet environment-specific)
 - Supports the architectural goal: download repo → setup dependencies → click build → entire solution runs
 
+## OpenCloneFS Management
+**Core Architectural Concept**: `/OpenCloneFS` serves as the shared file system for the entire OpenClone application. All containers in the cluster use this common directory for logical simplicity, avoiding the complexity of distributed file systems communicating over REST, WebRTC, or sockets.
+
+**Why in Database Project**: Although not technically database-related, OpenCloneFS management resides in the Database project because it's fundamentally about data management. This centralized approach keeps file system operations consolidated with other data operations. "It was the best place to put it".
+
+**Bootstrap Integration**: The Database component manages OpenCloneFS through the backup/restore cycle:
+- **Restore**: Replaces root `/OpenCloneFS` with bootstrap version from `/Backups/OpenCloneFS`
+- **Backup**: Captures current `/OpenCloneFS` state as new bootstrap baseline
+
+## Scalability Considerations
+**Current State**: Database runs in a single container/deployment for development simplicity.
+
+**Future Architecture**: Database should eventually be moved onto `/OpenCloneFS` for better scalability. The CICD project already uses Longhorn storage which provides ReadWriteMany access - a step in the right direction.
+
+**Scope**: Extensive scalability work remains for both database and OpenCloneFS components, but this is considered CICD-level architecture rather than core database/schema work. The Database project focuses on data structure and schema design, while scalability decisions belong in the CICD project.
+
+**Development Status**: Core database functionality is 99% complete - scalability features are architectural enhancements rather than core requirements.
+
 ## Database Management
 - **VS Code Extension**: [ckolkman.vscode-postgres](https://marketplace.visualstudio.com/items?itemName=ckolkman.vscode-postgres)
 - **Focus**: Database work should primarily be schema-focused
 - **Deep Changes**: Place in `/Database/SQL/` startup scripts
-- **Development State**: 99% complete, mainly edge cases remaining
 
 ## Vector Search Implementation
 User questions → vector similarity matching → find similar Q&A pairs → feed to LLM for clone responses
