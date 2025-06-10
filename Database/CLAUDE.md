@@ -1,4 +1,4 @@
-# Database Component
+# Database Project
 
 ## Overview
 The Database component is the central hub for all database operations in OpenClone. It handles more than just the database itself - it manages database logic, bootstrap scripts, migrations, and provides the PostgreSQL RDBMS via VS Code extensions.
