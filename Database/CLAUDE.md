@@ -64,7 +64,7 @@ Database/
 ## Environment Configuration
 
 ### Required Host Environment Variables
-The following environment variables must be set on the host system:
+The following environment variables must be set on the host system for the Database project:
 
 **Database Configuration:**
 - `OpenClone_DefaultConnection_Super` - Super user connection string for main database (used during EF migrations)
@@ -83,32 +83,7 @@ The following environment variables must be set on the host system:
 
 **File System:**
 - `OpenClone_Root_Dir` - Root directory path for OpenClone project
-- `OpenClone_OpenCloneFS` - OpenCloneFS directory path
-
-**API Keys & Authentication:**
-- `OpenClone_OPENAI_API_KEY` - OpenAI API key
-- `OpenClone_ElevenLabsAPIKey` - ElevenLabs API key
-- `OpenClone_GoogleClientId` - Google OAuth client ID
-- `OpenClone_GoogleClientSecret` - Google OAuth client secret
-
-**JWT Configuration:**
-- `OpenClone_JWT_Issuer` - JWT token issuer
-- `OpenClone_JWT_Audience` - JWT token audience
-- `OpenClone_JWT_SecretKey` - JWT signing secret key
-
-**Service Addresses:**
-- `OpenClone_SadTalker_HostAddress` - SadTalker service host address
-- `OpenClone_U2Net_HostAddress` - U-2-Net service host address
-
-**Logging:**
-- `OpenClone_OpenCloneLogLevel` - OpenClone application log level
-- `OpenClone_SystemLogLevel` - System log level
-
-**GPU Configuration:**
-- `OpenClone_CUDA_VISIBLE_DEVICES` - CUDA visible devices for GPU operations
-
-**Environment Context:**
-- `OPENCLONE_ENVIRONMENT` - Environment context (local, remote, kind)
+- `OpenClone_OpenCloneFS` - OpenCloneFS directory path for backup/restore operations
 
 ### EF Migration Security Model
 Entity Framework migrations require special handling for security:
