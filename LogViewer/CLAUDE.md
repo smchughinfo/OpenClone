@@ -25,8 +25,8 @@ LogViewer is a real-time web application for monitoring and analyzing logs gener
 
 ### Rich Log Content Support
 - **HTML Logging**: Applications can log HTML content (images, audio/video, formatted text)
-- **Media Preview**: View deepfake generation progress through embedded images/videos
-- **Security Consideration**: Developers should keep security in mind because of HTML logging. (However, the HTML only runs in the LogViewer application itself)
+- **Media Preview**: View deepfake generation progress through embedded images/audio/video
+- **Security Consideration**: Developers should keep security in mind because of HTML logging.
 
 ### Advanced Filtering & Search
 - **Application Filtering**: Show/hide logs from specific applications
@@ -116,14 +116,10 @@ LogViewer/
 - **Debug Mode**: Flask debug enabled for development
 - **Port Configuration**: Runs on port 1234 by default
 - **Error Handling**: Comprehensive error display with stack traces
-- **ANSI Support**: Terminal output properly formatted for web display
 
 ## Integration Points
-- **LogWeaver**: Reads logs from Python services (SadTalker, U-2-Net) that use LogWeaver
-- **Website (.NET)**: Reads logs from C# Website application that uses its own .NET logging system
 - **Unified Database**: All applications write to the same PostgreSQL log database regardless of logging framework
 - **OpenCloneFS**: Serves media files embedded in logs
-- **Database Component**: Shares PostgreSQL logging database with main application
 
 ## Use Cases
 - **Development Debugging**: Real-time monitoring during development
@@ -136,4 +132,3 @@ LogViewer/
 - **HTML Content**: Logs can contain HTML - requires input validation (or thought about what gets logged in the first place)
 - **Database Access**: Read-only access to logging database
 - **File Serving**: Direct file access through OpenCloneFS endpoint
-- **Error Exposure**: Debug mode shows stack traces (development only)
