@@ -17,13 +17,11 @@ LogViewer is a real-time web application for monitoring and analyzing logs gener
 - **Auto-Refresh**: Continuously updated view of system activity across all services
 
 ### Visual Organization
-- **Color-Coded Applications**: Each application has distinct color scheme for easy identification
+- **Color-Coded Applications**: Each application has distinct color scheme for easy identification. Set in /static/application-colors.css
   - **Website**: Teal (`rgb(10, 93, 97)`)
   - **SadTalker**: Blue-purple (`rgb(45, 43, 85)`)
   - **U-2-Net**: Blue (`rgb(56, 107, 216)`)
   - **ST_FFMPEG**: Green (`rgb(17, 97, 10)`)
-  - **SemanticSearch**: Orange (`rgb(108, 81, 23)`)
-  - **PuppetPipeline**: Brown (`rgb(80, 74, 57)`)
 
 ### Rich Log Content Support
 - **HTML Logging**: Applications can log HTML content (images, audio/video, formatted text)
