@@ -3,7 +3,7 @@ SET session_replication_role = 'replica';
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.8 (Debian 15.8-1.pgdg120+1)
+-- Dumped from database version 16.1
 -- Dumped by pg_dump version 16.1
 
 SET statement_timeout = 0;
