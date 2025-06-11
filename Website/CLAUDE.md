@@ -233,6 +233,173 @@ Website/
     └── package.json          # NPM dependencies
 ```
 
+## OpenClone.Services Layer
+
+### **Service Architecture Overview**
+Standard ASP.NET DI pattern: `Program.cs` → `OpenCloneServicesConfigurator.cs` → `ServicesSetup.cs`
+AJAX arrives in controller → Controller injects service → Service executes business logic
+
+**Service Registration Pattern**:
+```csharp
+// SCOPED (per-request lifetime)
+services.AddScoped<QAService, QAService>();
+services.AddScoped<EmbeddingService<Question>, EmbeddingService<Question>>();
+services.AddScoped<EmbeddingService<Answer>, EmbeddingService<Answer>>();
+services.AddScoped<EmbeddingService<GenerativeImage>, EmbeddingService<GenerativeImage>>();
+
+// TRANSIENT (new instance per injection)
+services.AddTransient<IEmailSender, EmailSenderService>();
+services.AddTransient<AudioService, AudioService>();
+```
+
+### **Generics Implementation Quality: Excellent**
+
+**EmbeddingService<T> - Model Generic Implementation**:
+```csharp
+public class EmbeddingService<T> where T : Embedding, new()
+{
+    public async Task<List<T>> GetClosest(string text, int limit = 5, 
+        Func<DbSet<T>, IQueryable<T>> whereConcreteFilter = null, 
+        Func<IOrderedQueryable<T>, IQueryable<T>> orderedConcreteFilter = null, 
+        bool saveIfNew = false)
+    {
+        // Vector similarity search using pgvector
+        var whereQueryable = whereConcreteFiltered
+            .Where(e => e.Vector != null && e.Text != text)
+            .OrderBy(e => e.Vector.CosineDistance(embedding.Vector));
+    }
+}
+```
+
+**Strengths**:
+- **Proper type constraints**: `where T : Embedding, new()` ensures type safety
+- **Flexible filtering**: Delegate parameters allow concrete type-specific queries
+- **Type-safe Entity Framework**: Uses `_applicationDbContext.Set<T>()` correctly
+- **Multiple implementations**: Question, Answer, and GenerativeImage embeddings
+- **Vector operations**: pgvector integration for cosine distance similarity
+
+### **Service Design Patterns**
+
+**Well-Designed Services**:
+
+**ConfigurationService**: Clean environment variable access
+```csharp
+public string GetOpenAIKey() => _configuration["OpenClone_OPENAI_API_KEY"];
+public string GetSadTalkerHostAddress() => _configuration["OpenClone_SadTalker_HostAddress"];
+```
+
+**NetworkService**: Makes network calls simple by expecting and baking in only common use cases
+```csharp
+[Flags]
+public enum CustomHeaders { 
+    APIKeyOpenAI=1, APIKeyElevenLabs=2, ExpectMP3=3, ExpectJson=4 
+}
+
+// Usage example from EmbeddingService:
+var data = new {
+    input = text,
+    model = "text-embedding-3-small"
+};
+var embeddingDto = await _networkService.Post<EmbeddingDTO>(_endpointUrl, data, 
+    CustomHeaders.APIKeyOpenAI | CustomHeaders.ExpectJson);
+```
+
+**Features**:
+- **Automatic FormData vs JSON detection** based on FileStream presence
+- **Type-safe response casting** (byte[], string, JSON deserialization)
+- **Flag-based header management** for common API patterns
+- **Built-in error handling** with detailed exception messages
+
+**DeepFakeOrchestrationService**: Coordinates multi-service workflows
+- Chat completion → ElevenLabs TTS → SadTalker deepfake → M3U8 streaming
+- Proper async/await patterns with file polling
+
+### **Service Architecture Issues & Technical Debt**
+
+**Major Issue - QAService**: 
+```csharp
+// Line 26 comment in QAService.cs:
+// "THIS PLUS THE ANSWER SERVICE NEEDS A REFACTOR OF EPIC PROPORTIONS"
+```
+- **428 lines** - violates single responsibility principle
+- **9 constructor dependencies** - indicates over-coupling
+- **Multiple concerns**: Question CRUD, Answer CRUD, embeddings, moderation, user isolation
+- **Security noted**: Comments about potential user data leakage between users
+- **Transaction management**: Mixed with business logic
+
+**Recommended Refactor**:
+- `QuestionService` - Question CRUD operations
+- `AnswerService` - Answer CRUD operations  
+- `QAModerationService` - Content moderation workflows
+- `QAEmbeddingService` - Embedding generation and similarity
+- `QASecurityService` - User data isolation enforcement
+
+**Medium Issues**:
+- **Service size imbalance**: QAService 428 lines vs AudioService 45 lines
+- **Missing interfaces**: Concrete classes limit testability and IoC flexibility
+- **Async inconsistency**: Mix of sync and async patterns
+- **Error handling variance**: Different exception patterns across services
+
+### **Service Responsibilities**
+
+**Core Business Logic**:
+- **QAService**: Question/Answer management, embeddings, moderation (needs refactor)
+- **CloneCRUDService**: Clone lifecycle management with transactions
+- **CloneMetadataService**: File path resolution and clone configuration
+- **ApplicationUserService**: User data access and active clone management
+
+**External Integration**:
+- **ElevenLabsService**: TTS generation with voice cloning
+- **RenderingService**: SadTalker deepfake coordination
+- **CompletionService**: OpenAI chat completions
+- **ModerationsService**: OpenAI content moderation
+
+**Infrastructure**:
+- **NetworkService**: HTTP client abstraction with API key management
+- **ConfigurationService**: Environment variable access
+- **AudioService**: File duration calculation and format handling
+- **EmailSenderService**: SMTP integration (has a hard coded value that needs replaced with an environment variable)
+
+**AI/ML Services**:
+- **EmbeddingService<T>**: Vector embedding generation and similarity search
+- **GenerativeImageService**: DALL-E integration for vision boards (images associated with a particular question, all of the images in /OpenCloneFS/GenerativeImages were generated with this service)
+- **ChatService**: Conversation management with context building
+
+### **Integration Patterns**
+
+**Service Composition**: Services depend on other services for functionality
+```csharp
+public DeepFakeOrchestrationService(
+    CloneMetadataService cloneMetadataService,
+    ChatService chatService, 
+    RenderingService renderingService,
+    ElevenLabsService elevenLabsService)
+```
+
+**Database Access**: All data services use ApplicationDbContext injection
+**Configuration Access**: All services use ConfigurationService for environment variables
+**HTTP Operations**: External API services use NetworkService for HTTP calls
+**Logging**: ILogger injection with category-based logging
+
+### **Database Transaction Patterns**
+
+**CloneCRUDService Transaction Example**:
+```csharp
+using var transaction = await _applicationDbContext.Database.BeginTransactionAsync();
+try 
+{
+    // Multiple database operations
+    await _applicationDbContext.SaveChangesAsync();
+    await transaction.CommitAsync();
+}
+catch 
+{
+    await transaction.RollbackAsync();
+    // Cleanup operations
+    throw;
+}
+```
+
 ## Build & Development
 
 **NPM Scripts**:
