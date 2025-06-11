@@ -1,43 +1,28 @@
-0. add color theme [unthrottled.doki-theme](https://marketplace.visualstudio.com/items?itemName=unthrottled.doki-theme)
-1. https://code.visualstudio.com/api/get-started/your-first-extension
-2. npm install --global yo generator-code
-3. yo code
+# OpenClone-DevContainer-StatusBar - VS Code Extension
 
----
+[![Extension Overview](https://img.youtube.com/vi/SMhwddNQSWQ/0.jpg)](https://www.youtube.com/watch?v=SMhwddNQSWQ)
 
-PS C:\Users\seanm\Desktop> yo code
+## What is this?
 
-     _-----_     ╭──────────────────────────╮
-    |       |    │   Welcome to the Visual  │
-    |--(o)--|    │   Studio Code Extension  │
-   `---------´   │        generator!        │
-    ( _´U`_ )    ╰──────────────────────────╯
-    /___A___\   /
-     |  ~  |     
-   __'.___.'__   
- ´   `  |° ´ Y ` 
+This is a VS Code extension that displays custom environment information in the status bar. It reads configuration from `.vscode/settings.json` to show text and coordinate with status bar color changes, providing visual confirmation of which development environment you're working in. The extension is designed for the OpenClone CICD workflow where developers switch between multiple deployment environments.
 
-? What type of extension do you want to create? New Extension (JavaScript)
-? What's the name of your extension? OpenClone-DevContainer-StatusBar
-? What's the identifier of your extension? openclone-devcontainer-statusbar
-? What's the description of your extension? adds information to satus bar
-? Enable JavaScript type checking in 'jsconfig.json'? No
-? Initialize a git repository? Yes
-? Which package manager to use? (Use arrow keys)
-❯ npm 
-  yarn 
-  pnpm 
+The extension is published on the VS Code Marketplace and integrates with shell scripts in the CICD project that automatically update the status bar when switching environments via `jq` commands that modify the settings file.
 
----
+## Setup
 
-go into the package.json and set "activationEvents": ["*"] so that vscode will run your extension when you start it.
+1. Add VS Code color theme [unthrottled.doki-theme](https://marketplace.visualstudio.com/items?itemName=unthrottled.doki-theme)
+2. Install from VS Code Marketplace: `opencloneai.openclone-devcontainer-statusbar`
+3. Or install from VSIX: `npm install -g vsce`, `vsce package`, then install the generated `.vsix` file via Extensions > "..." > "Install from VSIX..."
 
----
+## Development
 
-1. npm install -g vsce
-2. vsce package
-3. it spits out a .vsix
-4. open vscode, go to extensions, click the three dots, "Install From VSIX..."
+Follow the VS Code extension development guide:
+```bash
+npm install -g yo generator-code
+yo code
+# Set "activationEvents": ["*"] in package.json
+npm install -g vsce
+vsce package
+```
 
-
-
+For more technical details and integration information, see [CLAUDE.md](CLAUDE.md).
