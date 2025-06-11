@@ -161,3 +161,91 @@ The `/scripts/cluster_create_and_destroy/destroy.sh --destroy` script calls the 
 - **Conditionally Deleted:** DNS records (logic depends on specific requirements)
 
 This manual cleanup prevents resource accumulation and unexpected charges from resources that Terraform can't properly destroy on its own.
+
+## CICD Architecture & Environment
+
+### **Script Organization**
+**Rule**: All logic belongs in `/scripts` directory
+- **Modular Design**: Functionality separated into focused scripts
+- **Reusable Components**: Shared logic across different deployment contexts
+- **Function-Based Execution**: Scripts callable via `/scripts/shell-helpers/function-runner.sh`
+
+**Function Runner Pattern**:
+```bash
+/scripts/myfile.sh --run_function "arg1" "arg2"
+# Executes specific function within script with arguments
+# Enables selective execution without running entire script
+```
+
+### **Container Initialization Sequence**
+**Boot Chain**: `Dockerfile` → Dev Container Runtime → `.devcontainer.json`/`docker-compose.yaml` → `/setup-container.sh`
+
+1. **Dockerfile**: Base image and system dependencies
+2. **Dev Container Runtime**: VS Code dev container engine
+3. **Configuration**: `.devcontainer.json` defines mounts, environment, and features
+4. **Container Setup**: `/setup-container.sh` executes final configuration
+
+**Host Integration Requirements**:
+- **Directory Pass-through**: Host directories mounted for persistent state
+- **Docker Socket**: `/var/run/docker.sock` for container-in-container operations
+- **Environment Variables**: Host environment passed through for API keys and configuration
+- **Network Access**: Host network connectivity for external service integration
+
+### **Vultr API Wrapper**
+**Location**: `/vultr-api` - Shell wrapper around Vultr REST API
+- **Limited Implementation**: Only required endpoints implemented
+- **Authentication**: API key-based access to Vultr services
+- **Resource Management**: Instance, VPC, DNS, load balancer operations
+- **Integration**: Used by provisioning scripts for infrastructure management
+
+### **Dev Container Features**
+
+**VS Code Integration**: `.devcontainer.json` defines custom taskbar buttons for:
+- **Remote Shell Access**: Automatically opens shells in deployed environments
+- **Docker Image Deployment**: Pushes container images to registries
+- **Database Operations**: Migrations, backups, and restore operations
+- **Infrastructure Management**: Terraform apply/destroy operations
+- **Monitoring Access**: Direct links to Grafana and Longhorn dashboards
+
+**One-Click Operations**:
+- **Terraform Changes**: Modify `.tf` files → Click Apply button → Infrastructure updates
+- **Container Deployment**: Code changes → Click Deploy button → Services updated
+- **Environment Switching**: Click environment button → Context switches to target cluster
+
+### **Monitoring & Storage**
+
+**Grafana Integration**:
+- **Cluster Monitoring**: Resource utilization, pod status, node health
+- **Application Metrics**: Service-specific dashboards and alerts
+- **Access Method**: Direct URLs from dev container taskbar
+- **Configuration**: Automated setup via Kubernetes manifests
+
+**Longhorn Storage Management**:
+- **Distributed Storage**: Replicated block storage across cluster nodes
+- **Volume Monitoring**: Disk usage, replica health, backup status
+- **Web Interface**: Longhorn UI accessible from dev container
+- **Backup Strategy**: Automated snapshots and external backup targets
+
+### **Kubernetes Architecture**
+
+**Current Implementation**:
+- **Single Node Pool**: Simplified cluster configuration for development time constraints
+
+**Scalability Groundwork**:
+- **Multi-Node Ready**: Infrastructure patterns support cluster expansion (with some additional development work)
+
+### **Environment Uniqueness**
+
+**Comprehensive Solution**: CICD project evolved into complete quasi-development environment
+- **Infrastructure as Code**: Terraform-managed cloud resources
+- **Container Orchestration**: Kubernetes cluster management
+- **Development Tools**: Integrated IDE, debugging, and monitoring
+- **CI/CD Pipeline**: Automated build, test, and deployment workflows
+
+**Dev Container Benefits**:
+- **Consistent Environment**: Identical development setup across machines
+- **Integrated Tooling**: All required tools pre-installed and configured
+- **One-Click Operations**: Complex workflows reduced to button clicks
+- **Team Collaboration**: Shared configuration ensures environment parity
+
+This CICD environment represents a complete infrastructure-as-code solution that packages development environment, deployment tooling, monitoring, and cluster management into a single, portable development container.
