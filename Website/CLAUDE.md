@@ -400,6 +400,28 @@ catch
 }
 ```
 
+## OpenClone.Core Layer
+
+### **Shared Foundation**
+Contains models, data contexts, DTOs, and extensions used across multiple projects (UI and Services).
+
+**Key Components**:
+- **Models**: Entity classes (ApplicationUser, Clone, Question, Answer, ChatMessage, etc.)
+- **Data Contexts**: LogDbContext for logging database operations
+- **DTOs**: Data transfer objects for cross-layer communication
+- **Extensions**: Utility methods (StringExtensions, VectorExtensions, etc.)
+- **Interfaces**: Service contracts and abstractions
+
+**AutoMapper Integration**: 
+- Configured in ServicesSetup.cs with `services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())`
+- Used for entity-to-DTO mappings throughout the application
+
+### **Migration Management**
+**Important**: All EF migrations are managed by the `/Database` project, not the Website project
+- Database project deletes and recreates migrations as needed
+- Migration files are computer-generated and treated as disposable artifacts  
+- OpenClone does not track migration history independently of entity definitions
+
 ## Build & Development
 
 **NPM Scripts**:
