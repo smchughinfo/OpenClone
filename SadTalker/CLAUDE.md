@@ -160,6 +160,31 @@ POST http://127.0.0.1:5001/generate-deepfake
 
 ## Environment Integration
 
+### Required Host Environment Variables
+The following environment variables must be set on the host system for the SadTalker component:
+
+**File System:**
+- `OpenClone_OpenCloneFS` - OpenCloneFS directory path for input/output files
+
+**Database Configuration (for LogWeaver):**
+- `OpenClone_DB_Host` - Database host address for logging
+- `OpenClone_DB_Port` - Database port for logging
+- `OpenClone_LogDB_Name` - Logging database name
+- `OpenClone_LogDB_User` - Logging database username
+- `OpenClone_LogDB_Password` - Logging database password
+
+**GPU Configuration:**
+- `OpenClone_CUDA_VISIBLE_DEVICES` - CUDA visible devices for GPU operations
+
+### LogWeaver Integration (`GlobalVariables.py`)
+**Logging Setup**:
+- **applicationLog**: Main SadTalker application events (logger name: "SadTalker")
+- **ffmpegLog**: FFmpeg streaming process monitoring (logger name: "ST_FFMPEG")
+- **Run Number Tracking**: Session-based log organization
+- **API Port**: Fixed at 5001 for service communication
+
+**Note on ST_FFMPEG Logs**: The "ST_FFMPEG" logs visible in LogViewer come from SadTalker's FFmpeg integration points (particularly in `m3u8_streamer.py`). These logs use the `ffmpegLog` instance defined in `GlobalVariables.py` to monitor FFmpeg process output during HLS streaming generation.
+
 ### Container Deployment
 **Docker Integration**:
 - Containerized service running on port 5001
@@ -194,9 +219,30 @@ SadTalker/
 └── README.md              # Setup and usage instructions
 ```
 
+## Licensing Considerations
+
+### Commercial Use Concerns
+**SadTalker License**: Apache License (open source)
+
+**Potential Restriction**: SadTalker references the One-Shot Free-View Neural Talking Head Synthesis project (https://github.com/zhanglonghao1992/One-Shot_Free-View_Neural_Talking_Head_Synthesis), which uses **Creative Commons Attribution-NonCommercial 4.0 International License**.
+
+**Key Licensing Issues**:
+- **NonCommercial Restriction**: The referenced project explicitly prohibits commercial use
+- **Unclear Impact**: Whether this dependency invalidates commercial use of SadTalker itself
+- **Legal Ambiguity**: Apache vs NonCommercial license conflict requires legal review
+
+**Mitigation Strategy**:
+- **Placeholder Status**: SadTalker serves as infrastructure placeholder during OpenClone development
+- **Future Replacement**: Expected to be swapped out with commercially-clear alternatives anyways
+- **Age Factor**: Referenced repositories are already semi-obsolete
+- **Time Permitting**: Will be replaced when better solutions emerge or time allows
+
+**Recommendation**: For commercial deployments, conduct legal review of licensing dependencies or plan for alternative deepfake generation solutions.
+
 ## Future Enhancements
 - **OpenVoice Integration**: Replace ElevenLabs dependency
 - **Self-hosted LLM**: Replace OpenAI dependency  
+- **Commercial License Alternative**: Replace SadTalker with commercially-clear deepfake solution
 - **Performance Optimization**: Faster generation times
 - **Quality Improvements**: Enhanced video output quality
 - **Batch Processing**: Multiple clone generation support
