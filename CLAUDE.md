@@ -8,6 +8,18 @@ One of the main architectural tenants of this project is that it should work wit
 ### Shared File System (OpenCloneFS)
 `/OpenCloneFS` serves as the unified file system for the entire application. All containers in the cluster use this common directory for logical simplicity, avoiding the complexity of distributed file systems communicating over REST, WebRTC, sockets, etc. This shared file system approach makes the architecture easier to understand and reason about as a programmer.
 
+### Self-Contained Architecture Goals
+**Current Dependencies:**
+- OpenAI API for language model functionality
+- ElevenLabs for text-to-speech generation
+- SadTalker for deepfake video generation
+
+**Target Architecture:**
+- Replace OpenAI with self-hosted LLM
+- Replace ElevenLabs with OpenVoice (open source)
+- Keep SadTalker for video generation
+- Achieve complete self-contained system with no external API dependencies
+
 ## Project Status
 - Massive project refactor in progress:
   * Directory structure changed: 
