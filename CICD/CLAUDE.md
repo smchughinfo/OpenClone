@@ -122,6 +122,8 @@ GPU clusters are expensive to run 24/7, but users need access to AI applications
 
 This architecture treats Server-0 as a "cluster vending machine" that only dispenses expensive GPU resources after payment validation.
 
+**Application Implementation Details**: See `/Server-0/CLAUDE.md` for Node.js application code, API endpoints, and technical implementation.
+
 ### CICD Container Reuse Strategy
 
 **The CICD container gets extensive mileage across different contexts:**

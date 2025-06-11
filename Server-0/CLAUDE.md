@@ -182,3 +182,5 @@ NODE_ENV=production
 - **Break-Even Point**: Profitable with even minimal usage
 
 This architecture treats Server-0 as an efficient "front door" that only opens expensive GPU resources when users are willing to pay for them, dramatically reducing infrastructure costs while maintaining accessibility.
+
+**Infrastructure Context**: See `/CICD/CLAUDE.md` for deployment orchestration, multi-environment support, and infrastructure architecture rationale.
