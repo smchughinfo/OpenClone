@@ -24,6 +24,7 @@ The Website is the central orchestration layer and user interface for the entire
 
 ### **Webpack Build Pipeline**
 ```javascript
+// this is in /OpenClone.UI/webpack.config.js
 entry: {
     answer: './ClientApp/Pages/QA/Answer/Answer.jsx',
     chatbot: './ClientApp/Pages/ChatBot/ChatBot.jsx',
