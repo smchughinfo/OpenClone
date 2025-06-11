@@ -36,7 +36,26 @@ entry: {
 **JavaScript Structure**:
 - **ClientApp/Pages/**: Entry points referenced by Razor pages
 - **ClientApp/Components/**: Reusable components (ConfirmDialog, DeepFakePlayers, etc.)
+- **wwwroot/js/**: Traditional JavaScript files outside React bundling
 - Co-located CSS files with each component
+
+### **Traditional JavaScript Layer (wwwroot/js/)**
+**Service Modules**:
+- **audio.js**: Audio file download, duration calculation, blob management
+- **camera.js**: WebRTC camera access, photo capture, device enumeration
+- **openclone-fs.js**: File path utilities for OpenCloneFS (clone images, audio, videos)
+- **network.js**: HTTP utilities and API communication
+- **error.js**, **tooltip.js**, **cursor.js**: UI utility functions
+- **form-utilities.js**, **cookie.js**: Browser API wrappers
+
+**SignalR Integration**:
+- **_openclone-signalr.js**: SignalR connection management with JWT authentication
+- **chat-hub.js**: Chat-specific SignalR event handling
+
+**Static Assets**:
+- **images/qa-icons/**: Question category icons (personality-traits, interests-hobbies, etc.)
+- **images/404s/**: Random cute 404 error page images (serves random image on 404)
+- **css/site.css**: Global styles outside component CSS
 
 ## Configuration Architecture
 
@@ -109,7 +128,7 @@ var hasClone = (await AuthorizationService.AuthorizeAsync(User, "HasActiveClone"
 **Frontend**: ASP.NET Razor Pages + React (no TypeScript - kept JavaScript for simplicity)
 **Build**: Webpack with Babel, CSS bundling
 **Authentication**: ASP.NET Identity + Google OAuth + JWT
-**Real-time**: SignalR for chat functionality
+**Real-time**: SignalR for chat functionality (likely overkill for current requirements)
 
 ## Core Functionality
 
@@ -177,6 +196,24 @@ var hasClone = (await AuthorizationService.AuthorizeAsync(User, "HasActiveClone"
 - Some configurators skip during migrations to prevent dependency issues
 - Dual database context support (Application + Logging)
 
+## Development Status & Technical Debt
+
+### **CSS/Styling**
+**IMPORTANT**: Minimal CSS effort - only functional prototype styling. Do not judge application appearance - UI/UX design work has not been undertaken, only the framework for it.
+
+### **ASP.NET Boilerplate**
+- **Areas/Identity/**: Contains unmodified ASP.NET Identity scaffolded pages - needs pruning
+- **Boilerplate cleanup**: Not yet removed - time constraints during development
+
+### **SignalR Over-Engineering**
+- **Current usage**: Chat functionality
+- **Original usage**: Chat functionality with many more features
+- **Assessment**: Likely overkill for current requirements
+- **Alternative**: Could be simplified to standard AJAX
+
+### **404 Handling**
+- Serves random cute error images from `images/404s/` directory
+
 ## File Structure
 ```
 Website/
@@ -184,7 +221,7 @@ Website/
 ├── OpenClone.Core/              # Shared models, data contexts
 ├── OpenClone.Services/          # Business logic services  
 └── OpenClone.UI/               # Web application
-    ├── Areas/Identity/         # ASP.NET Identity scaffolded pages
+    ├── Areas/Identity/         # ASP.NET Identity scaffolded pages (needs cleanup)
     ├── ClientApp/             # React components and pages
     ├── Configuration/         # Modular configuration setup
     ├── Controllers/           # API controllers
