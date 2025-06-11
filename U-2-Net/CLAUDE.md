@@ -91,6 +91,22 @@ Image_PostProcesser.apply_portrait_mask(sourceImagePath, outputImagePath, thresh
 ### Required Host Environment Variables
 The following environment variables must be set on the host system for the U-2-Net component:
 
+**File System:**
+- `OpenClone_OpenCloneFS` - OpenCloneFS directory path for input/output files
+
+**Database Configuration (for LogWeaver):**
+- `OpenClone_DB_Host` - Database host address for logging
+- `OpenClone_DB_Port` - Database port for logging
+- `OpenClone_LogDB_Name` - Logging database name
+- `OpenClone_LogDB_User` - Logging database username
+- `OpenClone_LogDB_Password` - Logging database password
+
+### LogWeaver Integration (`GlobalVariables.py`)
+**Logging Setup**:
+- **applicationLog**: Main U-2-Net application events (logger name: "U-2-Net")
+- **Run Number Tracking**: Session-based log organization
+- **API Port**: Fixed at 5002 for service communication
+
 ### Container Deployment
 **Docker Integration**:
 - Containerized service running on port 5002
