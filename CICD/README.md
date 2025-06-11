@@ -4,12 +4,12 @@
 
 ## What is this?
 
-This CICD project is essentially a complete development environment packed into a VS Code dev container. Think of it as your own personal cloud infrastructure manager that can spin up entire Kubernetes clusters with just a few clicks. The whole thing is designed around cost optimization - instead of running expensive GPU clusters 24/7, it creates them on-demand only when users actually need them.
+This is a VS Code dev container that contains the infrastructure automation and deployment tooling for the OpenClone project. It packages Terraform configurations, Kubernetes manifests, shell scripts, and monitoring tools into a containerized development environment. The container includes custom VS Code tasks accessible via status bar buttons for common operations like applying Terraform changes, pushing Docker images, and managing cluster resources.
 
-The setup uses a "cluster vending machine" approach where a cheap always-on server (Server-0) handles user authentication and payments, then creates temporary powerful instances (Server-0-Delta) that provision the actual GPU clusters. When you're done, everything gets torn down automatically. It's like having your own mini-AWS that only charges you when you're actually using it. The dev container comes loaded with Terraform, Kubernetes tools, monitoring dashboards, and custom VS Code buttons that let you deploy infrastructure changes, push containers, and manage databases without touching the command line.
+The infrastructure is designed around Vultr cloud resources and supports multiple deployment environments (local kind clusters, development, and production). All deployment logic lives in the `/scripts` directory and uses a function-based execution pattern via shell helpers.
 
 ## How to run it
 
-Open this project in VS Code with the Dev Containers extension installed. The container will automatically set up all the tools you need (Terraform, kubectl, Docker, etc.). Add your API keys as environment variables, then use the custom buttons in the VS Code status bar to deploy infrastructure, push containers, or manage your cluster. Everything is designed to work with just clicks - modify a Terraform file and hit the "Apply" button to update your infrastructure, or click "Deploy" to push new container versions.
+Open this project in VS Code with the Dev Containers extension. The container runs as a standard dev container with pre-installed tools (Terraform, kubectl, etc.). You'll need to set the required environment variables - see the root level README.md for the complete list of environment variables to configure.
 
 For more technical details and architecture information, see [CLAUDE.md](CLAUDE.md).
