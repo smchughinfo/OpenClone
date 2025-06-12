@@ -3,6 +3,54 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
+      "library": "bootstrap@5.3.0",
+      "destination": "wwwroot/lib/bootstrap/",
+      "files": [
+        "dist/css/bootstrap.min.css",
+        "dist/js/bootstrap.bundle.min.js"
+      ]
+    },
+    {
+      "library": "bootstrap-icons@1.11.3",
+      "destination": "wwwroot/lib/bootstrap-icons/"
+    },
+    {
+      "library": "jquery@3.7.1",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "dist/jquery.min.js"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "popper.js@2.11.8",
+      "destination": "wwwroot/lib/popper.js/",
+      "files": [
+        "umd/popper.min.js"
+      ]
+    },
+    {
+      "library": "react@18.2.0",
+      "destination": "wwwroot/lib/react/",
+      "files": [
+        "umd/react.production.min.js"
+      ]
+    },
+    {
+      "library": "react-dom@18.2.0",
+      "destination": "wwwroot/lib/react/",
+      "files": [
+        "umd/react-dom.production.min.js"
+      ]
+    },
+    {
+      "library": "babel-standalone@7.23.4",
+      "destination": "wwwroot/lib/react/",
+      "files": [
+        "babel.min.js"
+      ]
+    },
+    {
       "provider": "unpkg",
       "library": "@microsoft/signalr@latest",
       "destination": "wwwroot/lib/microsoft/signalr/",
@@ -15,18 +63,6 @@
       "provider": "unpkg",
       "library": "hls.js@1.4.14",
       "destination": "wwwroot/lib/hls.js/"
-    },
-    {
-      "library": "bootstrap-icons@1.11.3",
-      "destination": "wwwroot/lib/bootstrap-icons/"
-    },
-    {
-      "provider": "cdnjs",
-      "library": "popper.js@2.11.8",
-      "destination": "wwwroot/lib/popper.js/",
-      "files": [
-        "umd/popper.min.js"
-      ]
     }
   ]
 }

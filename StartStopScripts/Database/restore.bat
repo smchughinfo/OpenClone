@@ -1,0 +1,1 @@
+..\..\Database\BatchScripts\restore.bat --openclone_db_super_connection_string "%OpenClone_DefaultConnection_Super%" --log_db_super_connection_string "%OpenClone_LogDbConnection_Super%"

@@ -425,9 +425,28 @@ Contains models, data contexts, DTOs, and extensions used across multiple projec
 
 ## Build & Development
 
-**NPM Scripts**:
-- `npm run build`: Production webpack build
-- `npm run dev`: Development build with watch mode
+### **Setup Requirements**
+**IMPORTANT**: Before running the website, you must install npm dependencies and build the webpack bundles:
+
+```bash
+# Install dependencies
+cd /mnt/c/Users/seanm/Desktop/OpenClone/Website/OpenClone.UI
+npm install
+
+# Build production bundles (required for website to work)
+npm run build
+
+# OR for development with auto-rebuild
+npm run dev
+```
+
+**Common Issue**: If the website loads but React components don't work and you see 404 errors in browser dev tools for `.bundle.js` files, the webpack bundles haven't been built. Run `npm install` then `npm run build`.
+
+**Environment Note**: If using Windows batch scripts from `/StartStopScripts/WebPack/`, the npm dependencies must be installed in the Windows environment. For WSL development, install and run from WSL.
+
+### **NPM Scripts**
+- `npm run build`: Production webpack build (creates `wwwroot/dist/` bundles)
+- `npm run dev`: Development build with watch mode (auto-rebuilds on changes)
 
 **Key Dependencies**: React, Babel, Webpack, SignalR client, AutoMapper
 
@@ -435,3 +454,35 @@ Contains models, data contexts, DTOs, and extensions used across multiple projec
 - No TypeScript (kept JavaScript for simplicity)
 - Source maps enabled for development (`eval-source-map`)
 - CSS injection via style-loader for component-scoped styling
+
+### **Client-Side Library Management**
+**IMPORTANT**: The website uses LibMan (Library Manager) to manage client-side libraries like Bootstrap, jQuery, React, etc.
+
+**Current Setup Issue**: The `libman.json` configuration exists but libraries are not automatically restored. This causes 404 errors for missing JavaScript/CSS files referenced in `_Layout.cshtml`.
+
+**Manual Setup Required**: 
+```bash
+# If LibMan CLI is available:
+libman restore
+
+# If LibMan CLI is not available, manually download libraries to wwwroot/lib/:
+# - bootstrap@5.3.0 → lib/bootstrap/dist/
+# - jquery@3.7.1 → lib/jquery/dist/
+# - react@18.2.0 → lib/react/
+# - bootstrap-icons@1.11.3 → lib/bootstrap-icons/font/
+# - popper.js@2.11.8 → lib/popper.js/umd/
+```
+
+**Libraries Referenced in Layout**:
+- `~/lib/bootstrap/dist/css/bootstrap.min.css`
+- `~/lib/bootstrap-icons/font/bootstrap-icons.min.css`
+- `~/lib/jquery/dist/jquery.min.js`
+- `~/lib/popper.js/umd/popper.min.js`
+- `~/lib/bootstrap/dist/js/bootstrap.bundle.min.js`
+- `~/lib/react/react.production.min.js`
+- `~/lib/react/react-dom.production.min.js`
+- `~/lib/react/babel.min.js`
+
+**Symptoms of Missing Libraries**: 404 errors in browser dev tools, unstyled pages (no Bootstrap), React components not working.
+
+**Proper Solution**: Install LibMan CLI (`dotnet tool install -g Microsoft.Web.LibraryManager.Cli`) and run `libman restore` in OpenClone.UI directory. This should be automated in the Docker build process.

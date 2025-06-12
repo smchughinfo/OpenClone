@@ -14,6 +14,18 @@ Build container: `docker build --no-cache -t openclone-website:1.0 .`
 
 Set all required environment variables (see complete list below). The application requires database connections, API keys for external services, JWT configuration, and service host addresses.
 
+## Setup Requirements
+
+**IMPORTANT**: Before running the website, install npm dependencies and build webpack bundles:
+
+```bash
+cd OpenClone.UI
+npm install
+npm run build
+```
+
+If you see 404 errors for JavaScript bundles or React components don't work, run the commands above.
+
 ## How to run it
 
 Set required environment variables (see root README.md for complete list). Run the container using `/StartStopScripts/OpenClone/start.bat` or start manually with the docker command. The application runs on port 8080 and requires SadTalker and U-2-Net services to be running for full functionality.
