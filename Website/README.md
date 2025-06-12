@@ -2,10 +2,10 @@
 
 <div align="center">
 
-![Landing Page](Documentation/website-1.png)
-![Clone Manager](Documentation/website-2.png)
-![Chat Interface](Documentation/website-3.png)
-![Q&A Training](Documentation/website-4.png)
+![Landing Page](/Documentation/website-1.png)
+![Clone Manager](/Documentation/website-2.png)
+![Chat Interface](/Documentation/website-3.png)
+![Q&A Training](/Documentation/website-4.png)
 
 </div>
 

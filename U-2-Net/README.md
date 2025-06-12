@@ -1,6 +1,6 @@
 # U-2-Net - AI Background Removal
 
-![U-2-Net Overview](Documentation/u2net.png)
+![U-2-Net Overview](/Documentation/u2net.png)
 
 ## What is this?
 

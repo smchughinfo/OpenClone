@@ -1,6 +1,6 @@
 # Database - PostgreSQL Database Management
 
-![OpenClone Database Overview](Documentation/database.png)
+![OpenClone Database Overview](/Documentation/database.png)
 
 ## What is this?
 

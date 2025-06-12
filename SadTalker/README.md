@@ -1,6 +1,6 @@
 # SadTalker - AI Deepfake Video Generation
 
-![SadTalker Overview](Documentation/sadtalker.png)
+![SadTalker Overview](/Documentation/sadtalker.png)
 
 ## What is this?
 

@@ -1,6 +1,6 @@
 # LogViewer - Real-Time Log Monitoring
 
-![LogViewer Overview](Documentation/logviewer.png)
+![LogViewer Overview](/Documentation/logviewer.png)
 
 ## What is this?
 
