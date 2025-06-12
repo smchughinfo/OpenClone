@@ -1,6 +1,6 @@
 # LogWeaver - Python Database Logging Package
 
-[![LogWeaver Overview](https://img.youtube.com/vi/SMhwddNQSWQ/0.jpg)](https://www.youtube.com/watch?v=SMhwddNQSWQ)
+![LogWeaver Overview](Documentation/logweaver.png)
 
 ## What is this?
 

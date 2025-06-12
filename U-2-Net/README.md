@@ -1,6 +1,6 @@
 # U-2-Net - AI Background Removal
 
-[![U-2-Net Overview](https://img.youtube.com/vi/SMhwddNQSWQ/0.jpg)](https://www.youtube.com/watch?v=SMhwddNQSWQ)
+![U-2-Net Overview](Documentation/u2net.png)
 
 ## What is this?
 

@@ -1,6 +1,6 @@
 # LogViewer - Real-Time Log Monitoring
 
-[![LogViewer Overview](https://img.youtube.com/vi/SMhwddNQSWQ/0.jpg)](https://www.youtube.com/watch?v=SMhwddNQSWQ)
+![LogViewer Overview](Documentation/logviewer.png)
 
 ## What is this?
 

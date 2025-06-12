@@ -1,6 +1,6 @@
 # Server-0 - Cluster Vending Machine
 
-[![Server-0 Overview](https://img.youtube.com/vi/SMhwddNQSWQ/0.jpg)](https://www.youtube.com/watch?v=SMhwddNQSWQ)
+![Server-0 Overview](Documentation/server0.png)
 
 ## What is this?
 

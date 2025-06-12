@@ -1,6 +1,6 @@
 # OpenClone-DevContainer-StatusBar - VS Code Extension
 
-[![Extension Overview](https://img.youtube.com/vi/SMhwddNQSWQ/0.jpg)](https://www.youtube.com/watch?v=SMhwddNQSWQ)
+![Extension Overview](Documentation/devcontainer-statusbar.png)
 
 ## What is this?
 

@@ -1,6 +1,6 @@
 # SadTalker - AI Deepfake Video Generation
 
-[![SadTalker Overview](https://img.youtube.com/vi/SMhwddNQSWQ/0.jpg)](https://www.youtube.com/watch?v=SMhwddNQSWQ)
+![SadTalker Overview](Documentation/sadtalker.png)
 
 ## What is this?
 
