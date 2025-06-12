@@ -121,7 +121,7 @@ OpenClone_LogDbConnection=Host=192.168.0.100;Port=5433;Database=open_clone_loggi
 OpenClone_LogDbConnection_Super=Host=192.168.0.100;Port=5433;Database=open_clone_logging;Username=postgres;Password=openclone-super;
 ```
 
-### Optional Settings
+### Miscellaneous Settings
 ```bash
 # Your Information
 OpenClone_Admin_Email=<your@email.com>
