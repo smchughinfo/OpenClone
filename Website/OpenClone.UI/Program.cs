@@ -78,7 +78,7 @@ app.MapFallbackToPage("/NotFound"); // app.MapFallbackToPage("/Error"): Ensures 
 // ###### END ORDER MATTERS ######
 // ###############################
 
-#if NET7_0_WINDOWS
+#if NET8_0_WINDOWS
 ConsoleWindow.Minimize();
 #endif
 app.Run();
