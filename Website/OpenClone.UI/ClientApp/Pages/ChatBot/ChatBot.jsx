@@ -113,11 +113,11 @@ function ChatBot(props) {
             }
             right={
                 <div>
-                    THING 3
-                    <hr></hr>
+                    {/* THING 3
+                    <hr />
                     <span>
                         {activeClone ? activeClone.id + " <-activeClone.id" : "NO ACTIVECLONEID"}
-                    </span>
+                    </span> */}
                 </div>
             }
         />

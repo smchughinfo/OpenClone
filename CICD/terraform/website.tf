@@ -127,6 +127,10 @@ resource "kubernetes_deployment" "openclone-website" {
             name  = "OpenClone_LogDbConnection"
             value = var.internal_openclone_logdbconnection
           }
+          env {
+            name  = "ASPNETCORE_URLS"
+            value = "http://+:80"
+          }
           volume_mount {
             name       = "openclone-fs"
             mount_path = "/OpenCloneFS"

@@ -109,7 +109,7 @@ resource "kubernetes_service" "openclone-database-nodeport" {
 # TO FORCE A RE-RUN, MANUALLY TAINT THIS RESOURCE WITH `terraform taint null_resource.init_db`.
 resource "null_resource" "init_db" {
   depends_on = [
-      kubernetes_deployment.openclone-database
+      kubernetes_deployment.openclone-database, null_resource.init_fs
   ]
   provisioner "local-exec" {
     command = "/scripts/database/database.sh --restore"

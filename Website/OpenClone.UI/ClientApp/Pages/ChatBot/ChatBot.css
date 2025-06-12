@@ -1,4 +1,5 @@
 ﻿#chatBot video {
     width: 100%;
-    border: 1px solid red;
+    height: 270px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }

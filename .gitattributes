@@ -1,0 +1,35 @@
+# Set default behavior to automatically normalize line endings
+* text=auto eol=lf
+
+# Force LF line endings for these file types (important for Linux containers)
+*.tf text eol=lf
+*.sh text eol=lf
+*.bash text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.cs text eol=lf
+*.py text eol=lf
+*.sql text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.dockerfile text eol=lf
+Dockerfile text eol=lf
+
+# Binary files (don't modify line endings)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.wav binary
+*.mp3 binary
+*.mp4 binary
+*.avi binary
+*.mov binary

@@ -2,6 +2,9 @@
 
 source /vultr-api/clusters.sh
 source /scripts/shell-helpers/aliases.sh
+source /vultr-api/load-balancers.sh
+source /vultr-api/vpcs.sh
+source /vultr-api/domains.sh
 
 create_cluster() {
     echo "begin create vultr cluster..."
@@ -18,6 +21,16 @@ destroy_cluster() {
         echo "Failed to delete Vultr cluster."
         return 1
     fi
+}
+
+cleanup_environment_specific_cluster_remnants() {
+    # these ones don't get handled by terraform for some reason so do them manually
+    # todo: these should be done based on environment (dev/prod). see note in public-ip.tf
+    delete_all_loadbalancers
+    delete_all_vpcs
+    delete_record "app" 
+    delete_record "dev.sftp"
+    delete_record "dev.database"
 }
 
 ################################################################################

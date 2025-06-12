@@ -50,7 +50,7 @@ namespace OpenClone.Services.Services.OpenAI
             
             var data = new {
                 //model = "gpt-3.5-turbo",
-                model = "gpt-4",
+                model = "gpt-4.1-2025-04-14",
                 messages = messages
             };
 

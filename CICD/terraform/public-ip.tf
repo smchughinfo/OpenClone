@@ -13,7 +13,6 @@ resource "vultr_dns_domain" "openclone_ai" {
   }
 }
 
-
 ################################################################################
 ######## LOAD BALANCERS ########################################################
 ################################################################################
@@ -134,7 +133,7 @@ resource "vultr_dns_record" "openclone_ai_root_record" {
   domain = vultr_dns_domain.openclone_ai[0].domain
   name   = "@"
   type   = "A"
-  data   = "149.28.35.104" # our vps's ip
+  data   = var.openclone_server_0_ip_address
 
   depends_on = [kubernetes_service.openclone_dev_lb[0]]
 
@@ -148,7 +147,7 @@ resource "vultr_dns_record" "openclone_ai_www_record" {
   domain = vultr_dns_domain.openclone_ai[0].domain
   name   = "www"
   type   = "A"
-  data   = "149.28.35.104" # our vps's ip
+  data   = var.openclone_server_0_ip_address
   depends_on = [kubernetes_service.openclone_dev_lb[0]]
 
   lifecycle {
@@ -157,13 +156,13 @@ resource "vultr_dns_record" "openclone_ai_www_record" {
 }
 
 resource "vultr_dns_record" "openclone_ai_app_record" {
-  count = (var.environment == "vultr_dev") && var.dns_already_created == "false" ? 1 : 0
-  domain = vultr_dns_domain.openclone_ai[0].domain
+  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  domain = var.openclone_domain_name
   name   = "app"
   type   = "A"
-  data   = data.kubernetes_service.openclone_dev_lb_external_ip[0].status[0].load_balancer[0].ingress[0].ip
+  data   = data.kubernetes_service.nginx_ingress_controller[0].status[0].load_balancer[0].ingress[0].ip
 
-  depends_on = [kubernetes_service.openclone_dev_lb[0]]
+  depends_on = [data.kubernetes_service.nginx_ingress_controller[0]]
 
   lifecycle {
     prevent_destroy = true
@@ -171,8 +170,8 @@ resource "vultr_dns_record" "openclone_ai_app_record" {
 }
 
 resource "vultr_dns_record" "openclone_ai_sftp_record" {
-  count = (var.environment == "vultr_dev") && var.dns_already_created == "false" ? 1 : 0
-  domain = vultr_dns_domain.openclone_ai[0].domain
+  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  domain = var.openclone_domain_name
   name   = "dev.sftp"
   type   = "A"
   data   = data.kubernetes_service.openclone_sftp_lb_external_ip[0].status[0].load_balancer[0].ingress[0].ip
@@ -185,12 +184,13 @@ resource "vultr_dns_record" "openclone_ai_sftp_record" {
 }
 
 resource "vultr_dns_record" "openclone_ai_database_record" {
-  count = (var.environment == "vultr_dev") && var.dns_already_created == "false" ? 1 : 0
-  domain = vultr_dns_domain.openclone_ai[0].domain
+  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  domain = var.openclone_domain_name
   name   = "dev.database"
   type   = "A"
-  data   = data.kubernetes_service.openclone_database_lb_external_ip[0].status[0].load_balancer[0].ingress[0].ip
 
+  # these next two lines are for ssl
+  data   = data.kubernetes_service.openclone_database_lb_external_ip[0].status[0].load_balancer[0].ingress[0].ip
   depends_on = [kubernetes_service.openclone_database_lb[0]]
 
   lifecycle {

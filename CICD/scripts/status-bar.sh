@@ -13,7 +13,6 @@ set_statusbar_text() {
 }
 
 set_statusbar_color() {
-    echo "Server_0_CICD_ENV SSC---- $Server_0_CICD_ENV"
     local settings_file="/workspaces/CICD/.vscode/settings.json"
     local new_background="$1"
     if [ -f "$settings_file" ]; then

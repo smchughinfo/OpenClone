@@ -37,6 +37,10 @@ destroy_cluster() {
     kind delete cluster --name "$cluster_name"
 }
 
+cleanup_environment_specific_cluster_remnants() {
+    echo "no cluster remnants to clean..."
+}
+
 ################################################################################
 ######## HELPERS ###############################################################
 ################################################################################

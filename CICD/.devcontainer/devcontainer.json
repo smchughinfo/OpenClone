@@ -13,17 +13,23 @@
         "source=${localWorkspaceFolder}/scripts,target=/scripts,type=bind",
         "source=${localWorkspaceFolder}/terraform,target=/terraform,type=bind",
         "source=${localWorkspaceFolder}/vultr-api,target=/vultr-api,type=bind",
+        "source=${localWorkspaceFolder}/../OpenCloneFS,target=/OpenCloneFS,type=bind",
         // (host<->devcontainer) docker share
         "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
         // secrets file
         "source=${localWorkspaceFolder}/setup-container.sh,target=/setup-container.sh,type=bind",
-        "source=${localWorkspaceFolder}/.vscode/settings.json,target=/.vscode/settings.json,type=bind"
+        "source=${localWorkspaceFolder}/.vscode/settings.json,target=/.vscode/settings.json,type=bind",
+        "source=${localWorkspaceFolder}/CLAUDE.md,target=/CLAUDE.md,type=bind"
         // additional mounts:
         // - for mounts that have an environment variable in the source use docker-compose.yml
     ],
-      "containerEnv": {
+      "containerEnv": { 
         "TF_VAR_postgres_password": "${localEnv:OpenClone_Postgres_Password}",
+        "TF_VAR_openclone_openclonedb_name": "${localEnv:OpenClone_OpenCloneDB_Name}", 
+        "TF_VAR_openclone_openclonedb_user": "${localEnv:OpenClone_OpenCloneDB_User}", 
         "TF_VAR_openclone_openclonedb_password": "${localEnv:OpenClone_openclonedb_password}", 
+        "TF_VAR_openclone_logdb_name": "${localEnv:OpenClone_LogDB_Name}",
+        "TF_VAR_openclone_logdb_user": "${localEnv:OpenClone_LogDB_User}",
         "TF_VAR_openclone_logdb_password": "${localEnv:OpenClone_logdb_password}",
         "TF_VAR_vultr_api_key": "${localEnv:OpenClone_Vultr_API_Key}",
         "TF_VAR_openclone_jwt_secretkey": "${localEnv:OpenClone_JWT_SecretKey}",
@@ -32,14 +38,16 @@
         "TF_VAR_openclone_googleclientsecret": "${localEnv:OpenClone_GoogleClientSecret}",
         "TF_VAR_openclone_elevenlabsapikey": "${localEnv:OpenClone_ElevenLabsAPIKey}",
         "TF_VAR_openclone_email_dkim": "${localEnv:OpenClone_email_dkim}",
-        "TF_VAR_OpenClone_FTP_User": "${localEnv:OpenClone_FTP_User}",
-        "TF_VAR_OpenClone_FTP_Password": "${localEnv:OpenClone_FTP_Password}",
-        "OpenClone_OpenClone_Server_0_IP_Address": "${localEnv:OpenClone_OpenClone_Server_0_IP_Address}",
+        "TF_VAR_openclone_ftp_user": "${localEnv:openclone_ftp_user}",
+        "TF_VAR_openclone_ftp_password": "${localEnv:openclone_ftp_password}",
+        "TF_VAR_letsencrypt_email": "${localEnv:OpenClone_Admin_Email}",
+
+        "TF_VAR_openclone_server_0_ip_address": "${localEnv:TF_VAR_openclone_server_0_ip_address}",
         "OpenClone_OpenClone_Server_0_Password": "${localEnv:OpenClone_OpenClone_Server_0_Password}",
-        "OpenClone_Server_0_IP_Address": "${localEnv:OpenClone_Server_0_IP_Address}",
         "OpenClone_Server_0_Password": "${localEnv:OpenClone_Server_0_Password}",
         "OpenClone_Server_0_Delta_Snapshot_ID": "${localEnv:OpenClone_Server_0_Delta_Snapshot_ID}",
         "OpenClone_Server_0_Cluster_Password": "${localEnv:OpenClone_Server_0_Cluster_Password}",
+        
         "OpenClone_Resistry_User": "${localEnv:OpenClone_Resistry_User}",
         "OpenClone_Registry_Password": "${localEnv:OpenClone_Registry_Password}"
     },
@@ -101,7 +109,7 @@
                         },
                         {
                             "cwd": "/scripts/docker-cli",
-                            "name": "$(extensions) O",
+                            "name": "$(extensions) W",
                             "color": "#22D18B",
                             "command": "./push-containers.sh --push_container openclone-website"
                         },
@@ -142,14 +150,14 @@
                             "name": "$(terminal-view-icon) 0",
                             "color": "#FFFFFF",
                             "singleInstance": true,
-                            "command": "./server-0.sh --execute_server_0_command $OpenClone_Server_0_IP_Address $OpenClone_Server_0_Password"
+                            "command": "./server-0.sh --execute_server_0_command $TF_VAR_openclone_server_0_ip_address $OpenClone_Server_0_Password"
                         },
 {
                             "cwd": "/scripts/server-0",
                             "name": "$(terminal-view-icon) C",
                             "color": "#FFFFFF",
                             "singleInstance": true,
-                            "command": "./server-0.sh --open_container_terminal $OpenClone_Server_0_IP_Address $OpenClone_Server_0_Password"
+                            "command": "./server-0.sh --open_container_terminal $TF_VAR_openclone_server_0_ip_address $OpenClone_Server_0_Password"
                         },
                         {
                             "cwd": "/scripts/server-0",

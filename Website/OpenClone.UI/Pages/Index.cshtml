@@ -1,53 +1,187 @@
 ﻿@page
 @using Microsoft.AspNetCore.Authorization;
-@using OpenClone.Authorization;
-@using OpenClone.Core.Models;
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Welcome to OpenClone";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>@if(User.Identity.IsAuthenticated)
-        {
-            <span>You are logged in</span>
-        }
-        else
-        {
-            <span>You are not logged in</span>
-        }
-    </p>
-    <p>
-        @if (User.IsInRole("Overlord"))
-        {
-            <span>You are an overlord</span>
-        }
-        else
-        {
-            <span>You are not an overlord - @User.Identity.Name</span>
-        }
-        <h4>@Model.IsAutho</h4>
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 100px 0;
+        margin: -20px -15px 40px -15px;
+    }
+    .feature-card {
+        transition: transform 0.3s ease;
+        height: 100%;
+    }
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+    .feature-icon {
+        font-size: 3rem;
+        color: #667eea;
+        margin-bottom: 1rem;
+    }
+    .btn-get-started {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        border: none;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+    .btn-get-started:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    .stats-section {
+        background-color: #f8f9fa;
+        padding: 60px 0;
+        margin: 60px -15px;
+    }
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #667eea;
+    }
+</style>
 
-        @if ((await @Model._authorizationService.AuthorizeAsync(
-            User,
-            new ClaimAndPolicyQuestionExampleToBeDeleted() { Owner = "seanmchugh.info@gmail.com" },
-            AuthorizationOperations.Delete)).Succeeded)
+<!-- Hero Section -->
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-2 fw-bold mb-4">OpenClone</h1>
+        <p class="lead fs-4 mb-4">Create AI-powered digital clones that talk, think, and interact just like you</p>
+        <p class="fs-5 mb-5">Experience the future of personal AI with lifelike avatars powered by cutting-edge deepfake technology</p>
+        
+        @if (User.Identity.IsAuthenticated)
         {
-            <h4>should mirror: <span>Yep, Autho</span></h4>
+            <a href="/CloneManager" class="btn btn-light btn-get-started me-3">
+                <i class="bi bi-person-plus"></i> Create Your Clone
+            </a>
+            <a href="/ChatBot" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-chat-dots"></i> Chat with Clones
+            </a>
         }
         else
         {
-            <h4>should mirror: <span>Nope, Nautho</span></h4>
+            <a href="/Identity/Account/Register" class="btn btn-light btn-get-started me-3">
+                <i class="bi bi-rocket-takeoff"></i> Get Started Free
+            </a>
+            <a href="/About" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-info-circle"></i> Learn More
+            </a>
         }
-
-        WHEN NOT LOGGED IN
-        <br />
-        HomePage is an ad
-        <br />
-        WHEN LOGGED IN
-        <br />
-        This is the homepage and it will have News and datadeed and social things and blog about the project.
-    </p>
+    </div>
 </div>
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <!-- Features Section -->
+    <div class="container my-5">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold mb-3">Why Choose OpenClone?</h2>
+                <p class="lead text-muted">Build your digital twin with advanced AI that captures your personality, voice, and appearance</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card feature-card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-robot feature-icon"></i>
+                        <h4 class="fw-bold">AI-Powered Conversations</h4>
+                        <p class="text-muted">Train your clone with Q&A sessions to create natural, contextual conversations that reflect your knowledge and personality.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card feature-card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-camera-video feature-icon"></i>
+                        <h4 class="fw-bold">Lifelike Video Generation</h4>
+                        <p class="text-muted">Generate realistic talking videos using state-of-the-art deepfake technology that brings your clone to life.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card feature-card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-mic feature-icon"></i>
+                        <h4 class="fw-bold">Voice Cloning</h4>
+                        <p class="text-muted">Capture your unique voice patterns and speaking style to create authentic audio that sounds exactly like you.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-section">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="stat-number">AI</div>
+                    <h5>Powered Intelligence</h5>
+                    <p class="text-muted">Advanced language models create natural conversations</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-number">∞</div>
+                    <h5>Unlimited Potential</h5>
+                    <p class="text-muted">Train your clone with unlimited Q&A sessions</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-number">24/7</div>
+                    <h5>Always Available</h5>
+                    <p class="text-muted">Your digital clone never sleeps</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="container text-center my-5 py-5">
+        <h2 class="display-6 fw-bold mb-3">Ready to Create Your Digital Twin?</h2>
+        <p class="lead text-muted mb-4">Join the future of personal AI and create a clone that represents you</p>
+        <a href="/Identity/Account/Register" class="btn btn-get-started btn-lg">
+            <i class="bi bi-person-plus"></i> Start Creating Your Clone
+        </a>
+    </div>
+}
+else
+{
+    <!-- Logged In User Dashboard Preview -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-6 fw-bold mb-3">Welcome back, @User.Identity.Name!</h2>
+                <p class="lead text-muted mb-4">Continue building and training your AI clones</p>
+                
+                <div class="row g-3 justify-content-center">
+                    <div class="col-sm-6 col-md-4">
+                        <a href="/CloneManager" class="btn btn-outline-primary btn-lg w-100">
+                            <i class="bi bi-person-gear d-block mb-2" style="font-size: 2rem;"></i>
+                            Manage Clones
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <a href="/QA/QuestionCategories" class="btn btn-outline-success btn-lg w-100">
+                            <i class="bi bi-chat-square-quote d-block mb-2" style="font-size: 2rem;"></i>
+                            Train AI
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <a href="/ChatBot" class="btn btn-outline-info btn-lg w-100">
+                            <i class="bi bi-chat-dots d-block mb-2" style="font-size: 2rem;"></i>
+                            Chat Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

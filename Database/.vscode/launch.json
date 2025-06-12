@@ -25,24 +25,6 @@
             ]
         },
         {
-            "name": "Restore (dev.openclone.ai Test)",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/Main.py",
-            "console": "integratedTerminal",
-            "args": [
-                "restore",
-                "--remote",
-                "--openclone_db_super_connection_string", "Host=dev.database.openclone.ai;Database=openclone_db_prod;Username=postgres;Password=puppies;Include Error Detail=true;",
-                "--log_db_super_connection_string", "Host=dev.database.openclone.ai;Database=log_db_prod;Username=postgres;Password=puppies;Include Error Detail=true;",
-                "--openclone_db_user_name", "openclone_user_prod",
-                "--openclone_db_user_password", "kittens",
-                "--log_db_user_name", "log_user_prod",
-                "--log_db_user_password", "bunnies"
-            ]
-
-        },
-        {
             "name": "Migrate",
             "type": "debugpy",
             "request": "launch",

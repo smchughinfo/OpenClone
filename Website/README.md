@@ -1,33 +1,40 @@
-docker build --no-cache -t openclone-website:1.0 .
+# Website - Core OpenClone Web Application
 
-Environment Variables:
+<div align="center">
 
-OpenClone_CUDA_VISIBLE_DEVICES = 0,1
-OpenClone_DB_Host = 192.168.0.100
-OpenClone_DB_Port = 5433
-OpenClone_DefaultConnection = Host=%OpenClone_DB_Host%;Port=%OpenClone_DB_Port%;Database=%OpenClone_OpenCloneDB_Name%;Username=%OpenClone_OpenCloneDB_User%;Password=%OpenClone_OpenCloneDB_Password%;Include Error Detail=true;
-OpenClone_DefaultConnection_Super = Host=%OpenClone_DB_Host%;Port=%OpenClone_DB_Port%;Database=%OpenClone_OpenCloneDB_Name%;Username=postgres;Password=%OpenClone_postgres_superuser_password%;Include Error Detail=true;
-OpenClone_ElevenLabsAPIKey = <Your Key>
-OpenClone_GoogleClientId = <Your Key>
-OpenClone_GoogleClientSecret = <Your Key>
-OpenClone_JWT_Audience = OpenClone
-OpenClone_JWT_Issuer = https://openclone.ai
-OpenClone_JWT_SecretKey = 5EC40A39-A73C-46F5-B620-40E317CB40A6-7DD04875-FD50-4F95-B45B-B969750467DF
-OpenClone_LogDB_Name = open_clone_logging
-OpenClone_LogDB_Password = logs
-OpenClone_LogDB_User = logs
-OpenClone_LogDbConnection = Host=%OpenClone_DB_Host%;Port=%OpenClone_DB_Port%;Database=%OpenClone_LogDB_Name%;Username=%OpenClone_LogDB_User%;Password=%OpenClone_LogDB_Password%;
-OpenClone_LogDbConnection_Super = Host=%OpenClone_DB_Host%;Port=%OpenClone_DB_Port%;Database=%OpenClone_LogDB_Name%;Username=postgres;Password=%OpenClone_postgres_superuser_password%;
-OpenClone_OPENAI_API_KEY = <Your Key>
-OpenClone_OpenCloneDB_Name = open_clone
-OpenClone_OpenCloneDB_Password = openclone
-OpenClone_OpenCloneDB_User = openclone
-OpenClone_OpenCloneFS = C:\Users\seanm\Desktop\OpenCloneFS
-OpenClone_OpenCloneLogLevel = Information
-OpenClone_postgres_superuser_password = openclone-super
-OpenClone_Root_Dir = C:/OpenClone
-OpenClone_SadTalker_HostAddress = http://127.0.0.1:5001
-OpenClone_SystemLogLevel = Error
-OpenClone_U2Net_HostAddress = http://127.0.0.1:5002
-OpenClone_Vultr_API_Key = <Your Key>
-OpenClone_ZOHO_EMAIL_PASSWORD = <Your Key>
+![Landing Page](Documentation/website-1.png)
+![Clone Manager](Documentation/website-2.png)
+![Chat Interface](Documentation/website-3.png)
+![Q&A Training](Documentation/website-4.png)
+
+</div>
+
+## What is this?
+
+This is the main OpenClone web application built with .NET 8 ASP.NET Core. It provides the user interface and orchestrates all backend services including authentication, clone management, Q&A training, chat interfaces, and deepfake video generation. The application uses a hybrid architecture combining Razor Pages for server-side rendering with React components for interactive features.
+
+The website coordinates all OpenClone services (Database, SadTalker, U-2-Net, ElevenLabs, OpenAI) and provides role-based access control, Google OAuth authentication, and real-time chat via SignalR.
+
+## Container
+
+Build container: `docker build --no-cache -t openclone-website:1.0 .`
+
+Set all required environment variables (see complete list below). The application requires database connections, API keys for external services, JWT configuration, and service host addresses.
+
+## Setup Requirements
+
+**IMPORTANT**: Before running the website, install npm dependencies and build webpack bundles:
+
+```bash
+cd OpenClone.UI
+npm install
+npm run build
+```
+
+If you see 404 errors for JavaScript bundles or React components don't work, run the commands above.
+
+## How to run it
+
+Set required environment variables (see root README.md for complete list). Run the container using `/StartStopScripts/OpenClone/start.bat` or start manually with the docker command. The application runs on port 8080 and requires SadTalker and U-2-Net services to be running for full functionality.
+
+For more technical details and architecture information, see [CLAUDE.md](CLAUDE.md).

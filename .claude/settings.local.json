@@ -2,7 +2,14 @@
   "permissions": {
     "allow": [
       "Bash(find:*)",
-      "Bash(tmux capture-pane:*)"
+      "Bash(tmux capture-pane:*)",
+      "Bash(sed:*)",
+      "Bash(grep:*)",
+      "Bash(python:*)",
+      "Bash(curl:*)",
+      "WebFetch(domain:localhost)",
+      "Bash(libman restore:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": []
   }

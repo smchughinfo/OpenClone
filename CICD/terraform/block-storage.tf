@@ -35,12 +35,13 @@ resource "kubernetes_persistent_volume_claim" "openclone_fs_pvc" {
   }
 }
 
-# because this takes so long i would prefer to do it manually....
-######resource "null_resource" "init_fs" {
-######  provisioner "local-exec" {
-######    command = "/scripts/openclone-fs/openclone-fs.sh --push_openclone_fs"
-######  }
-######}
+resource "null_resource" "init_fs" {
+  depends_on = [ kubernetes_service.openclone_sftp_lb ]
+  provisioner "local-exec" {
+    command = "/scripts/openclone-fs/openclone-fs.sh --push_openclone_fs"
+  }
+}
+
 ################################################################################
 ######## FTP ###################################################################
 ################################################################################
@@ -61,7 +62,7 @@ resource "kubernetes_deployment" "openclone_sftp" {
         init_container {
           name  = "init-permissions"
           image = "busybox"
-          command = ["sh", "-c", "chown -R 1001:1001 /home/openclone-ftp/OpenCloneFS"]
+            command = ["sh", "-c", "chown -R 1001:1001 /home/openclone-ftp && ls -la /home/openclone-ftp/"]
           volume_mount {
             name       = "openclone-fs"
             mount_path = "/home/openclone-ftp/OpenCloneFS"
@@ -70,7 +71,7 @@ resource "kubernetes_deployment" "openclone_sftp" {
         container {
           name  = "openclone-sftp"
           image = "atmoz/sftp"
-          args = [var.TF_VAR_OpenClone_FTP_User+":"+var.TF_VAR_OpenClone_FTP_Password+":1001"]
+          args = ["${var.openclone_ftp_user}:${var.openclone_ftp_password}:1001"]
           port {
             container_port = 22
           }
