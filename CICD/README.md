@@ -1,6 +1,6 @@
 # CICD - OpenClone Infrastructure & Development Environment
 
-[![OpenClone CICD Overview](https://img.youtube.com/vi/SMhwddNQSWQ/0.jpg)](https://www.youtube.com/watch?v=SMhwddNQSWQ)
+![OpenClone CICD Overview](/Documentation/database.png)
 
 ## What is this?
 
