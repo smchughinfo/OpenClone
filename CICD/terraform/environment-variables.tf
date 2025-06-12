@@ -49,5 +49,7 @@ variable "OpenClone_Root_Dir"                           { default = "" }
 variable "sftp_nodeport"                                { default = "" }
 variable "database_nodeport"                            { default = "" }
 variable "website_nodeport"                             { default = "" }
+variable "ssl_certificate_password"                    { default = "" }
+variable "letsencrypt_email"                            { default = "" }
 
 variable "openclone_server_0_ip_address"                          { default = "" }

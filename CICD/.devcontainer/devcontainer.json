@@ -40,7 +40,9 @@
         "TF_VAR_openclone_email_dkim": "${localEnv:OpenClone_email_dkim}",
         "TF_VAR_openclone_ftp_user": "${localEnv:openclone_ftp_user}",
         "TF_VAR_openclone_ftp_password": "${localEnv:openclone_ftp_password}",
+        "TF_VAR_letsencrypt_email": "${localEnv:OpenClone_Admin_Email}",
         
+
         "TF_VAR_openclone_server_0_ip_address": "${localEnv:TF_VAR_openclone_server_0_ip_address}",
         "OpenClone_OpenClone_Server_0_Password": "${localEnv:OpenClone_OpenClone_Server_0_Password}",
         "OpenClone_Server_0_Password": "${localEnv:OpenClone_Server_0_Password}",

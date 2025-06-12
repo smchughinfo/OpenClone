@@ -160,9 +160,9 @@ resource "vultr_dns_record" "openclone_ai_app_record" {
   domain = var.openclone_domain_name
   name   = "app"
   type   = "A"
-  data   = data.kubernetes_service.openclone_dev_lb_external_ip[0].status[0].load_balancer[0].ingress[0].ip
+  data   = data.kubernetes_service.nginx_ingress_controller[0].status[0].load_balancer[0].ingress[0].ip
 
-  depends_on = [kubernetes_service.openclone_dev_lb[0]]
+  depends_on = [data.kubernetes_service.nginx_ingress_controller[0]]
 
   lifecycle {
     prevent_destroy = true
@@ -188,8 +188,9 @@ resource "vultr_dns_record" "openclone_ai_database_record" {
   domain = var.openclone_domain_name
   name   = "dev.database"
   type   = "A"
-  data   = data.kubernetes_service.openclone_database_lb_external_ip[0].status[0].load_balancer[0].ingress[0].ip
 
+  # these next two lines are for ssl
+  data   = data.kubernetes_service.openclone_database_lb_external_ip[0].status[0].load_balancer[0].ingress[0].ip
   depends_on = [kubernetes_service.openclone_database_lb[0]]
 
   lifecycle {
