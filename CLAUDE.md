@@ -1,5 +1,16 @@
 # OpenClone Project
 
+## Shared Terminal Setup (ALWAYS DO THIS FIRST)
+At the start of every session:
+1. IMMEDIATELY remind the user: "If you want access to our shared terminal, please run: `/OpenClone/StartStopScripts/Claude/start.bat`" 
+   (This batch file will launch Claude Code and create the tmux session, enable logging, and attach the user to it)
+2. Use `tmux capture-pane -t openclone -p` to see user actions
+3. Use `tmux send-keys -t openclone "command" Enter` to send commands to shared session
+
+## Session Initialization
+- Always read the main README.md file at the start of each session to understand current project status and setup instructions  
+- Search for and read all CLAUDE.md files in subdirectories to understand component-specific instructions and context
+
 ## Core Architectural Principles
 
 ### Minimum Learning Curve

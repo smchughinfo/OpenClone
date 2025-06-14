@@ -9,7 +9,18 @@
       "Bash(curl:*)",
       "WebFetch(domain:localhost)",
       "Bash(libman restore:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(tmux new-session:*)",
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
+      "Bash(cmd.exe /c start-shared-terminal.bat)",
+      "Bash(chmod:*)",
+      "Bash(/mnt/c/Users/seanm/Desktop/OpenClone/StartStopScripts/Claude/start-shared-terminal.sh)",
+      "Bash(tmux attach-session:*)",
+      "Bash(tmux send-keys:*)",
+      "Bash(tmux pipe-pane:*)",
+      "Bash(tmux kill-session:*)",
+      "Bash(dos2unix:*)"
     ],
     "deny": []
   }

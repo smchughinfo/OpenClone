@@ -1,0 +1,9 @@
+@echo off
+echo Starting Claude Code...
+start "" wsl claude
+timeout /t 2 /nobreak >nul
+echo Creating shared tmux session...
+wsl tmux new-session -d -s openclone 2>nul || echo Session already exists
+wsl tmux pipe-pane -t openclone -o 'cat >> /tmp/tmux-session.log' 2>nul || echo Logging already enabled
+echo Attaching to shared terminal...
+wsl tmux attach-session -t openclone
