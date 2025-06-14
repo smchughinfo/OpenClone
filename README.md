@@ -4,6 +4,16 @@
 
 Create AI-powered digital clones that talk, think, and interact just like you! OpenClone uses cutting-edge deepfake technology to bring your personal AI avatars to life.
 
+## What is OpenClone?
+
+OpenClone lets you build personalized AI clones that can:
+- 🗣️ **Talk like you** - Train with your voice for realistic speech
+- 🎭 **Look like you** - Create lifelike video avatars 
+- 🧠 **Think like you** - Learn from Q&A sessions to capture your personality
+- 💬 **Chat naturally** - Have conversations that feel authentic
+
+Perfect for content creators, educators, businesses, or anyone who wants to create their digital twin!
+
 ## Component Overview
 
 OpenClone is a distributed system of specialized components working together:
@@ -26,12 +36,12 @@ Real-time monitoring dashboard that provides system insights, error tracking, an
 ### 🔧 **CICD** (Kubernetes + Terraform)
 Complete DevOps infrastructure for deploying OpenClone to cloud environments, including Kubernetes clusters, databases, and monitoring systems.
 
-### 🤖 **Claude Code Integration**
-Specialized tooling for repository exploration and development collaboration using Anthropic's Claude Code, including automated screenshot sharing and documentation analysis.
+### 🤖 **Code Assistant Integrattion**
+Comprehensive technical documentation and context files designed for AI-powered development assistance. 
 
 ## Working with This Repository
 
-This project is designed to work seamlessly with **Claude Code** - Anthropic's AI coding assistant. The repository includes extensive Claude-specific documentation and integration tools:
+This project is designed to work seamlessly with AI coding assistants. The repository includes extensive AI-optimized documentation and integration tools:
 
 ### 🚀 **Quick Start with Claude Code**
 1. Open this repository in Claude Code
@@ -45,16 +55,6 @@ This project is designed to work seamlessly with **Claude Code** - Anthropic's A
 - **Component Analysis**: Deep understanding of multi-service architecture
 
 *For the best development experience, we highly recommend using Claude Code to explore and understand this repository's architecture.*
-
-## What is OpenClone?
-
-OpenClone lets you build personalized AI clones that can:
-- 🗣️ **Talk like you** - Train with your voice for realistic speech
-- 🎭 **Look like you** - Create lifelike video avatars 
-- 🧠 **Think like you** - Learn from Q&A sessions to capture your personality
-- 💬 **Chat naturally** - Have conversations that feel authentic
-
-Perfect for content creators, educators, businesses, or anyone who wants to create their digital twin!
 
 ## Quick Start
 
