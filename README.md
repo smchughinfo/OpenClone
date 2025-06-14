@@ -62,7 +62,7 @@ Want to start individual services? Use these batch files:
 ## Getting Help
 
 - 📖 **Documentation** - Check the individual component README files for detailed setup
-- 🐛 **Issues** - Found a bug? [Report it here](https://github.com/anthropics/claude-code/issues)
+- 🐛 **Issues** - Found a bug? Create an issue in this repository
 - 💡 **Questions** - Need help? Create an issue and we'll assist you
 
 ## What's Inside

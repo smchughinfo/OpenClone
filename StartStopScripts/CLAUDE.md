@@ -93,7 +93,7 @@ npm run dev
 ### **Critical Issues**
 1. **run-all.bat path bug**: References non-existent `../BatchScripts/` directory
 2. **WebPack stop.bat**: Kills all Node processes (too aggressive)
-3. **LogViewer paths**: Reference `../../logviewer/` but should be `../../LogViewer/`
+3. **LogViewer paths**: Reference `../../logviewer/` but should be `../../LogViewer/` (case sensitivity)
 
 ### **Architecture Limitations**
 - **Local development only** - not suitable for production deployment

@@ -2,9 +2,20 @@
 
 ## Screenshot Handling
 When the user asks to look at a screenshot or mentions screenshots:
-1. Check `/OpenClone/StartStopScripts/Claude/Screenshots/` directory for image files
+1. Check `/StartStopScripts/Claude/Screenshots/` directory for image files
 2. Read and view all screenshots in that directory
 3. After viewing all screenshots, delete all files in the Screenshots directory using: `rm /mnt/c/Users/seanm/Desktop/OpenClone/StartStopScripts/Claude/Screenshots/*`
+
+## Claude Refactor (CR) Command
+When the user types "cr" or asks for a refactor analysis:
+1. Ask user: "Should I check only recent changes (c) or do a full review (f)?"
+2. Based on response:
+   - **Changes only (c)**: Use `git diff` and `git status` to analyze recent modifications
+   - **Full review (f)**: Analyze entire current directory structure and all documentation files
+3. Review all README.md and CLAUDE.md files in the repository for accuracy
+4. Check if directory structures, file listings, or process descriptions need updates
+5. **IMPORTANT**: Ask for permission before making any changes: "I found X inconsistencies. Should I update the documentation? (y/n)"
+6. Only proceed with updates after explicit user approval
 
 ## Shared Terminal Setup (ALWAYS DO THIS FIRST)
 At the start of every session:
