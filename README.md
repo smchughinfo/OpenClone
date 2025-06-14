@@ -48,13 +48,7 @@ This project is designed to work seamlessly with AI coding assistants. The repos
 2. Run `/OpenClone/StartStopScripts/Claude/start.bat` for shared development environment
 3. Use the `cr` command anytime to have Claude analyze and update documentation
 
-### 🔍 **Repository Intelligence**
-- **Automatic Documentation Sync**: Claude keeps README and CLAUDE.md files synchronized with code changes
-- **Shared Terminal**: Real-time collaboration through tmux sessions  
-- **Screenshot Integration**: Instant visual communication with automatic clipboard capture
-- **Component Analysis**: Deep understanding of multi-service architecture
-
-*For the best development experience, we highly recommend using Claude Code to explore and understand this repository's architecture.*
+*AI Assistant documentation was created with Claude Code format.*
 
 ## Quick Start
 
