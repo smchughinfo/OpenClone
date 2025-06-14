@@ -19,7 +19,7 @@ Perfect for content creators, educators, businesses, or anyone who wants to crea
 OpenClone is a distributed system of specialized components working together:
 
 ### 🌐 **Website** (ASP.NET Core)
-The main web interface where users create and interact with their digital clones. Features user authentication, clone management, real-time chat, and video generation orchestration.
+The main web interface where users create and interact with their digital clones. Features user authentication, clone management, chat, and video generation orchestration.
 
 ### 🗄️ **Database** (PostgreSQL + pgVector)
 Dual-database architecture with the main OpenClone database for user data and clones, plus a separate logging database. Supports vector embeddings for AI personality matching.
@@ -28,20 +28,20 @@ Dual-database architecture with the main OpenClone database for user data and cl
 AI-powered deepfake video generation service that creates realistic talking head videos from still images and audio. Requires NVIDIA GPU for optimal performance.
 
 ### 🖼️ **U-2-Net** (Python + GPU) 
-Advanced image segmentation service that automatically removes backgrounds from user photos and performs image preprocessing for clone creation.
+Image segmentation service that removes backgrounds from user photos and performs image preprocessing for clone creation.
 
 ### 📊 **LogViewer** (Python Flask)
-Real-time monitoring dashboard that provides system insights, error tracking, and performance metrics across all OpenClone components.
+Monitoring dashboard that provides system insights, error tracking, and performance metrics across all OpenClone components.
 
 ### 🔧 **CICD** (Kubernetes + Terraform)
-Complete DevOps infrastructure for deploying OpenClone to cloud environments, including Kubernetes clusters, databases, and monitoring systems.
+DevOps infrastructure for deploying OpenClone to cloud environments, including Kubernetes clusters, databases, and monitoring systems.
 
 ### 🤖 **Code Assistant Integrattion**
-Comprehensive technical documentation and context files designed for AI-powered development assistance. 
+Technical documentation and context files for AI-powered development assistance. 
 
 ## Working with This Repository
 
-This project is designed to work seamlessly with AI coding assistants. The repository includes extensive AI-optimized documentation and integration tools:
+This project is designed to work with AI coding assistants. The repository includes AI-optimized documentation and integration tools:
 
 ### 🚀 **Quick Start with Claude Code**
 1. Open this repository in Claude Code
@@ -88,11 +88,11 @@ Want to start individual services? Use these batch files:
 
 ## Features
 
-- 🎯 **Easy Setup** - Get started in minutes with our batch scripts
+- 🎯 **Quick Setup** - Get started with batch scripts
 - 🔒 **Privacy First** - Your data stays on your computer
 - 🎨 **Customizable** - Train your clone's personality and responses
 - 📱 **Web Interface** - Works in any modern web browser
-- 🚀 **Fast Generation** - Optimized for quick video creation
+- 🚀 **GPU Accelerated** - Optimized for quick video creation
 - 💾 **Export Options** - Download your clone videos and conversations
 
 ## Getting Help
