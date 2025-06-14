@@ -1,5 +1,11 @@
 # OpenClone Project
 
+## Screenshot Handling
+When the user asks to look at a screenshot or mentions screenshots:
+1. Check `/OpenClone/StartStopScripts/Claude/Screenshots/` directory for image files
+2. Read and view all screenshots in that directory
+3. After viewing all screenshots, delete all files in the Screenshots directory using: `rm /mnt/c/Users/seanm/Desktop/OpenClone/StartStopScripts/Claude/Screenshots/*`
+
 ## Shared Terminal Setup (ALWAYS DO THIS FIRST)
 At the start of every session:
 1. IMMEDIATELY remind the user: "If you want access to our shared terminal, please run: `/OpenClone/StartStopScripts/Claude/start.bat`" 
