@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace OpenClone.UI
 {
-#if NET7_0_WINDOWS
+#if  BUILDING_ON_WINDOWS
     public class ConsoleWindow
     {
         [DllImport("kernel32.dll", SetLastError = true)]

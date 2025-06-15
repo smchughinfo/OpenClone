@@ -1,0 +1,1 @@
+wt --window 0 new-tab -p "OpenCloneWebsite" cmd /k "cd /d \"%~dp0../../Website/OpenClone.UI/\" && dotnet run"
