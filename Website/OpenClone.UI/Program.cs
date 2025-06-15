@@ -79,6 +79,6 @@ app.MapFallbackToPage("/NotFound"); // app.MapFallbackToPage("/Error"): Ensures 
 // ###############################
 
 #if BUILDING_ON_WINDOWS
-    ConsoleWindow.MoveToTerminalTab();
+    ConsoleWindow.Minimize();
 #endif
 app.Run();
