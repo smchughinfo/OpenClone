@@ -1,5 +1,47 @@
 # OpenClone Project
 
+## Screenshot Handling
+When the user asks to look at a screenshot or mentions screenshots:
+1. Check `/mnt/c/Users/seanm/Desktop/OpenClone/StartStopScripts/Claude/Screenshots/` directory for image files
+2. Read and view all screenshots in that directory
+3. After viewing all screenshots, delete all files in the Screenshots directory using: `rm /mnt/c/Users/seanm/Desktop/OpenClone/StartStopScripts/Claude/Screenshots/*`
+
+## Claude Refactor (CR) Command
+When the user types "cr" or asks for a refactor analysis:
+1. Ask user: "Should I check only recent changes (c) or do a full review (f)?"
+2. Based on response:
+   - **Changes only (c)**: Use `git diff` and `git status` to analyze recent modifications
+   - **Full review (f)**: Analyze entire current directory structure and all documentation files
+3. Review all README.md and CLAUDE.md files in the repository for accuracy
+4. Check if directory structures, file listings, or process descriptions need updates
+5. **IMPORTANT**: Ask for permission before making any changes: "I found X inconsistencies. Should I update the documentation? (y/n)"
+6. Only proceed with updates after explicit user approval
+
+## Session Memory
+When the user asks to "remember this conversation", "save session memory", or similar:
+1. Create a comprehensive summary of key decisions, solutions, and context from the conversation
+2. Save to `/StartStopScripts/Claude/SessionMemory/session-memory-YYYY-MM-DD.md` 
+3. Include: main topics discussed, technical solutions implemented, workflow changes, important context for future sessions
+4. Reference previous session memory files when relevant to current discussions
+
+## CICD Container Integration
+Claude can execute infrastructure commands inside the CICD dev container:
+- **Command Execution**: Use `/StartStopScripts/Claude/cicd-exec.sh "command"` for single commands
+- **Shared Terminal**: User creates CICD tmux session via VS Code button, then asks Claude to join
+- **Container Tools**: kubectl (`k`), terraform, vultr-api, and deployment scripts
+- **Full Documentation**: See `/CICD/CLAUDE.md` for comprehensive integration instructions
+
+## Shared Terminal Setup (ALWAYS DO THIS FIRST)
+At the start of every session:
+1. IMMEDIATELY remind the user: "If you want access to our shared terminal, please run: `/OpenClone/StartStopScripts/Claude/start.bat`" 
+   (This batch file will launch Claude Code and create the tmux session, enable logging, and attach the user to it)
+2. Use `tmux capture-pane -t openclone -p` to see user actions
+3. Use `tmux send-keys -t openclone "command" Enter` to send commands to shared session
+
+## Session Initialization
+- Always read the main README.md file at the start of each session to understand current project status and setup instructions  
+- Search for and read all CLAUDE.md files in subdirectories to understand component-specific instructions and context
+
 ## Core Architectural Principles
 
 ### Minimum Learning Curve

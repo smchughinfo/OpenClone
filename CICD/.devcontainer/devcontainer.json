@@ -192,12 +192,6 @@
                             "command": "./openclone-fs/openclone-fs.sh --push_openclone_fs"
                         },
                         {
-                            "cwd": "/vultr-api",
-                            "name": "$(sync) Recreate Registry",
-                            "color": "#FFA166",
-                            "command": "./registries.sh --delete_container_registry && ./registries.sh --create_container_registry"
-                        },
-                        {
                             "cwd": "/scripts/metrics",
                             "name": "$(pie-chart) Prometheus",
                             "color": "#D1D121",
@@ -224,6 +218,13 @@
                             "color": "#21D1D1",
                             "singleInstance": true,
                             "command": "source ./menu-bar.sh"
+                        },
+                        {
+                            "cwd": "/",
+                            "name": "$(chat-editor-label-icon) Claude TMUX",
+                            "color": "#FFA166",
+                            "singleInstance": true,
+                              "command": "tmux new-session -d -s cicd-shared && tmux send-keys -t cicd-shared 'echo \"TMUX Session started. Ask claude to join session cicd-shared\"' Enter && tmux attach-session -t cicd-shared"
                         }
                     ]
                 }

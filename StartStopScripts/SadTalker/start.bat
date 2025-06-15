@@ -6,7 +6,7 @@ rem ####################################################################
 
 docker container inspect openclone-sadtalker >nul 2>&1
 if %ERRORLEVEL% == 0 (
-    start cmd -d /K "docker start -a openclone-sadtalker"
+    wt --window 0 new-tab -p "OpenCloneSadTalker" cmd /K "docker start -a openclone-sadtalker"
     goto :EOF
 )
 
@@ -54,5 +54,5 @@ rem ####################################################################
 set cmd=%cmd% --name openclone-sadtalker openclone-sadtalker:1.0
 
 rem Finally execute the command
-start cmd /k "%cmd%"
+wt --window 0 new-tab -p "OpenCloneSadTalker" cmd /k "%cmd%"
 

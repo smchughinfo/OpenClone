@@ -14,6 +14,42 @@ OpenClone lets you build personalized AI clones that can:
 
 Perfect for content creators, educators, businesses, or anyone who wants to create their digital twin!
 
+## Component Overview
+
+OpenClone is a distributed system of specialized components working together:
+
+### 🌐 **Website** (ASP.NET Core)
+The main web interface where users create and interact with their digital clones. Features user authentication, clone management, chat, and video generation orchestration.
+
+### 🗄️ **Database** (PostgreSQL + pgVector)
+Dual-database architecture with the main OpenClone database for user data and clones, plus a separate logging database. Supports vector embeddings for AI personality matching.
+
+### 🎭 **SadTalker** (Python + GPU)
+AI-powered deepfake video generation service that creates realistic talking head videos from still images and audio. Requires NVIDIA GPU for optimal performance.
+
+### 🖼️ **U-2-Net** (Python + GPU) 
+Image segmentation service that removes backgrounds from user photos and performs image preprocessing for clone creation.
+
+### 📊 **LogViewer** (Python Flask)
+Monitoring dashboard that provides system insights, error tracking, and performance metrics across all OpenClone components.
+
+### 🔧 **CICD** (Kubernetes + Terraform)
+DevOps infrastructure for deploying OpenClone to cloud environments, including Kubernetes clusters, databases, and monitoring systems.
+
+### 🤖 **Code Assistant Integrattion**
+Technical documentation and context files for AI-powered development assistance. 
+
+## Working with This Repository
+
+This project is designed to work with AI coding assistants. The repository includes AI-optimized documentation and integration tools:
+
+### 🚀 **Quick Start with Claude Code**
+1. Open this repository in Claude Code
+2. Run `/OpenClone/StartStopScripts/Claude/start.bat` for shared development environment
+3. Use the `cr` command anytime to have Claude analyze and update documentation
+
+*AI Assistant documentation was created with Claude Code format.*
+
 ## Quick Start
 
 Ready to create your first clone? Here's how:
@@ -52,29 +88,19 @@ Want to start individual services? Use these batch files:
 
 ## Features
 
-- 🎯 **Easy Setup** - Get started in minutes with our batch scripts
+- 🎯 **Quick Setup** - Get started with batch scripts
 - 🔒 **Privacy First** - Your data stays on your computer
 - 🎨 **Customizable** - Train your clone's personality and responses
 - 📱 **Web Interface** - Works in any modern web browser
-- 🚀 **Fast Generation** - Optimized for quick video creation
+- 🚀 **GPU Accelerated** - Optimized for quick video creation
 - 💾 **Export Options** - Download your clone videos and conversations
 
 ## Getting Help
 
 - 📖 **Documentation** - Check the individual component README files for detailed setup
-- 🐛 **Issues** - Found a bug? [Report it here](https://github.com/anthropics/claude-code/issues)
+- 🐛 **Issues** - Found a bug? Create an issue in this repository
 - 💡 **Questions** - Need help? Create an issue and we'll assist you
 
-## What's Inside
-
-OpenClone is made up of several smart components:
-- **Website** - The main interface where you create and manage clones
-- **Database** - Stores your clone data and conversations
-- **SadTalker** - Creates realistic talking videos of your clone
-- **U-2-Net** - Removes backgrounds from your photos automatically
-- **LogViewer** - Monitor system activity in real-time
-
-Each component can be developed independently and has its own documentation in the respective folders.
 
 ---
 

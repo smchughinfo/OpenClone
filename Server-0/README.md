@@ -1,6 +1,6 @@
 # Server-0 - Cluster Vending Machine
 
-![Server-0 Overview](/Documentation/server0.png)
+![Server-0 Overview](/Documentation/server-0.png)
 
 ## What is this?
 

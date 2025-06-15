@@ -73,6 +73,23 @@ npm run dev
 - **start-remote.bat**: Remote/production environments
 - **Path**: Uses Python virtual environment at `../../LogViewer/.venv/`
 
+### **Claude Code Integration**
+
+**Claude/start.bat**: Unified Claude Code development environment launcher
+- **Functionality**: Launches Claude Code, creates shared tmux session, starts screenshot watcher
+- **Components**: Integrates three separate tools for seamless Claude Code collaboration
+- **Output**: Three separate windows (Claude Code, tmux terminal, screenshot watcher)
+
+**Claude/screenshot-watcher.ps1**: Automatic screenshot capture system
+- **Technology**: PowerShell clipboard monitoring with duplicate detection
+- **Functionality**: Automatically saves clipboard screenshots to `Screenshots/` directory
+- **Features**: MD5 hash-based duplicate prevention, auto-cleanup on startup, mutex-based single instance
+- **Integration**: Works with Claude Code's image reading capabilities
+
+**Claude/stop.bat**: Cleanup script for Claude Code tools
+- **Functionality**: Terminates tmux session and screenshot watcher processes
+- **Safety**: Preserves Claude Code instance to prevent chat history loss
+
 ## Environment Dependencies
 
 ### **Required Environment Variables** (OpenClone_ prefix)
@@ -93,7 +110,7 @@ npm run dev
 ### **Critical Issues**
 1. **run-all.bat path bug**: References non-existent `../BatchScripts/` directory
 2. **WebPack stop.bat**: Kills all Node processes (too aggressive)
-3. **LogViewer paths**: Reference `../../logviewer/` but should be `../../LogViewer/`
+3. **LogViewer paths**: Reference `../../logviewer/` but should be `../../LogViewer/` (case sensitivity)
 
 ### **Architecture Limitations**
 - **Local development only** - not suitable for production deployment
@@ -150,6 +167,12 @@ Docker\close-docker-desktop.bat
 ```
 StartStopScripts/
 ├── run-all.bat                 # Main orchestration (needs fixes)
+├── Claude/                     # Claude Code integration tools
+│   ├── Screenshots/            # Auto-captured screenshots for sharing with Claude
+│   ├── claude-refactor.sh      # Repository analysis script
+│   ├── screenshot-watcher.ps1  # Clipboard screenshot monitoring
+│   ├── start.bat              # Launch Claude Code + shared terminal + screenshot watcher
+│   └── stop.bat               # Stop tmux session and screenshot watcher
 ├── Database/                   # PostgreSQL container management
 ├── Docker/                     # Docker Desktop lifecycle
 ├── LogViewer/                  # Flask monitoring app (3 environments)

@@ -1,0 +1,637 @@
+{
+    "$help": "https://aka.ms/terminal-documentation",
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "actions": 
+    [
+        {
+            "command": 
+            {
+                "action": "copy",
+                "singleLine": false
+            },
+            "id": "User.copy.644BA8F2"
+        },
+        {
+            "command": "paste",
+            "id": "User.paste"
+        },
+        {
+            "command": "find",
+            "id": "User.find"
+        },
+        {
+            "command": 
+            {
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
+            },
+            "id": "User.splitPane.A6751878"
+        }
+    ],
+    "copyFormatting": "none",
+    "copyOnSelect": false,
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "keybindings": 
+    [
+        {
+            "id": "User.copy.644BA8F2",
+            "keys": "ctrl+c"
+        },
+        {
+            "id": "User.find",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "User.paste",
+            "keys": "ctrl+v"
+        },
+        {
+            "id": "User.splitPane.A6751878",
+            "keys": "alt+shift+d"
+        }
+    ],
+    "newTabMenu": 
+    [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
+    "profiles": 
+    {
+        "defaults": {},
+        "list": 
+        [
+            {
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "name": "Windows PowerShell"
+            },
+            {
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": false,
+                "name": "Command Prompt"
+            },
+            {
+                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+                "hidden": false,
+                "name": "Ubuntu",
+                "source": "Windows.Terminal.Wsl"
+            },
+            {
+                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "hidden": false,
+                "name": "Azure Cloud Shell",
+                "source": "Windows.Terminal.Azure"
+            },
+            {
+                "guid": "{c35ee257-0969-5d4a-84c0-e90878d94fc8}",
+                "hidden": false,
+                "name": "Developer Command Prompt for VS 2022",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{db455112-3cf1-54ae-80cf-0551ff8765d4}",
+                "hidden": false,
+                "name": "Developer PowerShell for VS 2022",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{16208362-94fc-5b1f-a491-5b2624d5ab56}",
+                "hidden": true,
+                "name": "Visual Studio Debug Console",
+                "source": "VSDebugConsole"
+            },
+            {
+                "guid": "{2cfb1d96-3a73-549b-ac2c-c1be924084fa}",
+                "hidden": false,
+                "name": "Developer Command Prompt for VS 2022 (2)",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{6d49c399-fd45-56b4-9751-2bd4a75eea65}",
+                "hidden": false,
+                "name": "Developer PowerShell for VS 2022 (2)",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{c8cebac8-6db8-554b-a669-dab97e694c21}",
+                "hidden": true,
+                "name": "Developer Command Prompt for VS 2019",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{0af81cb5-9ff6-5f63-97ae-a8e1ddad22f1}",
+                "hidden": true,
+                "name": "Developer PowerShell for VS 2019",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{f3db131a-bb44-5867-a644-c79f024d2d01}",
+                "hidden": true,
+                "name": "Developer Command Prompt for VS 2019 (2)",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{0cafaa96-6e27-5af8-9b02-3e79927b1e4a}",
+                "hidden": true,
+                "name": "Developer PowerShell for VS 2019 (2)",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{51855cb2-8cce-5362-8f54-464b92b32386}",
+                "hidden": false,
+                "name": "Ubuntu",
+                "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc"
+            },
+            {
+                "altGrAliasing": true,
+                "antialiasingMode": "grayscale",
+                "closeOnExit": "automatic",
+                "colorScheme": "Campbell",
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "cursorShape": "bar",
+                "font": 
+                {
+                    "face": "Cascadia Mono",
+                    "size": 12
+                },
+                "guid": "{d449c9e9-5edd-41bd-93e6-8e1484839428}",
+                "hidden": false,
+                "historySize": 9001,
+                "name": "Command Prompt (Copy)",
+                "padding": "8, 8, 8, 8",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "tabTitle": "Screenshot Copy",
+                "useAcrylic": false
+            },
+            {
+                "altGrAliasing": true,
+                "antialiasingMode": "grayscale",
+                "closeOnExit": "automatic",
+                "colorScheme": "OpenCloneScreenshotCopy",
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "cursorShape": "bar",
+                "font": 
+                {
+                    "face": "Cascadia Mono",
+                    "size": 12
+                },
+                "guid": "{0d3d6298-3312-4e5f-b12d-694940347fce}",
+                "hidden": false,
+                "historySize": 9001,
+                "icon": "C:\\Users\\seanm\\Desktop\\OpenClone\\StartStopScripts\\WindowsTerminal\\terminal-icon.ico",
+                "name": "Screenshot Copy",
+                "padding": "8, 8, 8, 8",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "tabTitle": "\ud83d\udccbScreenshot Copy",
+                "useAcrylic": false
+            },
+            {
+                "altGrAliasing": true,
+                "antialiasingMode": "grayscale",
+                "closeOnExit": "automatic",
+                "colorScheme": "OpenCloneTMUX",
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "cursorShape": "bar",
+                "font": 
+                {
+                    "face": "Cascadia Mono",
+                    "size": 12
+                },
+                "guid": "{1eddb0f5-2059-41e8-9dac-b1f6ac62e420}",
+                "hidden": false,
+                "historySize": 9001,
+                "icon": "C:\\Users\\seanm\\Desktop\\OpenClone\\StartStopScripts\\WindowsTerminal\\terminal-icon.ico",
+                "name": "OpenCloneTMUX",
+                "padding": "8, 8, 8, 8",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "tabTitle": "\ud83d\udcf1OpenClone TMUX",
+                "useAcrylic": false
+            },
+            {
+                "altGrAliasing": true,
+                "antialiasingMode": "grayscale",
+                "closeOnExit": "automatic",
+                "colorScheme": "OpenCloneClaudeCode",
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "cursorShape": "bar",
+                "font": 
+                {
+                    "face": "Cascadia Mono",
+                    "size": 12
+                },
+                "guid": "{0f4278f1-3e2f-4007-88d4-74bc6c331c06}",
+                "hidden": false,
+                "historySize": 9001,
+                "icon": "C:\\Users\\seanm\\Desktop\\OpenClone\\StartStopScripts\\WindowsTerminal\\terminal-icon.ico",
+                "name": "OpenCloneClaudeCode",
+                "padding": "8, 8, 8, 8",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "tabTitle": "\ud83e\udd16 OpenClone Claude Code",
+                "useAcrylic": false
+            },
+            {
+                "altGrAliasing": true,
+                "antialiasingMode": "grayscale",
+                "closeOnExit": "automatic",
+                "colorScheme": "OpenCloneU2Net",
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "cursorShape": "bar",
+                "font": 
+                {
+                    "face": "Cascadia Mono",
+                    "size": 12
+                },
+                "guid": "{70818ab3-d353-4125-bc0d-f0d46705cb94}",
+                "hidden": false,
+                "historySize": 9001,
+                "icon": "C:\\Users\\seanm\\Desktop\\OpenClone\\StartStopScripts\\WindowsTerminal\\terminal-icon.ico",
+                "name": "OpenCloneU2Net",
+                "padding": "8, 8, 8, 8",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "tabTitle": "\ud83d\udc64 OpenClone U2 Net",
+                "useAcrylic": false
+            },
+            {
+                "altGrAliasing": true,
+                "antialiasingMode": "grayscale",
+                "closeOnExit": "automatic",
+                "colorScheme": "OpenCloneSadTalker",
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "cursorShape": "bar",
+                "font": 
+                {
+                    "face": "Cascadia Mono",
+                    "size": 12
+                },
+                "guid": "{bf46e390-8455-4ddd-90b9-8c28c804aa52}",
+                "hidden": false,
+                "historySize": 9001,
+                "icon": "C:\\Users\\seanm\\Desktop\\OpenClone\\StartStopScripts\\WindowsTerminal\\terminal-icon.ico",
+                "name": "OpenCloneSadTalker",
+                "padding": "8, 8, 8, 8",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "tabTitle": "\u25b6\ufe0f OpenClone SadTalker",
+                "useAcrylic": false
+            },
+            {
+                "altGrAliasing": true,
+                "antialiasingMode": "grayscale",
+                "closeOnExit": "automatic",
+                "colorScheme": "OpenCloneDatabase",
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "cursorShape": "bar",
+                "font": 
+                {
+                    "face": "Cascadia Mono",
+                    "size": 12
+                },
+                "guid": "{2d6c0056-f1ac-4d78-8ad4-96a06651d513}",
+                "hidden": false,
+                "historySize": 9001,
+                "icon": "C:\\Users\\seanm\\Desktop\\OpenClone\\StartStopScripts\\WindowsTerminal\\terminal-icon.ico",
+                "name": "OpenCloneDatabase",
+                "padding": "8, 8, 8, 8",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "tabTitle": "\ud83d\udcbe OpenClone Database",
+                "useAcrylic": false
+            },
+            {
+                "altGrAliasing": true,
+                "antialiasingMode": "grayscale",
+                "closeOnExit": "automatic",
+                "colorScheme": "OpenCloneLogViewer",
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "cursorShape": "bar",
+                "font": 
+                {
+                    "face": "Cascadia Mono",
+                    "size": 12
+                },
+                "guid": "{0d4f97f7-3a20-4244-bd65-2c35f8df39cd}",
+                "hidden": false,
+                "historySize": 9001,
+                "icon": "C:\\Users\\seanm\\Desktop\\OpenClone\\StartStopScripts\\WindowsTerminal\\terminal-icon.ico",
+                "name": "OpenCloneLogViewer",
+                "padding": "8, 8, 8, 8",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "tabTitle": "\ud83d\udd0d OpenClone LogViewer",
+                "useAcrylic": false
+            },
+            {
+                "altGrAliasing": true,
+                "antialiasingMode": "grayscale",
+                "closeOnExit": "automatic",
+                "colorScheme": "OpenCloneWebPack",
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "cursorShape": "bar",
+                "font": 
+                {
+                    "face": "Cascadia Mono",
+                    "size": 12
+                },
+                "guid": "{69c87f24-ad4b-4b74-a6ce-a344bf86c35a}",
+                "hidden": false,
+                "historySize": 9001,
+                "icon": "C:\\Users\\seanm\\Desktop\\OpenClone\\StartStopScripts\\WindowsTerminal\\terminal-icon.ico",
+                "name": "OpenCloneWebPack",
+                "padding": "8, 8, 8, 8",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "tabTitle": "\ud83d\udce6 + \u26a1OpenClone WebPack",
+                "useAcrylic": false
+            },
+            {
+                "altGrAliasing": true,
+                "antialiasingMode": "grayscale",
+                "closeOnExit": "automatic",
+                "colorScheme": "OpenCloneWebsite",
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "cursorShape": "bar",
+                "font": 
+                {
+                    "face": "Cascadia Mono",
+                    "size": 12
+                },
+                "guid": "{02e91622-2ac0-4810-851a-90cb27831632}",
+                "hidden": false,
+                "historySize": 9001,
+                "icon": "C:\\Users\\seanm\\Desktop\\OpenClone\\StartStopScripts\\WindowsTerminal\\terminal-icon.ico",
+                "name": "OpenCloneWebsite",
+                "padding": "8, 8, 8, 8",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "tabTitle": "\ud83c\udf10 OpenClone Website",
+                "useAcrylic": false
+            },
+            {
+                "altGrAliasing": true,
+                "antialiasingMode": "grayscale",
+                "closeOnExit": "automatic",
+                "colorScheme": "OpenCloneHostCommandRunner",
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "cursorShape": "bar",
+                "font": 
+                {
+                    "face": "Cascadia Mono",
+                    "size": 12
+                },
+                "guid": "{84c97779-febf-426f-8d38-555d158bc6dd}",
+                "hidden": false,
+                "historySize": 9001,
+                "icon": "C:\\Users\\seanm\\Desktop\\OpenClone\\StartStopScripts\\WindowsTerminal\\terminal-icon.ico",
+                "name": "OpenCloneHostCommandRunner",
+                "padding": "8, 8, 8, 8",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "tabTitle": "\ud83d\udd17 OpenCloneHostCommandRunner",
+                "useAcrylic": false
+            }
+        ]
+    },
+    "schemes": 
+    [
+        {
+            "background": "#262626",
+            "black": "#000000",
+            "blue": "#BD6D00",
+            "brightBlack": "#6A4F2A",
+            "brightBlue": "#FFBE55",
+            "brightCyan": "#C69752",
+            "brightGreen": "#F6FF40",
+            "brightPurple": "#FC874F",
+            "brightRed": "#FF8C68",
+            "brightWhite": "#FAFAFF",
+            "brightYellow": "#FFE36E",
+            "cursorColor": "#FC531D",
+            "cyan": "#F79500",
+            "foreground": "#FFCB83",
+            "green": "#A4A900",
+            "name": "OpenCloneClaudeCode",
+            "purple": "#FC5E00",
+            "red": "#C13900",
+            "selectionBackground": "#C14020",
+            "white": "#FFC88A",
+            "yellow": "#CAAF00"
+        },
+        {
+            "background": "#006984",
+            "black": "#292D3E",
+            "blue": "#82AAFF",
+            "brightBlack": "#434758",
+            "brightBlue": "#9CC4FF",
+            "brightCyan": "#A3F7FF",
+            "brightGreen": "#DDFFA7",
+            "brightPurple": "#DDB0F6",
+            "brightRed": "#FF8B92",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#FFE585",
+            "cursorColor": "#FFCC00",
+            "cyan": "#89EBFF",
+            "foreground": "#C5F2FF",
+            "green": "#B4E88D",
+            "name": "OpenCloneDatabase",
+            "purple": "#E9C1FF",
+            "red": "#FF8288",
+            "selectionBackground": "#2BAECA",
+            "white": "#D0D0D0",
+            "yellow": "#F4D69F"
+        },
+        {
+            "background": "#300A24",
+            "black": "#2E3436",
+            "blue": "#3465A4",
+            "brightBlack": "#555753",
+            "brightBlue": "#729FCF",
+            "brightCyan": "#34E2E2",
+            "brightGreen": "#8AE234",
+            "brightPurple": "#AD7FA8",
+            "brightRed": "#EF2929",
+            "brightWhite": "#EEEEEC",
+            "brightYellow": "#FCE94F",
+            "cursorColor": "#BBBBBB",
+            "cyan": "#06989A",
+            "foreground": "#EEEEEC",
+            "green": "#4E9A06",
+            "name": "OpenCloneHostCommandRunner",
+            "purple": "#75507B",
+            "red": "#CC0000",
+            "selectionBackground": "#B5D5FF",
+            "white": "#D3D7CF",
+            "yellow": "#C4A000"
+        },
+        {
+            "background": "#070825",
+            "black": "#181A1F",
+            "blue": "#46BDFF",
+            "brightBlack": "#FF16B0",
+            "brightBlue": "#46BDFF",
+            "brightCyan": "#FF901F",
+            "brightGreen": "#FCEE54",
+            "brightPurple": "#FF92DF",
+            "brightRed": "#F85353",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#FFFFFF",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#DF81FC",
+            "foreground": "#46BDFF",
+            "green": "#929292",
+            "name": "OpenCloneLogViewer",
+            "purple": "#FF92DF",
+            "red": "#FF16B0",
+            "selectionBackground": "#FFFFFF",
+            "white": "#FFFFFF",
+            "yellow": "#FCEE54"
+        },
+        {
+            "background": "#1F1D45",
+            "black": "#050404",
+            "blue": "#0F4AC6",
+            "brightBlack": "#4E7CBF",
+            "brightBlue": "#1997C6",
+            "brightCyan": "#C8FAF4",
+            "brightGreen": "#9EFF6E",
+            "brightPurple": "#9B5953",
+            "brightRed": "#FC5F5A",
+            "brightWhite": "#F6F5FB",
+            "brightYellow": "#EFC11A",
+            "cursorColor": "#EFBF38",
+            "cyan": "#70A598",
+            "foreground": "#F8DCC0",
+            "green": "#4AB118",
+            "name": "OpenCloneSadTalker",
+            "purple": "#665993",
+            "red": "#BD0013",
+            "selectionBackground": "#706B4E",
+            "white": "#F8DCC0",
+            "yellow": "#E7741E"
+        },
+        {
+            "background": "#101116",
+            "black": "#101116",
+            "blue": "#00B0FF",
+            "brightBlack": "#686868",
+            "brightBlue": "#6871FF",
+            "brightCyan": "#60FDFF",
+            "brightGreen": "#5FFA68",
+            "brightPurple": "#D682EC",
+            "brightRed": "#FF6E67",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#FFFC67",
+            "cursorColor": "#76FF9F",
+            "cyan": "#76C1FF",
+            "foreground": "#00A2FF",
+            "green": "#00FF9C",
+            "name": "OpenCloneScreenshotCopy",
+            "purple": "#D57BFF",
+            "red": "#FF5680",
+            "selectionBackground": "#C1DEFF",
+            "white": "#C7C7C7",
+            "yellow": "#FFFC58"
+        },
+        {
+            "background": "#13773D",
+            "black": "#000000",
+            "blue": "#0000A3",
+            "brightBlack": "#555555",
+            "brightBlue": "#0000BB",
+            "brightCyan": "#55FFFF",
+            "brightGreen": "#00BB00",
+            "brightPurple": "#FF55FF",
+            "brightRed": "#BB0000",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#E7B000",
+            "cursorColor": "#8C2800",
+            "cyan": "#00BBBB",
+            "foreground": "#FFF0A5",
+            "green": "#00BB00",
+            "name": "OpenCloneTMUX",
+            "purple": "#950062",
+            "red": "#BB0000",
+            "selectionBackground": "#B64926",
+            "white": "#BBBBBB",
+            "yellow": "#E7B000"
+        },
+        {
+            "background": "#5A5475",
+            "black": "#040303",
+            "blue": "#C2FFDF",
+            "brightBlack": "#6090CB",
+            "brightBlue": "#C2FFDF",
+            "brightCyan": "#C5A3FF",
+            "brightGreen": "#C2FFDF",
+            "brightPurple": "#FFB8D1",
+            "brightRed": "#FF857F",
+            "brightWhite": "#F8F8F0",
+            "brightYellow": "#FFEA00",
+            "cursorColor": "#F8F8F0",
+            "cyan": "#C5A3FF",
+            "foreground": "#F8F8F2",
+            "green": "#C2FFDF",
+            "name": "OpenCloneU2Net",
+            "purple": "#FFB8D1",
+            "red": "#F92672",
+            "selectionBackground": "#8077A8",
+            "white": "#F8F8F0",
+            "yellow": "#E6C000"
+        },
+        {
+            "background": "#762423",
+            "black": "#000000",
+            "blue": "#489BEE",
+            "brightBlack": "#262626",
+            "brightBlue": "#65AAF1",
+            "brightCyan": "#B7DFDD",
+            "brightGreen": "#AFF08C",
+            "brightPurple": "#DDB7DF",
+            "brightRed": "#E02553",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#DFDDB7",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#6BBEB8",
+            "foreground": "#FFFFFF",
+            "green": "#71BE6B",
+            "name": "OpenCloneWebPack",
+            "purple": "#E979D7",
+            "red": "#D62E4E",
+            "selectionBackground": "#073642",
+            "white": "#D6D6D6",
+            "yellow": "#BEB86B"
+        },
+        {
+            "background": "#2E2E2E",
+            "black": "#2E2E2E",
+            "blue": "#DB3B21",
+            "brightBlack": "#464646",
+            "brightBlue": "#DB501F",
+            "brightCyan": "#7D53E7",
+            "brightGreen": "#53EAA8",
+            "brightPurple": "#441090",
+            "brightRed": "#FF6517",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#FCA013",
+            "cursorColor": "#7F7F7F",
+            "cyan": "#6E49CB",
+            "foreground": "#FFFFFF",
+            "green": "#3EB383",
+            "name": "OpenCloneWebsite",
+            "purple": "#380D75",
+            "red": "#FC6D26",
+            "selectionBackground": "#CB392E",
+            "white": "#FFFFFF",
+            "yellow": "#FCA121"
+        }
+    ],
+    "themes": []
+}

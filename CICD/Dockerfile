@@ -10,6 +10,9 @@ RUN apt-get update && \
     apt-get install -y jq && \
     apt-get install -y jo
 
+# Install tmux
+RUN apt-get install -y tmux
+
 # Install Node.js (using NodeSource repository for latest LTS)
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
     apt-get install -y nodejs
