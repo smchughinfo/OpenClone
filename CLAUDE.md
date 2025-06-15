@@ -17,6 +17,13 @@ When the user types "cr" or asks for a refactor analysis:
 5. **IMPORTANT**: Ask for permission before making any changes: "I found X inconsistencies. Should I update the documentation? (y/n)"
 6. Only proceed with updates after explicit user approval
 
+## Session Memory
+When the user asks to "remember this conversation", "save session memory", or similar:
+1. Create a comprehensive summary of key decisions, solutions, and context from the conversation
+2. Save to `/StartStopScripts/Claude/session-memory-YYYY-MM-DD.md` 
+3. Include: main topics discussed, technical solutions implemented, workflow changes, important context for future sessions
+4. Reference previous session memory files when relevant to current discussions
+
 ## CICD Container Integration
 Claude can execute infrastructure commands inside the CICD dev container:
 - **Command Execution**: Use `/StartStopScripts/Claude/cicd-exec.sh "command"` for single commands

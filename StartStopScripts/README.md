@@ -1,5 +1,7 @@
 # StartStopScripts
 
+![Server-0 Overview](/Documentation/startstopscripts.png)
+
 Windows batch scripts for starting/stopping OpenClone development environment components.
 
 ## Usage
