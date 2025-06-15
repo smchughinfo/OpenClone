@@ -249,3 +249,59 @@ This manual cleanup prevents resource accumulation and unexpected charges from r
 - **Team Collaboration**: Shared configuration ensures environment parity
 
 This CICD environment represents a complete infrastructure-as-code solution that packages development environment, deployment tooling, monitoring, and cluster management into a single, portable development container.
+
+## Claude Code Integration with CICD Container
+
+### Command Execution from Host
+Claude can execute commands inside the CICD dev container from the host environment using:
+
+**Direct Command Execution:**
+```bash
+/StartStopScripts/Claude/cicd-exec.sh "command"
+```
+
+**Examples:**
+- `/StartStopScripts/Claude/cicd-exec.sh "k get pods"` - Check Kubernetes pods
+- `/StartStopScripts/Claude/cicd-exec.sh "terraform plan"` - Run infrastructure planning  
+- `/StartStopScripts/Claude/cicd-exec.sh "/scripts/database/database.sh --backup"` - Execute database operations
+- `/StartStopScripts/Claude/cicd-exec.sh "ls /scripts"` - List available CICD scripts
+
+### Shared CICD Terminal (tmux)
+
+**VS Code Button Workflow:**
+1. **User**: Click "Claude TMUX" button in VS Code status bar
+2. **System**: Creates session with message "TMUX Session started. Ask claude to join session cicd-shared"
+3. **User**: Tell Claude "Join the CICD tmux session"
+4. **Claude**: Enables logging and starts sending commands to shared session
+
+**VS Code Button Command:**
+```bash
+tmux new-session -d -s cicd-shared && tmux send-keys -t cicd-shared 'echo "TMUX Session started. Ask claude to join session cicd-shared"' Enter && tmux attach-session -t cicd-shared
+```
+
+**Claude Interaction with CICD tmux:**
+- **View terminal activity**: `/StartStopScripts/Claude/cicd-exec.sh "tmux capture-pane -t cicd-shared -p"`
+- **Send commands**: `/StartStopScripts/Claude/cicd-exec.sh "tmux send-keys -t cicd-shared 'command' Enter"`
+- **Enable logging**: `/StartStopScripts/Claude/cicd-exec.sh "tmux pipe-pane -t cicd-shared -o 'cat >> /tmp/cicd-tmux-session.log'"`
+
+### Container Environment
+The CICD container includes:
+- **kubectl** via `k` function (environment-aware kubeconfig)
+- **terraform** for infrastructure management
+- **vultr-api** scripts for cloud resource management
+- **All CICD scripts** in `/scripts` directory
+- **Environment variables** pre-configured for OpenClone deployment
+- **tmux** for shared terminal sessions
+
+### Usage Patterns
+
+**Infrastructure Work:**
+1. **User**: Click VS Code "Claude TMUX" button
+2. **User**: Tell Claude "Join the CICD tmux session"
+3. **Claude**: Enables logging and can execute commands like `/StartStopScripts/Claude/cicd-exec.sh "k get nodes"`
+4. **Collaboration**: Real-time shared terminal for cluster management
+
+**Quick Commands:**
+- Claude executes single commands without persistent session
+- Example: `/StartStopScripts/Claude/cicd-exec.sh "terraform validate"`
+- No tmux session needed for one-off operations

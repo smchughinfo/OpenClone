@@ -20,7 +20,11 @@
       "Bash(tmux send-keys:*)",
       "Bash(tmux pipe-pane:*)",
       "Bash(tmux kill-session:*)",
-      "Bash(dos2unix:*)"
+      "Bash(dos2unix:*)",
+      "Bash(docker exec:*)",
+      "Bash(\"/mnt/c/Users/seanm/Desktop/OpenClone/StartStopScripts/Claude/cicd-exec.sh\" \"tmux capture-pane -t cicd-shared -p\")",
+      "Bash(\"/mnt/c/Users/seanm/Desktop/OpenClone/StartStopScripts/Claude/cicd-exec.sh\" \"cat ~/.bashrc\")",
+      "Bash(\"/mnt/c/Users/seanm/Desktop/OpenClone/StartStopScripts/Claude/cicd-tmux.sh\" status)"
     ],
     "deny": []
   }

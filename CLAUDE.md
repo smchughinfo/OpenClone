@@ -17,6 +17,13 @@ When the user types "cr" or asks for a refactor analysis:
 5. **IMPORTANT**: Ask for permission before making any changes: "I found X inconsistencies. Should I update the documentation? (y/n)"
 6. Only proceed with updates after explicit user approval
 
+## CICD Container Integration
+Claude can execute infrastructure commands inside the CICD dev container:
+- **Command Execution**: Use `/StartStopScripts/Claude/cicd-exec.sh "command"` for single commands
+- **Shared Terminal**: User creates CICD tmux session via VS Code button, then asks Claude to join
+- **Container Tools**: kubectl (`k`), terraform, vultr-api, and deployment scripts
+- **Full Documentation**: See `/CICD/CLAUDE.md` for comprehensive integration instructions
+
 ## Shared Terminal Setup (ALWAYS DO THIS FIRST)
 At the start of every session:
 1. IMMEDIATELY remind the user: "If you want access to our shared terminal, please run: `/OpenClone/StartStopScripts/Claude/start.bat`" 

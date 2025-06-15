@@ -9,7 +9,9 @@ timeout /t 1 /nobreak >nul
 echo Screenshot watcher started in separate window
 
 echo Creating shared tmux session...
-wsl tmux new-session -d -s openclone 2>nul || echo Session already exists
-wsl tmux pipe-pane -t openclone -o 'cat >> /tmp/tmux-session.log' 2>nul || echo Logging already enabled
-echo Attaching to shared terminal...
+wsl tmux new-session -d -s openclone 2>nul || echo Host session already exists
+wsl tmux pipe-pane -t openclone -o 'cat >> /tmp/tmux-session.log' 2>nul || echo Host logging already enabled
+
+echo Attaching to host shared terminal...
+echo (Use VS Code button for CICD container terminal)
 wsl tmux attach-session -t openclone
