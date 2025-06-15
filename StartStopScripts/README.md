@@ -30,8 +30,9 @@ Claude\stop.bat             # Cleanup sessions
 
 All scripts use branded Windows Terminal profiles for better visual organization. To get the themed terminals with custom colors and icons:
 
-1. **Import Terminal Profiles**: Copy the contents of `WindowsTerminal/OpenCloneTerminalSchemes.json` into your Windows Terminal settings
-2. **Install Icon**: The `WindowsTerminal/terminal-icon.ico` file provides the custom icon used by all profiles
+1. **Install Icon**: In `WindowsTerminal/OpenCloneTerminalSchemes.json` repoint `C:\\Users\\seanm\\Desktop\\OpenClone\\StartStopScripts\\WindowsTerminal\\terminal-icon.ico` to the location on your disk.
+2. **Import Terminal Profiles**: Copy the contents of `WindowsTerminal/OpenCloneTerminalSchemes.json` into your Windows Terminal settings
+
 
 Without these profiles, scripts will fall back to default terminal appearance but will still function normally.
 
