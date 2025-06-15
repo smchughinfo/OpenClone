@@ -1,7 +1,7 @@
 {
   "workbench.colorTheme": "Henna",
-  "opencloneDevContainerStatusBar.text": "vultr_dev",
+  "opencloneDevContainerStatusBar.text": "vultr_prod",
   "workbench.colorCustomizations": {
-    "statusBar.background": "#5A2500"
+    "statusBar.background": "#961e1e"
   }
 }

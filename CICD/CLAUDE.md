@@ -38,12 +38,12 @@ This eliminates the need to manually specify `--kubeconfig` flags and prevents a
 
 ## Host Command Execution
 
-**PowerShell Buddy for Windows Host Commands**
+**Host Command Runner (PowerShell Buddy) for Windows Host Commands**
 
-This devcontainer has a PowerShell companion script that can execute commands on the Windows host environment when needed.
+This devcontainer has a PowerShell companion script (referred to as the "PowerShell Buddy" or "Host Command Runner") that can execute commands on the Windows host environment when needed.
 
 ### How it works:
-1. **PowerShell Buddy**: Located at `/CICD/scripts/devcontainer-host/host-command-runner.ps1`
+1. **Host Command Runner**: Located at `/CICD/scripts/devcontainer-host/host-command-runner.ps1`
 2. **Command Interface**: Create a batch file at `/scripts/devcontainer-host/script-to-run.bat` with the Windows commands you want to execute
 3. **Synchronous Execution**: The PowerShell buddy runs the batch file on the host and waits for completion
 4. **Cleanup**: After execution, `script-to-run.bat` is automatically deleted

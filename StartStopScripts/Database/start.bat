@@ -6,7 +6,7 @@ rem ####################################################################
 
 docker container inspect openclone-database >nul 2>&1
 if %ERRORLEVEL% == 0 (
-    start cmd -d /K "docker start -a openclone-database"
+    wt -p "OpenCloneDatabase" cmd /K "docker start -a openclone-database"
     goto :EOF
 )
 
@@ -52,4 +52,4 @@ rem ####################################################################
 set cmd=%cmd% --name openclone-database openclone-database:1.0
 
 rem Finally execute the command
-start cmd /k "%cmd%"
+wt -p "OpenCloneDatabase" cmd /k "%cmd%"

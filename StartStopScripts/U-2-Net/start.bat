@@ -6,7 +6,7 @@ rem ####################################################################
 
 docker container inspect openclone-u-2-net >nul 2>&1
 if %ERRORLEVEL% == 0 (
-    cmd -d /K "docker start -a openclone-u-2-net"
+    wt -p "OpenCloneU2Net" cmd /K "docker start -a openclone-u-2-net"
     goto :EOF
 )
 
@@ -53,4 +53,4 @@ rem ####################################################################
 set cmd=%cmd% --name openclone-u-2-net openclone-u-2-net:1.0
 
 rem Finally execute the command
-start cmd /k "%cmd%"
+wt -p "OpenCloneU2Net" cmd /k "%cmd%"

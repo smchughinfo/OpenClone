@@ -1,1 +1,1 @@
-start "" "../../logviewer/.venv/scripts/python.exe" "../../logviewer/API.py" "--environment" "kind"
+wt -p "OpenCloneLogViewer" "%~dp0..\..\logviewer\.venv\scripts\python.exe" "%~dp0..\..\logviewer\API.py" "--environment" "kind"

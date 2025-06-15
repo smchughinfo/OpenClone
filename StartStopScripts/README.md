@@ -26,6 +26,15 @@ Claude\start.bat            # Shared terminals + screenshot capture
 Claude\stop.bat             # Cleanup sessions
 ```
 
+## Windows Terminal Themes
+
+All scripts use branded Windows Terminal profiles for better visual organization. To get the themed terminals with custom colors and icons:
+
+1. **Import Terminal Profiles**: Copy the contents of `WindowsTerminal/OpenCloneTerminalSchemes.json` into your Windows Terminal settings
+2. **Install Icon**: The `WindowsTerminal/terminal-icon.ico` file provides the custom icon used by all profiles
+
+Without these profiles, scripts will fall back to default terminal appearance but will still function normally.
+
 ## Requirements
 
 - Windows with Docker Desktop

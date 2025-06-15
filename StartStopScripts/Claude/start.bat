@@ -1,10 +1,10 @@
 @echo off
 echo Starting Claude Code...
-start "" wsl claude
+wt -p "OpenCloneClaudeCode" wsl claude
 timeout /t 2 /nobreak >nul
 
 echo Starting screenshot watcher...
-start "Screenshot Watcher" powershell -ExecutionPolicy Bypass -File "%~dp0screenshot-watcher.ps1"
+wt -p "Screenshot Copy" powershell -ExecutionPolicy Bypass -File "%~dp0screenshot-watcher.ps1"
 timeout /t 1 /nobreak >nul
 echo Screenshot watcher started in separate window
 
@@ -14,4 +14,4 @@ wsl tmux pipe-pane -t openclone -o 'cat >> /tmp/tmux-session.log' 2>nul || echo 
 
 echo Attaching to host shared terminal...
 echo (Use VS Code button for CICD container terminal)
-wsl tmux attach-session -t openclone
+wt -p "OpenCloneTMUX" wsl tmux attach-session -t openclone
