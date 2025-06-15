@@ -1,1 +1,1 @@
-wt -p "OpenCloneLogViewer" "%~dp0..\..\logviewer\.venv\scripts\python.exe" "%~dp0..\..\logviewer\API.py" "--environment" "local"
+wt --window 0 new-tab -p "OpenCloneLogViewer" "%~dp0..\..\logviewer\.venv\scripts\python.exe" "%~dp0..\..\logviewer\API.py" "--environment" "local"

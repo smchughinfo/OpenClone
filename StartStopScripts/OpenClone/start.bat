@@ -6,7 +6,7 @@ rem ####################################################################
 
 docker container inspect openclone-website >nul 2>&1
 if %ERRORLEVEL% == 0 (
-    wt -p "OpenCloneWebsite" cmd /K "docker start -a openclone-website"
+    wt --window 0 new-tab -p "OpenCloneWebsite" cmd /K "docker start -a openclone-website"
     goto :EOF
 )
 
@@ -78,4 +78,4 @@ rem ####################################################################
 set cmd=%cmd% --name openclone-website openclone-website:1.0
 
 rem Finally execute the command
-wt -p "OpenCloneWebsite" cmd /k "%cmd%"
+wt --window 0 new-tab -p "OpenCloneWebsite" cmd /k "%cmd%"
