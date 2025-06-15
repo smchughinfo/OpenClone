@@ -53,6 +53,12 @@ while ($true) {
             
             # Only save if this is a different image
             if ($hashString -ne $lastImageHash) {
+                # Delete any existing screenshots before saving the new one
+                $existingFiles = Get-ChildItem $screenshotDir -Filter "*.png" -ErrorAction SilentlyContinue
+                if ($existingFiles.Count -gt 0) {
+                    Remove-Item "$screenshotDir\*.png" -Force
+                }
+                
                 $filename = "screenshot_$(Get-Date -Format 'yyyyMMdd_HHmmss').png"
                 $filepath = Join-Path $screenshotDir $filename
                 
