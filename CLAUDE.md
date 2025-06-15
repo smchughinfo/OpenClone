@@ -62,6 +62,12 @@ One of the main architectural tenants of this project is that it should work wit
 - Keep SadTalker for video generation
 - Achieve complete self-contained system with no external API dependencies
 
+## Container Build Standards
+**IMPORTANT**: Always use version tag `1.0` instead of `latest` when building containers:
+- Build containers with: `docker build -t [container-name]:1.0 .`
+- This ensures consistency with start scripts which expect `1.0` tags
+- Examples: `openclone-website:1.0`, `openclone-database:1.0`, etc.
+
 ## Project Status
 - Massive project refactor in progress:
   * Directory structure changed: 

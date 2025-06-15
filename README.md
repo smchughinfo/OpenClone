@@ -65,7 +65,7 @@ Want to start individual services? Use these batch files:
 - `StartStopScripts/Database/start.bat` - Start the database
 - `StartStopScripts/SadTalker/start.bat` - Start video generation
 - `StartStopScripts/U-2-Net/start.bat` - Start background removal
-- `StartStopScripts/OpenClone/start.bat` - Start the main website
+- `StartStopScripts/Website/start.bat` - Start the main website
 
 ## What You'll Need
 
