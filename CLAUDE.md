@@ -20,7 +20,7 @@ When the user types "cr" or asks for a refactor analysis:
 ## Session Memory
 When the user asks to "remember this conversation", "save session memory", or similar:
 1. Create a comprehensive summary of key decisions, solutions, and context from the conversation
-2. Save to `/StartStopScripts/Claude/session-memory-YYYY-MM-DD.md` 
+2. Save to `/StartStopScripts/Claude/SessionMemory/session-memory-YYYY-MM-DD.md` 
 3. Include: main topics discussed, technical solutions implemented, workflow changes, important context for future sessions
 4. Reference previous session memory files when relevant to current discussions
 

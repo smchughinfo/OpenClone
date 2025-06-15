@@ -24,7 +24,8 @@
       "Bash(docker exec:*)",
       "Bash(\"/mnt/c/Users/seanm/Desktop/OpenClone/StartStopScripts/Claude/cicd-exec.sh\" \"tmux capture-pane -t cicd-shared -p\")",
       "Bash(\"/mnt/c/Users/seanm/Desktop/OpenClone/StartStopScripts/Claude/cicd-exec.sh\" \"cat ~/.bashrc\")",
-      "Bash(\"/mnt/c/Users/seanm/Desktop/OpenClone/StartStopScripts/Claude/cicd-tmux.sh\" status)"
+      "Bash(\"/mnt/c/Users/seanm/Desktop/OpenClone/StartStopScripts/Claude/cicd-tmux.sh\" status)",
+      "Bash(mv:*)"
     ],
     "deny": []
   }
