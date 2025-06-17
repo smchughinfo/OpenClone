@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="LogWeaver",
+    name="openclone-logweaver",
     version="1.0.0",
     packages=find_packages(),
     url='https://github.com/smchughinfo/LogWeaver',
