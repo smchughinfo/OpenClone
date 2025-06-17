@@ -38,6 +38,9 @@ push_container() {
         dockerfile="Dockerfile_ForDeployment"
         echo "deleting /terraform/.terraform for clean image creation"
         rm -r /terraform/.terraform
+    elif [[ "$image_name" == "openclone-database" ]]; then
+        local_name="${image_name}:1.0"
+        dockerfile="Container/Dockerfile"
     else
         local_name="${image_name}:1.0"
         dockerfile="Dockerfile"
