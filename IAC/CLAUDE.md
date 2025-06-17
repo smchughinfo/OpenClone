@@ -1,6 +1,6 @@
-# Claude Instructions for CICD Project
+# Claude Instructions for IAC Project
 
-This file contains important information for Claude when working in the CICD devcontainer.
+This file contains important information for Claude when working in the IAC devcontainer.
 
 ## Kubernetes Command Usage
 
@@ -18,7 +18,7 @@ This function intelligently points to the correct kubeconfig file based on the c
 
 ### Multi-Environment Support
 
-This CICD environment supports deploying the OpenClone project to multiple environments:
+This IAC environment supports deploying the OpenClone project to multiple environments:
 - **kind** - Local Kubernetes cluster
 - **vultr_dev** - Vultr development environment  
 - **vultr_prod** - Vultr production environment
@@ -43,7 +43,7 @@ This eliminates the need to manually specify `--kubeconfig` flags and prevents a
 This devcontainer has a PowerShell companion script (referred to as the "PowerShell Buddy" or "Host Command Runner") that can execute commands on the Windows host environment when needed.
 
 ### How it works:
-1. **Host Command Runner**: Located at `/CICD/scripts/devcontainer-host/host-command-runner.ps1`
+1. **Host Command Runner**: Located at `/IAC/scripts/devcontainer-host/host-command-runner.ps1`
 2. **Command Interface**: Create a batch file at `/scripts/devcontainer-host/script-to-run.bat` with the Windows commands you want to execute
 3. **Synchronous Execution**: The PowerShell buddy runs the batch file on the host and waits for completion
 4. **Cleanup**: After execution, `script-to-run.bat` is automatically deleted
@@ -67,7 +67,7 @@ EOF
 # (The batch file will be deleted after execution)
 ```
 
-This provides a bridge between the containerized CICD environment and the Windows host when necessary.
+This provides a bridge between the containerized IAC environment and the Windows host when necessary.
 
 ## Server-0 Architecture
 
@@ -124,15 +124,15 @@ This architecture treats Server-0 as a "cluster vending machine" that only dispe
 
 **Application Implementation Details**: See `/Server-0/CLAUDE.md` for Node.js application code, API endpoints, and technical implementation.
 
-### CICD Container Reuse Strategy
+### IAC Container Reuse Strategy
 
-**The CICD container gets extensive mileage across different contexts:**
+**The IAC container gets extensive mileage across different contexts:**
 
 1. **Local Development** - Used as a dev container for development work
-2. **Server-0** - Runs CICD container to leverage existing variables and logic for creating Server-0-Delta instances
-3. **Server-0-Delta** - Runs CICD container to provision the actual Kubernetes cluster
+2. **Server-0** - Runs IAC container to leverage existing variables and logic for creating Server-0-Delta instances
+3. **Server-0-Delta** - Runs IAC container to provision the actual Kubernetes cluster
 
-**Benefits of Shared CICD Code:**
+**Benefits of Shared IAC Code:**
 - All infrastructure logic, variables, and scripts are centralized
 - Server-0 can easily create Server-0-Delta because it already has all the provisioning logic
 - Consistent tooling and environment across all deployment contexts
@@ -143,7 +143,7 @@ This architecture treats Server-0 as a "cluster vending machine" that only dispe
 - Same container serves different purposes in different contexts
 - However, in practice this approach has proven to be fairly sane and maintainable
 
-This shared container strategy allows the CICD codebase to handle everything from local development to production cluster provisioning with a single, well-tested set of tools and scripts.
+This shared container strategy allows the IAC codebase to handle everything from local development to production cluster provisioning with a single, well-tested set of tools and scripts.
 
 ### Vultr Resource Management Limitations
 
@@ -162,7 +162,7 @@ The `/scripts/cluster_create_and_destroy/destroy.sh --destroy` script calls the 
 
 This manual cleanup prevents resource accumulation and unexpected charges from resources that Terraform can't properly destroy on its own.
 
-## CICD Architecture & Environment
+## IAC Architecture & Environment
 
 ### **Script Organization**
 **Rule**: All logic belongs in `/scripts` directory
@@ -236,7 +236,7 @@ This manual cleanup prevents resource accumulation and unexpected charges from r
 
 ### **Environment Uniqueness**
 
-**Comprehensive Solution**: CICD project evolved into complete quasi-development environment
+**Comprehensive Solution**: IAC project evolved into complete quasi-development environment
 - **Infrastructure as Code**: Terraform-managed cloud resources
 - **Container Orchestration**: Kubernetes cluster management
 - **Development Tools**: Integrated IDE, debugging, and monitoring
@@ -248,48 +248,48 @@ This manual cleanup prevents resource accumulation and unexpected charges from r
 - **One-Click Operations**: Complex workflows reduced to button clicks
 - **Team Collaboration**: Shared configuration ensures environment parity
 
-This CICD environment represents a complete infrastructure-as-code solution that packages development environment, deployment tooling, monitoring, and cluster management into a single, portable development container.
+This IAC environment represents a complete infrastructure-as-code solution that packages development environment, deployment tooling, monitoring, and cluster management into a single, portable development container.
 
-## Claude Code Integration with CICD Container
+## Claude Code Integration with IAC Container
 
 ### Command Execution from Host
-Claude can execute commands inside the CICD dev container from the host environment using:
+Claude can execute commands inside the IAC dev container from the host environment using:
 
 **Direct Command Execution:**
 ```bash
-/StartStopScripts/Claude/cicd-exec.sh "command"
+/StartStopScripts/Claude/iac-exec.sh "command"
 ```
 
 **Examples:**
-- `/StartStopScripts/Claude/cicd-exec.sh "k get pods"` - Check Kubernetes pods
-- `/StartStopScripts/Claude/cicd-exec.sh "terraform plan"` - Run infrastructure planning  
-- `/StartStopScripts/Claude/cicd-exec.sh "/scripts/database/database.sh --backup"` - Execute database operations
-- `/StartStopScripts/Claude/cicd-exec.sh "ls /scripts"` - List available CICD scripts
+- `/StartStopScripts/Claude/iac-exec.sh "k get pods"` - Check Kubernetes pods
+- `/StartStopScripts/Claude/iac-exec.sh "terraform plan"` - Run infrastructure planning  
+- `/StartStopScripts/Claude/iac-exec.sh "/scripts/database/database.sh --backup"` - Execute database operations
+- `/StartStopScripts/Claude/iac-exec.sh "ls /scripts"` - List available IAC scripts
 
-### Shared CICD Terminal (tmux)
+### Shared IAC Terminal (tmux)
 
 **VS Code Button Workflow:**
 1. **User**: Click "Claude TMUX" button in VS Code status bar
-2. **System**: Creates session with message "TMUX Session started. Ask claude to join session cicd-shared"
-3. **User**: Tell Claude "Join the CICD tmux session"
+2. **System**: Creates session with message "TMUX Session started. Ask claude to join session iac-shared"
+3. **User**: Tell Claude "Join the IAC tmux session"
 4. **Claude**: Enables logging and starts sending commands to shared session
 
 **VS Code Button Command:**
 ```bash
-tmux new-session -d -s cicd-shared && tmux send-keys -t cicd-shared 'echo "TMUX Session started. Ask claude to join session cicd-shared"' Enter && tmux attach-session -t cicd-shared
+tmux new-session -d -s iac-shared && tmux send-keys -t iac-shared 'echo "TMUX Session started. Ask claude to join session iac-shared"' Enter && tmux attach-session -t iac-shared
 ```
 
-**Claude Interaction with CICD tmux:**
-- **View terminal activity**: `/StartStopScripts/Claude/cicd-exec.sh "tmux capture-pane -t cicd-shared -p"`
-- **Send commands**: `/StartStopScripts/Claude/cicd-exec.sh "tmux send-keys -t cicd-shared 'command' Enter"`
-- **Enable logging**: `/StartStopScripts/Claude/cicd-exec.sh "tmux pipe-pane -t cicd-shared -o 'cat >> /tmp/cicd-tmux-session.log'"`
+**Claude Interaction with IAC tmux:**
+- **View terminal activity**: `/StartStopScripts/Claude/iac-exec.sh "tmux capture-pane -t iac-shared -p"`
+- **Send commands**: `/StartStopScripts/Claude/iac-exec.sh "tmux send-keys -t iac-shared 'command' Enter"`
+- **Enable logging**: `/StartStopScripts/Claude/iac-exec.sh "tmux pipe-pane -t iac-shared -o 'cat >> /tmp/iac-tmux-session.log'"`
 
 ### Container Environment
-The CICD container includes:
+The IAC container includes:
 - **kubectl** via `k` function (environment-aware kubeconfig)
 - **terraform** for infrastructure management
 - **vultr-api** scripts for cloud resource management
-- **All CICD scripts** in `/scripts` directory
+- **All IAC scripts** in `/scripts` directory
 - **Environment variables** pre-configured for OpenClone deployment
 - **tmux** for shared terminal sessions
 
@@ -297,11 +297,11 @@ The CICD container includes:
 
 **Infrastructure Work:**
 1. **User**: Click VS Code "Claude TMUX" button
-2. **User**: Tell Claude "Join the CICD tmux session"
-3. **Claude**: Enables logging and can execute commands like `/StartStopScripts/Claude/cicd-exec.sh "k get nodes"`
+2. **User**: Tell Claude "Join the IAC tmux session"
+3. **Claude**: Enables logging and can execute commands like `/StartStopScripts/Claude/iac-exec.sh "k get nodes"`
 4. **Collaboration**: Real-time shared terminal for cluster management
 
 **Quick Commands:**
 - Claude executes single commands without persistent session
-- Example: `/StartStopScripts/Claude/cicd-exec.sh "terraform validate"`
+- Example: `/StartStopScripts/Claude/iac-exec.sh "terraform validate"`
 - No tmux session needed for one-off operations

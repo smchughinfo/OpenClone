@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONTAINER_NAME="openclone-cicd"
+CONTAINER_NAME="openclone-iac"
 
 start_cluster() {
    # Set PS1 to bypass .bashrc's non-interactive guard that prevents environment variables from loading.

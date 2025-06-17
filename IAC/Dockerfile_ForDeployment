@@ -1,4 +1,4 @@
-FROM openclone-cicd:1.0
+FROM openclone-iac:1.0
 
 # Set up repository mirrors with fallbacks (primary mirror + backup original repos)
 RUN cp /etc/apt/sources.list /etc/apt/sources.list.backup && \
@@ -38,16 +38,16 @@ RUN dotnet tool install --global dotnet-ef
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
 # Copy local directories and make scripts executable
-COPY CICD/scripts/ /scripts/
-COPY CICD/terraform/ /terraform/
-COPY CICD/vultr-api/ /vultr-api/
-COPY CICD/setup-container.sh /setup-container.sh
+COPY IAC/scripts/ /scripts/
+COPY IAC/terraform/ /terraform/
+COPY IAC/vultr-api/ /vultr-api/
+COPY IAC/setup-container.sh /setup-container.sh
 
 RUN chmod +x /setup-container.sh
 
 # Set up workspace
-RUN mkdir -p /workspaces/CICD
-WORKDIR /workspaces/CICD
+RUN mkdir -p /workspaces/IAC
+WORKDIR /workspaces/IAC
 
 # Copy applications and set up Python environment
 COPY OpenClone/ /OpenClone/

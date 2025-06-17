@@ -2,7 +2,7 @@
 #!/bin/bash
 
 ################################################################################
-######## GET LATEST OPENCLONE-CICD IMAGE ##################################
+######## GET LATEST OPENCLONE-IAC IMAGE ##################################
 ################################################################################
 
 get_current_version_tag() {
@@ -11,7 +11,7 @@ get_current_version_tag() {
     while true; do
         current_tag="$i.0"
         echo "Checking if version $current_tag exists..." >&2
-        if ! docker manifest inspect "ewr.vultrcr.com/openclone/openclone-cicd:$current_tag" >/dev/null 2>&1; then
+        if ! docker manifest inspect "ewr.vultrcr.com/openclone/openclone-iac:$current_tag" >/dev/null 2>&1; then
             # Return the previous tag, as it's the current version
             previous_tag="$(($i - 1)).0"
             if [ "$i" -eq 1 ]; then
@@ -33,12 +33,12 @@ get_current_version_tag() {
 docker ps -aq | xargs -r docker rm -f
 docker images -q | xargs -r docker rmi -f
 
-# download and install the latest openclone-cicd container
+# download and install the latest openclone-iac container
 docker login https://ewr.vultrcr.com/openclone -u "${OpenClone_Resistry_User}" -p "${OpenClone_Registry_Password}"
 echo "getting latest container version. this will take a while..."
 current_version_tag=$(get_current_version_tag)
 echo "Latest version found: $current_version_tag"
-docker pull ewr.vultrcr.com/openclone/openclone-cicd:$current_version_tag
+docker pull ewr.vultrcr.com/openclone/openclone-iac:$current_version_tag
 
 
 ################################################################################
@@ -54,9 +54,9 @@ rm -f /initial-setup-complete
 
 # 2. Run the container in detached mode with marker file creation
 docker run -d \
-  --name openclone-cicd \
+  --name openclone-iac \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  ewr.vultrcr.com/openclone/openclone-cicd:$current_version_tag \
+  ewr.vultrcr.com/openclone/openclone-iac:$current_version_tag \
   bash -c "
     source /scripts/environment.sh
     set_env_variable TF_VAR_postgres_password \"${TF_VAR_postgres_password}\"
@@ -69,7 +69,7 @@ docker run -d \
     set_env_variable TF_VAR_openclone_googleclientsecret \"${TF_VAR_openclone_googleclientsecret}\"
     set_env_variable TF_VAR_openclone_elevenlabsapikey \"${TF_VAR_openclone_elevenlabsapikey}\"
     set_env_variable TF_VAR_openclone_email_dkim \"${TF_VAR_openclone_email_dkim}\"
-    set_env_variable Server_0_CICD_ENV \"server-0\"
+    set_env_variable Server_0_IAC_ENV \"server-0\"
     set_env_variable OpenClone_Root_Dir \"/\"
     set_env_variable OpenClone_OpenCloneFS \"/OpenCloneFS\"
     terraform -chdir="/terraform" init
@@ -82,7 +82,7 @@ docker run -d \
 
 # 3. Poll for the completion marker
 echo "Waiting for container setup to complete..."
-while ! docker exec openclone-cicd -f /initial-setup-complete 2>/dev/null; do
+while ! docker exec openclone-iac -f /initial-setup-complete 2>/dev/null; do
   sleep 2
   echo -n "."
 done
@@ -91,7 +91,7 @@ echo "Container setup completed successfully!"
 
 # 4. Stop the container
 echo "Stopping container..."
-docker stop openclone-cicd
+docker stop openclone-iac
 echo "Container stopped."
 
 echo "setup-server-0-container complete!"

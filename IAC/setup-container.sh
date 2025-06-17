@@ -103,7 +103,7 @@ setup_container() {
     # todo: these files should be server-0-delta, not server-0
     setup_server_0_container_path_template="/scripts/server-0/setup-server-0-container-template.sh"
     set_env_variable setup_server_0_container_path "/scripts/server-0/setup-server-0-container.sh"
-    envsubst '$TF_VAR_postgres_password,$TF_VAR_openclone_openclonedb_password,$TF_VAR_openclone_logdb_password,$TF_VAR_vultr_api_key,$TF_VAR_openclone_jwt_secretkey,$TF_VAR_openclone_openai_api_key,$TF_VAR_openclone_googleclientid,$TF_VAR_openclone_googleclientsecret,$TF_VAR_openclone_elevenlabsapikey,$TF_VAR_openclone_email_dkim,$Server_0_CICD_ENV,$OpenClone_Root_Dir,$OpenClone_OpenCloneFS,$CLUSTER_PASSWORD,$OpenClone_Server_0_vultr_dev_kube_config_path,$OpenClone_Resistry_User,$OpenClone_Registry_Password,$Server_0_CICD_ENV,$OpenClone_Server_0_OpenClone_Root_Dir,$OpenClone_Server_0_OpenClone_OpenCloneFS' < "$setup_server_0_container_path_template" > "$setup_server_0_container_path"
+    envsubst '$TF_VAR_postgres_password,$TF_VAR_openclone_openclonedb_password,$TF_VAR_openclone_logdb_password,$TF_VAR_vultr_api_key,$TF_VAR_openclone_jwt_secretkey,$TF_VAR_openclone_openai_api_key,$TF_VAR_openclone_googleclientid,$TF_VAR_openclone_googleclientsecret,$TF_VAR_openclone_elevenlabsapikey,$TF_VAR_openclone_email_dkim,$Server_0_IAC_ENV,$OpenClone_Root_Dir,$OpenClone_OpenCloneFS,$CLUSTER_PASSWORD,$OpenClone_Server_0_vultr_dev_kube_config_path,$OpenClone_Resistry_User,$OpenClone_Registry_Password,$Server_0_IAC_ENV,$OpenClone_Server_0_OpenClone_Root_Dir,$OpenClone_Server_0_OpenClone_OpenCloneFS' < "$setup_server_0_container_path_template" > "$setup_server_0_container_path"
 }
 setup_container
 echo "setup-container.sh complete!" # inform the user of our success.

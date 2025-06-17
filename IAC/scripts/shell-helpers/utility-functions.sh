@@ -134,7 +134,7 @@ list_env_variables() {
             
         "current")
             echo "=== Current Session Variables ==="
-            env | grep -E '^(TF_VAR_|CICD_|OpenClone_|KUBE)' | sort
+            env | grep -E '^(TF_VAR_|IAC_|OpenClone_|KUBE)' | sort
             ;;
             
         "all")

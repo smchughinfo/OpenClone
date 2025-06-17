@@ -1,6 +1,6 @@
-# CICD - OpenClone Infrastructure & Development Environment
+# IAC - OpenClone Infrastructure & Development Environment
 
-![OpenClone CICD Overview](/Documentation/cicd.png)
+![OpenClone IAC Overview](/Documentation/iac.png)
 
 ## What is this?
 

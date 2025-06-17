@@ -76,7 +76,7 @@ set_terraform_workspace() {
 }
 
 get_terraform_environment() {
-    if [ "$Server_0_CICD_ENV" == "server-0" ]; then
+    if [ "$Server_0_IAC_ENV" == "server-0" ]; then
         echo "$ENV_VULTR_DEV"
         return
     fi

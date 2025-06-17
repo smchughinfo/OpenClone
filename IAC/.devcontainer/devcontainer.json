@@ -1,11 +1,11 @@
 {
-    "name": "CICD",
+    "name": "IAC",
     // DOCKER-COMPOSE.YML does the following things only:
     // 1. used to set container and image name
     // 2. used to mount directories where the source path is composed of a host environment variable
     "dockerComposeFile": "docker-compose.yml",
-    "service": "cicd", // this corresponds to docker-compose.yml > serices > cicd
-    "workspaceFolder": "/workspaces/CICD", // this corresponds to docker-compose.yml > services > CICD > volumes > */workspaces/CICD if you don't use a docker-compose.yml this the directory the devcontainer uses by defualt
+    "service": "iac", // this corresponds to docker-compose.yml > serices > iac
+    "workspaceFolder": "/workspaces/IAC", // this corresponds to docker-compose.yml > services > IAC > volumes > */workspaces/IAC if you don't use a docker-compose.yml this the directory the devcontainer uses by defualt
     "shutdownAction": "stopCompose",
     // END DOCKERCOMPOSE.YML
     "mounts": [ // todo: i think the directories in this block can be replaced with symlinks.
@@ -54,7 +54,7 @@
     "remoteEnv": {
         "OpenClone_Root_Dir": "${localEnv:OpenClone_Root_Dir}"
     },
-    "initializeCommand": "start powershell.exe -NoProfile -ExecutionPolicy Bypass -File ${localEnv:OpenClone_Root_Dir}/CICD/scripts/devcontainer-host/host-command-runner.ps1",
+    "initializeCommand": "start powershell.exe -NoProfile -ExecutionPolicy Bypass -File ${localEnv:OpenClone_Root_Dir}/IAC/scripts/devcontainer-host/host-command-runner.ps1",
     "postCreateCommand": "chmod -R 777 /setup-container.sh && /setup-container.sh",
     "customizations": {
         "vscode": {
@@ -129,7 +129,7 @@
                             "cwd": "/scripts/docker-cli",
                             "name": "$(extensions) I",
                             "color": "#FFFFFF",
-                            "command": "./push-containers.sh --push_container openclone-cicd"
+                            "command": "./push-containers.sh --push_container openclone-iac"
                         },
                         {
                             "cwd": "/scripts/server-0",
@@ -224,7 +224,7 @@
                             "name": "$(chat-editor-label-icon) Claude TMUX",
                             "color": "#FFA166",
                             "singleInstance": true,
-                              "command": "tmux new-session -d -s cicd-shared && tmux send-keys -t cicd-shared 'echo \"TMUX Session started. Ask claude to join session cicd-shared\"' Enter && tmux attach-session -t cicd-shared"
+                              "command": "tmux new-session -d -s iac-shared && tmux send-keys -t iac-shared 'echo \"TMUX Session started. Ask claude to join session iac-shared\"' Enter && tmux attach-session -t iac-shared"
                         }
                     ]
                 }

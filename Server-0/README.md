@@ -55,8 +55,8 @@ NODE_ENV=production
 - `POST /cluster/start-cluster` - Background cluster provisioning
 - `POST /webhooks/stripe` - Stripe payment verification
 
-**Integration with CICD:**
-- Server-0 leverages CICD container logic for Server-0-Delta provisioning
+**Integration with IAC:**
+- Server-0 leverages IAC container logic for Server-0-Delta provisioning
 - Background scripts execute cluster creation via `./start-cluster.sh`
 - All operations logged to `logs/start-cluster.log` for monitoring
 

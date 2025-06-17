@@ -22,10 +22,10 @@ EOF
     
     # setup server 0 delta (the vps)
     upload_script $main_ip $default_password "$setup_server_0_path" "/setup_server_0.sh" true
-    ## setup the server 0 delta container (this project, with all the kubernetes stuff, aka openclone-cicd)
+    ## setup the server 0 delta container (this project, with all the kubernetes stuff, aka openclone-iac)
     upload_script $main_ip $default_password "$setup_server_0_container_path" "/setup_server_0_container.sh" true
     ## print /setup_server_0_container.sh logs
-    execute_server_0_command $main_ip $default_password "docker logs openclone-cicd-server-0"
+    execute_server_0_command $main_ip $default_password "docker logs openclone-iac-server-0"
     ## copy the start cluster script to the server 0 delta vps, which is what's used by the paywall website to start the cluster after the user pays.
     upload_script $main_ip $default_password "/scripts/server-0/start-cluster.sh" "/start-cluster.sh"
 }
@@ -52,7 +52,7 @@ get_kube_config() {
     # Copy the kubeconfig file from the container to the host, then download it
     sshpass -p "$default_password" ssh -o StrictHostKeyChecking=no root@$main_ip "
         # Copy kubeconfig from container to host
-        docker cp openclone-cicd-server-0:/terraform/vultr-dev-kube-config.yaml /tmp/vultr-dev-kube-config.yaml
+        docker cp openclone-iac-server-0:/terraform/vultr-dev-kube-config.yaml /tmp/vultr-dev-kube-config.yaml
         
         # Output the file content so we can capture it
         cat /tmp/vultr-dev-kube-config.yaml
@@ -92,7 +92,7 @@ open_container_terminal() {
     ip_address="$1"
     password="$2"
     execute_server_0_command "$ip_address" "$password"'
-        CONTAINER_NAME="openclone-cicd-server-0"
+        CONTAINER_NAME="openclone-iac-server-0"
 
         if docker ps -a --format "{{.Names}}\t{{.Status}}" | grep -q "$CONTAINER_NAME"; then
             if docker ps --format "{{.Names}}" | grep -q "$CONTAINER_NAME"; then

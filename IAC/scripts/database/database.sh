@@ -70,7 +70,7 @@ function restore() {
     log_connection="$(get_external_super_connectionstring "$TF_VAR_openclone_logdb_name")"
 
     # Determine script extension based on environment
-    if [[ "$Server_0_CICD_ENV" == "server-0" ]]; then
+    if [[ "$Server_0_IAC_ENV" == "server-0" ]]; then
         script_ext="sh"
     else
         script_ext="bat"
@@ -87,7 +87,7 @@ function restore() {
     command+=" --log_db_user_password \"$TF_VAR_openclone_logdb_password\""
 
     # Execute based on environment
-    if [[ "$Server_0_CICD_ENV" == "server-0" ]]; then
+    if [[ "$Server_0_IAC_ENV" == "server-0" ]]; then
         # Execute directly on Linux
         eval "$command"
     else

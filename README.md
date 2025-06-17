@@ -33,7 +33,7 @@ Image segmentation service that removes backgrounds from user photos and perform
 ### 📊 **LogViewer** (Python Flask)
 Monitoring dashboard that provides system insights, error tracking, and performance metrics across all OpenClone components.
 
-### 🔧 **CICD** (Kubernetes + Terraform)
+### 🔧 **IAC** (Kubernetes + Terraform)
 DevOps infrastructure for deploying OpenClone to cloud environments, including Kubernetes clusters, databases, and monitoring systems.
 
 ### 🤖 **Code Assistant Integrattion**

@@ -33,7 +33,7 @@ push_container() {
 
     echo "remote name: $remote_name"
 
-    if [[ "$image_name" == "openclone-cicd" ]]; then
+    if [[ "$image_name" == "openclone-iac" ]]; then
         local_name="${image_name}:1.0"
         dockerfile="Dockerfile_ForDeployment"
         echo "deleting /terraform/.terraform for clean image creation"
@@ -71,8 +71,8 @@ get_container_build_path() {
         "openclone-database")
             echo "$OpenClone_Root_Dir/Database"
             ;;
-        "openclone-cicd")
-            echo "$OpenClone_Root_Dir/CICD"
+        "openclone-iac")
+            echo "$OpenClone_Root_Dir/IAC"
             ;;
         "openclone-website")
             echo "$OpenClone_Root_Dir/Website"

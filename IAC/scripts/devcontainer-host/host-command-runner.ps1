@@ -78,8 +78,8 @@ $windowStateChangeSuccess = [Win32]::ShowWindow($handle, $SW_MINIMIZE)
 #################################################################################################
 
 # Set the path to the script to monitor
-$scriptPath = Join-Path $env:OpenClone_Root_Dir 'CICD\scripts\devcontainer-host\script-to-run.bat'
-$directoryPath = Join-Path $env:OpenClone_Root_Dir 'CICD\scripts\devcontainer-host'
+$scriptPath = Join-Path $env:OpenClone_Root_Dir 'IAC\scripts\devcontainer-host\script-to-run.bat'
+$directoryPath = Join-Path $env:OpenClone_Root_Dir 'IAC\scripts\devcontainer-host'
 
 # delete files that were left over from last time this script ran (dev mistake, crash, etc.). 
 # ...actually i don't like this. if you accidentally close the window and restart vscode to start this script you lose what you were doing

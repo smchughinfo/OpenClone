@@ -24,12 +24,12 @@ When the user asks to "remember this conversation", "save session memory", or si
 3. Include: main topics discussed, technical solutions implemented, workflow changes, important context for future sessions
 4. Reference previous session memory files when relevant to current discussions
 
-## CICD Container Integration
-Claude can execute infrastructure commands inside the CICD dev container:
-- **Command Execution**: Use `/StartStopScripts/Claude/cicd-exec.sh "command"` for single commands
-- **Shared Terminal**: User creates CICD tmux session via VS Code button, then asks Claude to join
+## IAC Container Integration
+Claude can execute infrastructure commands inside the IAC dev container:
+- **Command Execution**: Use `/StartStopScripts/Claude/iac-exec.sh "command"` for single commands
+- **Shared Terminal**: User creates IAC tmux session via VS Code button, then asks Claude to join
 - **Container Tools**: kubectl (`k`), terraform, vultr-api, and deployment scripts
-- **Full Documentation**: See `/CICD/CLAUDE.md` for comprehensive integration instructions
+- **Full Documentation**: See `/IAC/CLAUDE.md` for comprehensive integration instructions
 
 ## Shared Terminal Setup (ALWAYS DO THIS FIRST)
 At the start of every session:
@@ -76,5 +76,5 @@ One of the main architectural tenants of this project is that it should work wit
     - 'databaserestore' renamed to 'database'
     - 'StartStopScripts' previously inside Website
   * Container naming convention: all project containers prefixed with 'openclone-'
-    - Examples: openclone-website, openclone-SadTalker, openclone-U-2-Net, openclone-CICD
+    - Examples: openclone-website, openclone-SadTalker, openclone-U-2-Net, openclone-IAC
   * Anticipating potential issues during project revival
