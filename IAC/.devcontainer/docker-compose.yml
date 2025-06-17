@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  iac:
+  openclone-iac:
     image: openclone-iac:1.0
     container_name: openclone-iac
     build:

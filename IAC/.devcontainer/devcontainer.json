@@ -4,7 +4,7 @@
     // 1. used to set container and image name
     // 2. used to mount directories where the source path is composed of a host environment variable
     "dockerComposeFile": "docker-compose.yml",
-    "service": "iac", // this corresponds to docker-compose.yml > serices > iac
+    "service": "openclone-iac", // this corresponds to docker-compose.yml > serices > iac
     "workspaceFolder": "/workspaces/IAC", // this corresponds to docker-compose.yml > services > IAC > volumes > */workspaces/IAC if you don't use a docker-compose.yml this the directory the devcontainer uses by defualt
     "shutdownAction": "stopCompose",
     // END DOCKERCOMPOSE.YML
