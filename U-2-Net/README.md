@@ -22,7 +22,9 @@ Run using script: `/StartStopScripts/U-2-Net/start.bat`
 5. `cd U-2-Net`
 6. `code .`
 7. `ctrl+shift+p > Python: Create Environment > Venv > Python 3.8.8rc 64-bit`
-8. `pip install -r U-2-Net/requirements.txt`
+8. `.\.venv\Scripts\activate`
+9. `pip install torch==2.3.1 torchvision==0.18.1 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu118`
+9. `pip install -r U-2-Net/requirements.txt`
 
 **Note:** GeForce drivers must support the CUDA version being used.
 

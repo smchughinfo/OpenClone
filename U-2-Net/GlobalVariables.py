@@ -14,3 +14,5 @@ log_ip = os.getenv('OpenClone_DB_Host')
 InitializeLogWeaver(log_ip, os.getenv("OpenClone_DB_Port"), os.getenv("OpenClone_LogDB_Name"), os.getenv("OpenClone_LogDB_User"), os.getenv("OpenClone_LogDB_Password"))
 applicationLog = LogWeaver("U-2-Net", server_ip_address, level=LogWeaver.INFO, loggerName="U-2-Net")
 applicationLog.increment_run_number()
+
+os.environ["CUDA_VISIBLE_DEVICES"] = os.getenv("OpenClone_CUDA_VISIBLE_DEVICES") # this allows all of the environment variables to start with OpenClone''

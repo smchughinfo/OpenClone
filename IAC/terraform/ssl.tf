@@ -32,7 +32,7 @@ resource "null_resource" "wait_for_nginx_ingress" {
   depends_on = [null_resource.install_nginx_ingress]
   
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig=\"${var.kube_config_path}\" wait --namespace ingress-nginx --for=condition=ready pod --selector=app.kubernetes.io/component=controller --timeout=300s"
+    command = "kubectl --kubeconfig=\"${var.kube_config_path}\" wait --namespace ingress-nginx --for=condition=ready pod --selector=app.kubernetes.io/component=controller --timeout=1800s"
   }
 }
 
@@ -45,7 +45,7 @@ data "kubernetes_service" "nginx_ingress_controller" {
     namespace = "ingress-nginx"
   }
   
-  depends_on = [null_resource.wait_for_nginx_ingress]
+  depends_on = [null_resource.wait_for_nginx_ingress_ip]
 }
 
 ################################################################################
@@ -90,7 +90,7 @@ resource "null_resource" "wait_for_cert_manager" {
   depends_on = [null_resource.install_cert_manager]
   
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig=\"${var.kube_config_path}\" wait --namespace cert-manager --for=condition=ready pod --selector=app.kubernetes.io/instance=cert-manager --timeout=300s"
+    command = "kubectl --kubeconfig=\"${var.kube_config_path}\" wait --namespace cert-manager --for=condition=ready pod --selector=app.kubernetes.io/instance=cert-manager --timeout=1800s"
   }
 }
 
@@ -101,7 +101,7 @@ resource "null_resource" "wait_for_cert_manager_crds" {
   depends_on = [null_resource.wait_for_cert_manager]
   
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig=\"${var.kube_config_path}\" wait --for condition=established --timeout=300s crd/clusterissuers.cert-manager.io && sleep 10"
+    command = "kubectl --kubeconfig=\"${var.kube_config_path}\" wait --for condition=established --timeout=1800s crd/clusterissuers.cert-manager.io && sleep 10"
   }
 }
 
@@ -224,5 +224,36 @@ resource "kubernetes_ingress_v1" "website_ingress" {
         }
       }
     }
+  }
+}
+
+################################################################################
+######## NGINX(SSL) LOAD BALANCER RETRY LOGIC ##################################
+################################################################################
+
+# Wait for nginx ingress controller to get external IP
+resource "null_resource" "wait_for_nginx_ingress_ip" {
+  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  
+  depends_on = [null_resource.wait_for_nginx_ingress]
+  
+  provisioner "local-exec" {
+    command = <<-EOT
+      echo "Waiting for nginx ingress controller to get external IP..."
+      timeout=1800  # 30 minutes
+      elapsed=0
+      while [ $elapsed -lt $timeout ]; do
+        ip=$(kubectl --kubeconfig="${var.kube_config_path}" get service ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "")
+        if [ -n "$ip" ] && [ "$ip" != "<nil>" ]; then
+          echo "Nginx ingress external IP found: $ip"
+          exit 0
+        fi
+        echo "Waiting for nginx ingress external IP... ($elapsed/$timeout seconds)"
+        sleep 30
+        elapsed=$((elapsed + 30))
+      done
+      echo "Timeout waiting for nginx ingress external IP"
+      exit 1
+    EOT
   }
 }

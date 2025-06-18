@@ -1,3 +1,5 @@
+!u2net_human_seg.pth
+
 checkpoints/
 *.tar
 *.pth

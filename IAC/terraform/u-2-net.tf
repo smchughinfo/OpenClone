@@ -51,7 +51,7 @@ resource "kubernetes_deployment" "openclone-u-2-net" {
           }
           env {
             name  = "OpenClone_CUDA_VISIBLE_DEVICES"
-            value = ""
+            value = "0" # todo: come back and double check if setting this to blank still has it using the gpu (which would allow it to fall back to the cpu, even though all the cpu's i've seen look like they will be too slow for this anyways)
           }
           env {
             name  = "OpenClone_DB_Host"

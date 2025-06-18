@@ -14,7 +14,7 @@ list_kubernetes_clusters() {
 }
 
 create_kubernetes_cluster() {
-    all_deployments_node_plan=$(get_cheapest_cpu_node_plan)
+    all_deployments_node_plan=$1
     echo "Using node plan: $all_deployments_node_plan"
 
     json_data=$(jo \

@@ -8,7 +8,33 @@ source /vultr-api/domains.sh
 
 create_cluster() {
     echo "begin create vultr cluster..."
-    create_kubernetes_cluster
+    
+    while true; do
+        echo "Choose cluster type:"
+        echo "1) CPU cluster (cheapest CPU nodes)"
+        echo "2) GPU cluster (cheapest GPU nodes)"
+        echo -n "Enter your choice (1 or 2): "
+        read choice
+        
+        case $choice in
+            1)
+                echo "Creating CPU cluster..."
+                node_plan=$(get_cheapest_cpu_node_plan)
+                break
+                ;;
+            2)
+                echo "Creating GPU cluster..."
+                node_plan=$(get_cheapest_gpu_node_plan)
+                break
+                ;;
+            *)
+                echo "Invalid choice. Please enter 1 or 2."
+                echo ""
+                ;;
+        esac
+    done
+    
+    create_kubernetes_cluster $node_plan
     wait_for_kube_config
     wait_until_all_nodes_are_ready
 }

@@ -36,6 +36,95 @@ k apply -f deployment.yaml
 
 This eliminates the need to manually specify `--kubeconfig` flags and prevents accidentally running commands against the wrong cluster.
 
+## Automated Deployment Workflow
+
+**Primary Deployment Command:**
+```bash
+/scripts/cluster_create_and_destroy/create.sh --create
+```
+
+**DO NOT use direct `terraform apply`** - The OpenClone IAC system includes extensive automation logic that wraps Terraform.
+
+### Deployment Sequence (`create.sh --create`)
+
+The automated deployment follows this orchestrated sequence:
+
+1. **Environment Setup**
+   - Sets Terraform workspace based on `$TF_VAR_environment`
+   - Sources environment-specific logic (kind vs vultr)
+
+2. **Cluster Creation** (if needed)
+   - Checks if cluster exists with `does_cluster_exist()`
+   - Creates cluster via environment-specific scripts:
+     - **Kind**: `/scripts/cluster_create_and_destroy/kind/cluster.sh`
+     - **Vultr**: `/scripts/cluster_create_and_destroy/vultr/cluster.sh`
+
+3. **Terraform Initialization**
+   - Runs `terraform init` in `/terraform` directory
+
+4. **Longhorn Storage Installation**
+   - Calls `install_longhorn()` from `/scripts/openclone-fs/longhorn/longhorn.sh`
+   - Downloads and applies Longhorn YAML manifests
+   - Installs NFS support for ReadWriteMany volumes
+   - **Critical**: Storage system must be ready before workloads deploy
+
+5. **Application Deployment via Terraform**
+   - Runs `terraform apply -auto-approve` with dynamic variables:
+     - `dns_already_created`: Checks if domain exists to avoid conflicts
+     - `image_name_*`: Resolves current container image tags from registry
+   - Deploys all OpenClone services with resolved image versions
+
+### Container Image Resolution
+
+The system automatically resolves the latest available container image tags:
+
+**Tag Resolution Logic** (`/scripts/docker-cli/tag-resolver.sh`):
+- **Kind Environment**: Uses `localhost:5001/[service]:1.0` (local registry)
+- **Vultr Environment**: Queries Vultr Container Registry for latest version tags
+- **Version Format**: `X.0` (e.g., `1.0`, `2.0`, `3.0`)
+- **Auto-Discovery**: Finds highest numbered tag that exists in registry
+
+**Resolved Images Passed to Terraform**:
+- `image_name_openclone_sadtalker`
+- `image_name_openclone_u-2-net`  
+- `image_name_openclone_database`
+- `image_name_openclone_website`
+
+### Storage System Race Condition
+
+**Common Issue**: Workloads fail to schedule due to "unbound immediate PersistentVolumeClaims"
+
+**Root Cause**: 
+- Longhorn storage system needs several minutes to fully initialize
+- PVCs request `longhorn-rwx` storage class immediately
+- Storage provisioner not ready to fulfill requests yet
+- Results in pods stuck in `Pending` state
+
+**Solution Strategy**:
+- **Retry deployment**: Same command often succeeds on second run after Longhorn is ready
+- **Wait period**: Longhorn typically needs 5-10 minutes for full initialization
+- **Verification**: Check `k get pods -n longhorn-system` for readiness
+
+**Deployment Duration**:
+- **Expected Time**: Full deployment can take **up to 1 hour** to complete
+- **Do NOT cancel**: Long deployment times are normal for complete cluster setup
+- **Progress Indicators**: Look for "Still creating..." rather than immediate failures
+
+### Environment-Specific Behavior
+
+**Kind (Local Development)**:
+- Uses local Docker registry at `localhost:5001`
+- Custom Longhorn NFS configuration for containerized nodes
+- Simpler networking and storage setup
+
+**Vultr (Cloud Deployment)**:
+- Queries Vultr Container Registry for image versions
+- Full distributed storage with Longhorn
+- External load balancers and DNS configuration
+- Domain and SSL certificate management
+
+This automated workflow ensures consistent, repeatable deployments while handling the complexities of container image versioning, storage provisioning, and environment-specific configurations.
+
 ## Host Command Execution
 
 **Host Command Runner (PowerShell Buddy) for Windows Host Commands**

@@ -224,7 +224,7 @@
                             "name": "$(chat-editor-label-icon) Claude TMUX",
                             "color": "#FFA166",
                             "singleInstance": true,
-                              "command": "tmux new-session -d -s iac-shared && tmux send-keys -t iac-shared 'echo \"TMUX Session started. Ask claude to join session iac-shared\"' Enter && tmux attach-session -t iac-shared"
+                              "command": "tmux new-session -d -s iac-shared && tmux set -g mouse on && tmux send-keys -t iac-shared 'echo \"TMUX Session started. Ask claude to join session iac-shared\"' Enter && tmux attach-session -t iac-shared"
                         }
                     ]
                 }

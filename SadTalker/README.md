@@ -22,8 +22,12 @@ Run using script: `/StartStopScripts/SadTalker/start.bat`
 5. `cd SadTalker`
 6. `code .`
 7. `ctrl+shift+p > Python: Create Environment > Venv > Python 3.8.8rc 64-bit`
-8. `pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118`
-9. `pip install -r SadTalker/requirements.txt`
+8. .\.venv\Scripts\activate
+9. `pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118`
+10. `pip install -r SadTalker/requirements.txt`
+11. **Download AI Model Checkpoints**: Extract and place in `SadTalker/checkpoints/` directory
+    - **Official**: [SadTalker Models](https://drive.google.com/file/d/1gwWh45pF7aelNP_P78uDJL8Sycep-K7j/view) (Original from SadTalker GitHub)
+    - **Mirror**: [Backup Models](https://drive.google.com/file/d/1DyeiBYmVTiwXQIzCIGqFA8Kc86iL6d1I/view?usp=sharing) (OpenClone mirror)
 
 **Note:** torchvision==0.17.0+ removes functions required by SadTalker. GeForce drivers must support CUDA 11.8.
 

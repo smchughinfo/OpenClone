@@ -162,7 +162,7 @@ resource "vultr_dns_record" "openclone_ai_app_record" {
   type   = "A"
   data   = data.kubernetes_service.nginx_ingress_controller[0].status[0].load_balancer[0].ingress[0].ip
 
-  depends_on = [data.kubernetes_service.nginx_ingress_controller[0]]
+  depends_on = [null_resource.wait_for_nginx_ingress_ip]
 
   lifecycle {
     prevent_destroy = true
