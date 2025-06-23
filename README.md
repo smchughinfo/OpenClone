@@ -1,5 +1,7 @@
 # OpenClone
 
+**Note (6/24/2025):** I need to redo this video and improve the documentation for this project in general. The video is hard to watch and you can tell the documentation is largely AI generated and doesn't cover the big picture very well at all. There are good architectural choices here that you can't see by just looing at the code. I will redo this at the next available opportunity.
+
 [![Video Intro](https://img.youtube.com/vi/-HNyzIxsI2c/0.jpg)](https://youtu.be/-HNyzIxsI2c)
 
 Create AI-powered digital clones that talk, think, and interact just like you! OpenClone uses cutting-edge deepfake technology to bring your personal AI avatars to life.
