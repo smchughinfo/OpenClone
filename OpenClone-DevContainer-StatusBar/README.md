@@ -4,9 +4,9 @@
 
 ## What is this?
 
-This is a VS Code extension that displays custom environment information in the status bar. It reads configuration from `.vscode/settings.json` to show text and coordinate with status bar color changes, providing visual confirmation of which development environment you're working in. The extension is designed for the OpenClone CICD workflow where developers switch between multiple deployment environments.
+This is a VS Code extension that displays custom environment information in the status bar. It reads configuration from `.vscode/settings.json` to show text and coordinate with status bar color changes, providing visual confirmation of which development environment you're working in. The extension is designed for the OpenClone IAC workflow where developers switch between multiple deployment environments.
 
-The extension is published on the VS Code Marketplace and integrates with shell scripts in the CICD project that automatically update the status bar when switching environments via `jq` commands that modify the settings file.
+The extension is published on the VS Code Marketplace and integrates with shell scripts in the IAC project that automatically update the status bar when switching environments via `jq` commands that modify the settings file.
 
 ## Setup
 

@@ -23,6 +23,7 @@ WORKDIR /app
 COPY . /app
 
 # Change to the u-2-net directory and install required Python packages
+RUN pip install torch==2.3.1 torchvision==0.18.1 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu118
 RUN pip install -r ./U-2-Net/requirements.txt
 
 # Run app.py when the container launches

@@ -1,5 +1,7 @@
 # OpenClone
 
+**Note (6/24/2025):** I need to redo this video and improve the documentation for this project in general. The video is hard to watch and you can tell the documentation is largely AI generated and doesn't cover the big picture very well at all. There are good architectural choices here that you can't see by just looing at the code. I will redo this at the next available opportunity.
+
 [![Video Intro](https://img.youtube.com/vi/-HNyzIxsI2c/0.jpg)](https://youtu.be/-HNyzIxsI2c)
 
 Create AI-powered digital clones that talk, think, and interact just like you! OpenClone uses cutting-edge deepfake technology to bring your personal AI avatars to life.
@@ -33,7 +35,7 @@ Image segmentation service that removes backgrounds from user photos and perform
 ### 📊 **LogViewer** (Python Flask)
 Monitoring dashboard that provides system insights, error tracking, and performance metrics across all OpenClone components.
 
-### 🔧 **CICD** (Kubernetes + Terraform)
+### 🔧 **IAC** (Kubernetes + Terraform)
 DevOps infrastructure for deploying OpenClone to cloud environments, including Kubernetes clusters, databases, and monitoring systems.
 
 ### 🤖 **Code Assistant Integrattion**
@@ -65,7 +67,7 @@ Want to start individual services? Use these batch files:
 - `StartStopScripts/Database/start.bat` - Start the database
 - `StartStopScripts/SadTalker/start.bat` - Start video generation
 - `StartStopScripts/U-2-Net/start.bat` - Start background removal
-- `StartStopScripts/OpenClone/start.bat` - Start the main website
+- `StartStopScripts/Website/start.bat` - Start the main website
 
 ## What You'll Need
 

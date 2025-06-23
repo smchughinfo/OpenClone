@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openclone-logweaver"
+version = "1.0.1"
+description = "Asynchronous database logging system with queuing and threading for Python applications"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Sean McHugh"}
+]
+maintainers = [
+    {name = "Sean McHugh"}
+]
+keywords = ["logging", "database", "postgresql", "async", "threading", "queue"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Logging",
+    "Topic :: Database"
+]
+requires-python = ">=3.8"
+dependencies = [
+    "psycopg2-binary>=2.8.0",
+    "pytz>=2021.1"
+]
+
+[project.urls]
+Homepage = "https://github.com/smchughinfo/logweaver"
+Repository = "https://github.com/smchughinfo/logweaver"
+Issues = "https://github.com/smchughinfo/logweaver/issues"
+Documentation = "https://github.com/smchughinfo/logweaver#readme"
+
+[tool.setuptools]
+packages = ["LogWeaver"]

@@ -124,9 +124,9 @@ The `/Backups` directory contains complete bootstrap data for rapid system setup
 ## Scalability Considerations
 **Current State**: Database runs in a single container/deployment for development simplicity.
 
-**Future Architecture**: Database should eventually be moved onto `/OpenCloneFS` for better scalability. The CICD project already uses Longhorn storage which provides ReadWriteMany access - a step in the right direction.
+**Future Architecture**: Database should eventually be moved onto `/OpenCloneFS` for better scalability. The IAC project already uses Longhorn storage which provides ReadWriteMany access - a step in the right direction.
 
-**Scope**: Extensive scalability work remains for both database and OpenCloneFS components, but this is considered CICD-level architecture rather than core database/schema work. The Database project focuses on data structure and schema design, while scalability decisions belong in the CICD project.
+**Scope**: Extensive scalability work remains for both database and OpenCloneFS components, but this is considered IAC-level architecture rather than core database/schema work. The Database project focuses on data structure and schema design, while scalability decisions belong in the IAC project.
 
 **Development Status**: Core database functionality is 99% complete - scalability features are architectural enhancements rather than core requirements.
 

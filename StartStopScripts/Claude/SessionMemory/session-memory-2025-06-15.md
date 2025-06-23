@@ -20,7 +20,7 @@ Major breakthrough session implementing comprehensive Windows Terminal profile i
 - `OpenCloneWebsite` - Main ASP.NET application
 - `OpenCloneWebPack` - Frontend development server
 - `OpenCloneLogViewer` - Monitoring dashboard
-- `OpenCloneHostCommandRunner` - CICD host command bridge (attempted)
+- `OpenCloneHostCommandRunner` - IAC host command bridge (attempted)
 
 ### 2. Windows Terminal Tab Grouping (THE BIG WIN!)
 **Problem Solved**: Juggling 8+ separate terminal windows during development
@@ -58,7 +58,7 @@ Major breakthrough session implementing comprehensive Windows Terminal profile i
 **Improvements Made**:
 - Updated StartStopScripts README.md with Windows Terminal themes section
 - Added instructions for installing terminal profiles and icon
-- Clarified PowerShell Buddy vs Host Command Runner terminology in CICD docs
+- Clarified PowerShell Buddy vs Host Command Runner terminology in IAC docs
 - Provided setup instructions for visual themes
 
 ## Technical Achievements
@@ -97,11 +97,11 @@ Major breakthrough session implementing comprehensive Windows Terminal profile i
 
 ### Documentation Updates:
 - `/StartStopScripts/README.md` - Added Windows Terminal themes section
-- `/CICD/CLAUDE.md` - Clarified PowerShell Buddy terminology
+- `/IAC/CLAUDE.md` - Clarified PowerShell Buddy terminology
 
 ### Other Enhancements:
 - `/StartStopScripts/Claude/screenshot-watcher.ps1` - Added cleanup before saving new screenshots
-- `/CICD/.devcontainer/devcontainer.json` - Attempted host command runner profile integration (reverted)
+- `/IAC/.devcontainer/devcontainer.json` - Attempted host command runner profile integration (reverted)
 
 ## Key Innovations
 

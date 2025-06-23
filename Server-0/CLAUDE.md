@@ -101,14 +101,14 @@ POST /cluster/start-cluster
 - Error handling and recovery
 
 
-## CICD Container Reuse Strategy
+## IAC Container Reuse Strategy
 
 ### Shared Infrastructure Logic
-Server-0 leverages the CICD container for cluster provisioning:
+Server-0 leverages the IAC container for cluster provisioning:
 
-1. **Local Development**: CICD container used as dev environment
-2. **Server-0**: Runs CICD container to create Server-0-Delta instances  
-3. **Server-0-Delta**: Runs CICD container to provision Kubernetes cluster
+1. **Local Development**: IAC container used as dev environment
+2. **Server-0**: Runs IAC container to create Server-0-Delta instances  
+3. **Server-0-Delta**: Runs IAC container to provision Kubernetes cluster
 
 **Benefits**:
 - Centralized infrastructure logic, variables, and scripts
@@ -160,7 +160,7 @@ NODE_ENV=production
 ### Server-0-Delta Creation
 - **Trigger**: POST /cluster/start-cluster after payment verification
 - **Mechanism**: VPS snapshot deployment via hosting provider API
-- **Provisioning Script**: Leverages CICD container and scripts
+- **Provisioning Script**: Leverages IAC container and scripts
 - **Lifecycle**: Temporary instance destroyed after session timeout
 
 ### OpenClone Cluster
@@ -183,4 +183,4 @@ NODE_ENV=production
 
 This architecture treats Server-0 as an efficient "front door" that only opens expensive GPU resources when users are willing to pay for them, dramatically reducing infrastructure costs while maintaining accessibility.
 
-**Infrastructure Context**: See `/CICD/CLAUDE.md` for deployment orchestration, multi-environment support, and infrastructure architecture rationale.
+**Infrastructure Context**: See `/IAC/CLAUDE.md` for deployment orchestration, multi-environment support, and infrastructure architecture rationale.

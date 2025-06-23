@@ -1,12 +1,12 @@
 # OpenClone-DevContainer-StatusBar
 
 ## Overview
-OpenClone-DevContainer-StatusBar is a VS Code extension that provides visual environment indication in the status bar when working with the OpenClone CICD application. It displays custom text and status bar color to clearly identify which development environment you're currently working in.
+OpenClone-DevContainer-StatusBar is a VS Code extension that provides visual environment indication in the status bar when working with the OpenClone IAC application. It displays custom text and status bar color to clearly identify which development environment you're currently working in.
 
 ## Purpose
 **Environment Awareness**: Prevents confusion when working across multiple development environments (local, remote, kind, vultr_dev, etc.) by providing prominent visual cues in the VS Code interface.
 
-**CICD Integration**: Specifically designed for OpenClone CICD workflows where developers frequently switch between different deployment environments and need clear visual confirmation of their current context.
+**IAC Integration**: Specifically designed for OpenClone IAC workflows where developers frequently switch between different deployment environments and need clear visual confirmation of their current context.
 
 ## Public Availability
 - **Published Extension**: Available on VS Code Marketplace
@@ -98,23 +98,23 @@ OpenClone-DevContainer-StatusBar/
 └── vsc-extension-quickstart.md # VS Code extension development guide
 ```
 
-## CICD Integration
+## IAC Integration
 
 ### Shell Script Usage
-The extension is actively used by the OpenClone CICD project through shell scripts located in `/CICD/scripts/status-bar.sh`:
+The extension is actively used by the OpenClone IAC project through shell scripts located in `/IAC/scripts/status-bar.sh`:
 
 **Helper Functions:**
 ```bash
 # Update status bar text
 set_statusbar_text() {
     jq --arg text "$1" '.["opencloneDevContainerStatusBar.text"] = $text' \
-       /workspaces/CICD/.vscode/settings.json > tmp.json && mv tmp.json settings.json
+       /workspaces/IAC/.vscode/settings.json > tmp.json && mv tmp.json settings.json
 }
 
 # Update status bar color
 set_statusbar_color() {
     jq --arg color "$1" '.["workbench.colorCustomizations"]["statusBar.background"] = $color' \
-       /workspaces/CICD/.vscode/settings.json > tmp.json && mv tmp.json settings.json
+       /workspaces/IAC/.vscode/settings.json > tmp.json && mv tmp.json settings.json
 }
 ```
 

@@ -1,7 +1,7 @@
 # Session Memory - June 14, 2025
 
 ## Overview
-Major breakthrough session establishing comprehensive Claude Code integration with OpenClone project, including shared terminals, screenshot automation, and CICD container integration.
+Major breakthrough session establishing comprehensive Claude Code integration with OpenClone project, including shared terminals, screenshot automation, and IAC container integration.
 
 ## Key Accomplishments
 
@@ -9,14 +9,14 @@ Major breakthrough session establishing comprehensive Claude Code integration wi
 **Problem Solved**: Need for real-time collaboration between user and Claude
 **Solution Implemented**:
 - Host tmux session (`openclone`) via WSL
-- CICD container tmux session (`cicd-shared`) 
+- IAC container tmux session (`iac-shared`) 
 - Claude can send commands to both sessions using `tmux send-keys`
 - Claude can view session content using `tmux capture-pane`
 
 **Files Created/Modified**:
 - `/StartStopScripts/Claude/start.bat` - Sets up host tmux automatically
-- `/StartStopScripts/Claude/stop.bat` - Cleans up both host and CICD sessions
-- `/StartStopScripts/Claude/cicd-exec.sh` - Command execution bridge to CICD container
+- `/StartStopScripts/Claude/stop.bat` - Cleans up both host and IAC sessions
+- `/StartStopScripts/Claude/iac-exec.sh` - Command execution bridge to IAC container
 
 ### 2. Screenshot Automation System
 **Problem Solved**: Difficulty sharing screenshots between user and Claude
@@ -30,18 +30,18 @@ Major breakthrough session establishing comprehensive Claude Code integration wi
 - `/StartStopScripts/Claude/screenshot-watcher.ps1` - Clipboard monitoring script
 - `/StartStopScripts/Claude/Screenshots/` - Auto-captured screenshot directory
 
-### 3. CICD Container Integration
+### 3. IAC Container Integration
 **Problem Solved**: Need for Claude to execute infrastructure commands (kubectl, terraform, etc.)
 **Solution Implemented**:
-- tmux installed in CICD container via Dockerfile update
+- tmux installed in IAC container via Dockerfile update
 - VS Code button integration for seamless session creation
 - Real-time shared terminal between user in VS Code and Claude
-- Access to full CICD toolset: kubectl (`k`), terraform, vultr-api, deployment scripts
+- Access to full IAC toolset: kubectl (`k`), terraform, vultr-api, deployment scripts
 
 **Files Created/Modified**:
-- `/CICD/Dockerfile` - Added tmux installation
-- `/CICD/.devcontainer/devcontainer.json` - Added "Claude TMUX" button
-- `/StartStopScripts/Claude/cicd-exec.sh` - Container command execution bridge
+- `/IAC/Dockerfile` - Added tmux installation
+- `/IAC/.devcontainer/devcontainer.json` - Added "Claude TMUX" button
+- `/StartStopScripts/Claude/iac-exec.sh` - Container command execution bridge
 
 ### 4. Documentation System Enhancements
 **Implemented**:
@@ -54,8 +54,8 @@ Major breakthrough session establishing comprehensive Claude Code integration wi
 **Final Workflow Established**:
 1. User runs `/StartStopScripts/Claude/start.bat` for host environment
 2. Claude automatically sets up host tmux and screenshot monitoring
-3. For CICD work: User clicks VS Code "Claude TMUX" button
-4. User tells Claude to "join the CICD tmux session"
+3. For IAC work: User clicks VS Code "Claude TMUX" button
+4. User tells Claude to "join the IAC tmux session"
 5. Real-time collaboration in both host and container environments
 
 ## Technical Achievements
@@ -63,7 +63,7 @@ Major breakthrough session establishing comprehensive Claude Code integration wi
 ### Container Environment
 - Successfully bridged Windows host ↔ WSL ↔ Docker container communication
 - Established persistent tmux sessions across different environments
-- Enabled Claude to execute commands in specialized CICD container
+- Enabled Claude to execute commands in specialized IAC container
 
 ### Automation Integration
 - Screenshot capture with duplicate prevention and auto-cleanup
@@ -77,23 +77,23 @@ Major breakthrough session establishing comprehensive Claude Code integration wi
 
 ## Files Created This Session
 - `/StartStopScripts/Claude/screenshot-watcher.ps1`
-- `/StartStopScripts/Claude/cicd-exec.sh`
+- `/StartStopScripts/Claude/iac-exec.sh`
 - `/StartStopScripts/Claude/Screenshots/` (directory)
 - `/StartStopScripts/README.md`
 - `/StartStopScripts/Claude/session-memory-2025-06-14.md` (this file)
 
 ## Files Modified This Session
-- `/CLAUDE.md` - Added Session Memory, CICD integration, CR command
-- `/CICD/CLAUDE.md` - Comprehensive Claude Code integration documentation
-- `/CICD/Dockerfile` - Added tmux installation
-- `/CICD/.devcontainer/devcontainer.json` - Added Claude TMUX button
+- `/CLAUDE.md` - Added Session Memory, IAC integration, CR command
+- `/IAC/CLAUDE.md` - Comprehensive Claude Code integration documentation
+- `/IAC/Dockerfile` - Added tmux installation
+- `/IAC/.devcontainer/devcontainer.json` - Added Claude TMUX button
 - `/StartStopScripts/Claude/start.bat` - Streamlined for host-only setup
-- `/StartStopScripts/Claude/stop.bat` - Added CICD session cleanup
+- `/StartStopScripts/Claude/stop.bat` - Added IAC session cleanup
 - `/README.md` - Added Component Overview and Claude Code integration sections
 
 ## Files Deleted This Session
-- `/StartStopScripts/Claude/cicd-tmux.sh` - Replaced by VS Code button
-- `/StartStopScripts/Claude/attach-cicd-tmux.bat` - Replaced by VS Code button
+- `/StartStopScripts/Claude/iac-tmux.sh` - Replaced by VS Code button
+- `/StartStopScripts/Claude/attach-iac-tmux.bat` - Replaced by VS Code button
 - `/StartStopScripts/Claude/start-screenshot-watcher.bat` - Redundant
 
 ## Key Innovations
@@ -101,11 +101,11 @@ Major breakthrough session establishing comprehensive Claude Code integration wi
 ### Dual Terminal Architecture
 - Separate but coordinated tmux sessions for different purposes
 - Host session for general development work
-- CICD container session for infrastructure/deployment work
+- IAC container session for infrastructure/deployment work
 - Claude can interact with both simultaneously
 
 ### VS Code Integration
-- Custom button command: `tmux new-session -d -s cicd-shared && tmux send-keys -t cicd-shared 'echo "TMUX Session started. Ask claude to join session cicd-shared"' Enter && tmux attach-session -t cicd-shared`
+- Custom button command: `tmux new-session -d -s iac-shared && tmux send-keys -t iac-shared 'echo "TMUX Session started. Ask claude to join session iac-shared"' Enter && tmux attach-session -t iac-shared`
 - Automatic session creation with helpful reminder message
 - Seamless transition from user action to Claude collaboration
 
@@ -116,15 +116,15 @@ Major breakthrough session establishing comprehensive Claude Code integration wi
 
 ## Future Implications
 This session establishes a foundation for:
-- Advanced infrastructure collaboration using CICD tools
+- Advanced infrastructure collaboration using IAC tools
 - Seamless visual communication via screenshot automation
 - Persistent knowledge preservation via session memory
 - Enhanced development workflows with AI assistance
 
 ## Context for Future Sessions
-- CICD container is always running with full toolset available
+- IAC container is always running with full toolset available
 - Screenshot system is automatic when start.bat is used
-- VS Code button provides immediate access to shared CICD terminal
+- VS Code button provides immediate access to shared IAC terminal
 - All integration tools are in `/StartStopScripts/Claude/` directory
 - Documentation is self-maintaining via CR command
 

@@ -2,6 +2,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
+# Install Node.js for npm/webpack build
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
+
 # Copy the solution file and restore dependencies
 COPY ["OpenClone.sln", "./"]
 
@@ -16,7 +20,13 @@ RUN dotnet restore
 # Copy all the source code into the Docker image
 COPY . .
 
+# Build frontend assets BEFORE building .NET
+WORKDIR /src/OpenClone.UI
+RUN npm install
+RUN npm run build
+
 # Build the solution
+WORKDIR /src
 RUN dotnet build "OpenClone.sln" -c Release -o /app/build
 
 # Publish the main project (the entry point of your app)

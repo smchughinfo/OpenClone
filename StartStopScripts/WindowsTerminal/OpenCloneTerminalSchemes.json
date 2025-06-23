@@ -211,7 +211,7 @@
                 "padding": "8, 8, 8, 8",
                 "snapOnInput": true,
                 "startingDirectory": "%USERPROFILE%",
-                "tabTitle": "\ud83d\udcf1OpenClone TMUX",
+                "tabTitle": "\ud83d\udcf1TMUX",
                 "useAcrylic": false
             },
             {
@@ -234,7 +234,7 @@
                 "padding": "8, 8, 8, 8",
                 "snapOnInput": true,
                 "startingDirectory": "%USERPROFILE%",
-                "tabTitle": "\ud83e\udd16 OpenClone Claude Code",
+                "tabTitle": "\ud83e\udd16 Claude Code",
                 "useAcrylic": false
             },
             {
@@ -257,7 +257,7 @@
                 "padding": "8, 8, 8, 8",
                 "snapOnInput": true,
                 "startingDirectory": "%USERPROFILE%",
-                "tabTitle": "\ud83d\udc64 OpenClone U2 Net",
+                "tabTitle": "\ud83d\udc64 U2 Net",
                 "useAcrylic": false
             },
             {
@@ -280,7 +280,7 @@
                 "padding": "8, 8, 8, 8",
                 "snapOnInput": true,
                 "startingDirectory": "%USERPROFILE%",
-                "tabTitle": "\u25b6\ufe0f OpenClone SadTalker",
+                "tabTitle": "\u25b6\ufe0f SadTalker",
                 "useAcrylic": false
             },
             {
@@ -303,7 +303,7 @@
                 "padding": "8, 8, 8, 8",
                 "snapOnInput": true,
                 "startingDirectory": "%USERPROFILE%",
-                "tabTitle": "\ud83d\udcbe OpenClone Database",
+                "tabTitle": "\ud83d\udcbe Database",
                 "useAcrylic": false
             },
             {
@@ -326,7 +326,7 @@
                 "padding": "8, 8, 8, 8",
                 "snapOnInput": true,
                 "startingDirectory": "%USERPROFILE%",
-                "tabTitle": "\ud83d\udd0d OpenClone LogViewer",
+                "tabTitle": "\ud83d\udd0d LogViewer",
                 "useAcrylic": false
             },
             {
@@ -349,7 +349,7 @@
                 "padding": "8, 8, 8, 8",
                 "snapOnInput": true,
                 "startingDirectory": "%USERPROFILE%",
-                "tabTitle": "\ud83d\udce6 + \u26a1OpenClone WebPack",
+                "tabTitle": "\ud83d\udce6 + \u26a1WebPack",
                 "useAcrylic": false
             },
             {
@@ -372,7 +372,7 @@
                 "padding": "8, 8, 8, 8",
                 "snapOnInput": true,
                 "startingDirectory": "%USERPROFILE%",
-                "tabTitle": "\ud83c\udf10 OpenClone Website",
+                "tabTitle": "\ud83c\udf10 Website",
                 "useAcrylic": false
             },
             {
@@ -395,7 +395,7 @@
                 "padding": "8, 8, 8, 8",
                 "snapOnInput": true,
                 "startingDirectory": "%USERPROFILE%",
-                "tabTitle": "\ud83d\udd17 OpenCloneHostCommandRunner",
+                "tabTitle": "\ud83d\udd17 HostCommandRunner",
                 "useAcrylic": false
             }
         ]

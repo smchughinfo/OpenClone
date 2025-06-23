@@ -1,7 +1,7 @@
 @echo off
 echo Stopping tmux sessions...
 wsl tmux kill-session -t openclone
-docker exec openclone-cicd bash -c "tmux kill-session -t cicd-shared 2>/dev/null || echo 'CICD session not running'"
+docker exec openclone-iac bash -c "tmux kill-session -t iac-shared 2>/dev/null || echo 'IAC session not running'"
 
 echo Stopping screenshot watcher...
 taskkill /F /FI "WINDOWTITLE eq Screenshot Watcher*" 2>nul

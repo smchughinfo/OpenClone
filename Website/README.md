@@ -35,6 +35,6 @@ If you see 404 errors for JavaScript bundles or React components don't work, run
 
 ## How to run it
 
-Set required environment variables (see root README.md for complete list). Run the container using `/StartStopScripts/OpenClone/start.bat` or start manually with the docker command. The application runs on port 8080 and requires SadTalker and U-2-Net services to be running for full functionality.
+Set required environment variables (see root README.md for complete list). Run the container using `/StartStopScripts/Website/start.bat` or start manually with the docker command. The application runs on port 8080 and requires SadTalker and U-2-Net services to be running for full functionality.
 
 For more technical details and architecture information, see [CLAUDE.md](CLAUDE.md).

@@ -67,4 +67,8 @@
 	  <Folder Include="wwwroot\lib\jsx\" />
 	</ItemGroup>
 
+	<PropertyGroup>
+	  <DefineConstants Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(DefineConstants);BUILDING_ON_WINDOWS</DefineConstants>
+	</PropertyGroup>
+
 </Project>
