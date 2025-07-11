@@ -1,7 +1,5 @@
 # OpenClone
 
-## What is OpenClone?
-
 OpenClone lets you build personalized AI clones that can:
 - 🗣️ **Talk like you** - Train with your voice for realistic speech
 - 🎭 **Look like you** - Create lifelike video avatars 
