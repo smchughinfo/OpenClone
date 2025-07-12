@@ -1,6 +1,6 @@
 # OpenClone
 
-### Video note (7/12/2025): Video isn't the best. I'm going to redo it sometime this week. Demo should be up on clonezone.me soon.
+### Video note (7/12/2025): Video isn't the best. I'm going to redo it. Demo should be up on clonezone.me soon.
 [![Video Intro](https://seanmchugh.dev/github-images/poster.png)](https://youtu.be/-HNyzIxsI2c)
 
 ## What Is OpenClone
