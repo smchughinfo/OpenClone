@@ -23,15 +23,15 @@ const checkClusterStatus = async (paymentIntentId) => {
 };
 
 const issueRefund = async (paymentIntentId, reason = 'Cluster failed to provision within 1 hour') => {
+  const paymentData = activePayments.get(paymentIntentId);
+  
+  if (!paymentData) {
+    console.log('⚠️ No payment data found for refund:', paymentIntentId);
+    return;
+  }
+  
   try {
     const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-    const paymentData = activePayments.get(paymentIntentId);
-    
-    if (!paymentData) {
-      console.log('⚠️ No payment data found for refund:', paymentIntentId);
-      return;
-    }
-    
     const refund = await stripe.refunds.create({
       payment_intent: paymentIntentId,
       reason: 'requested_by_customer'
@@ -45,9 +45,11 @@ const issueRefund = async (paymentIntentId, reason = 'Cluster failed to provisio
       reason
     });
     
+    // Clean up successful refund
     activePayments.delete(paymentIntentId);
   } catch (error) {
     console.error('❌ Refund failed:', error.message);
+    // Note: NOT cleaning up failed refund - this might be the source of infinite retries
   }
 };
 
@@ -137,18 +139,7 @@ const handleStripeWebhook = (webhookType) => {
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object;
         console.log('💳 Payment intent succeeded:', paymentIntent.id);
-        
-        // Also start refund timer for payment_intent events (backup)
-        if (webhookType === 'snapshot' && !activePayments.has(paymentIntent.id)) {
-          activePayments.set(paymentIntent.id, {
-            paymentIntentId: paymentIntent.id,
-            amount: paymentIntent.amount / 100,
-            currency: paymentIntent.currency,
-            startTime: Date.now()
-          });
-          startRefundTimer(paymentIntent.id);
-          console.log('⏰ Auto-refund protection started via payment_intent');
-        }
+        // Just log - checkout.session.completed will handle provisioning and refund timer
         break;
         
       default:
