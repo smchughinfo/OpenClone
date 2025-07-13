@@ -10,7 +10,7 @@ const setupMiddleware = (app) => {
       directives: {
         defaultSrc: ["'self'"],
         styleSrc: ["'self'", "'unsafe-inline'"],
-        scriptSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "https://js.stripe.com"],
         imgSrc: ["'self'", "data:", "https:"],
       },
     },
