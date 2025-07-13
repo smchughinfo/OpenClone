@@ -21,7 +21,8 @@ const initializeGoogleStrategy = () => {
     passport.use(new GoogleStrategy({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://clonezone.me/signin-google"
+      callbackURL: "https://clonezone.me/auth/signin-google",
+      scope: ['profile', 'email']
     }, (accessToken, refreshToken, profile, done) => {
       // In a real app, save user to database
       return done(null, profile);
