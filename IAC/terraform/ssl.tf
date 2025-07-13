@@ -198,6 +198,7 @@ resource "kubernetes_ingress_v1" "website_ingress" {
       "cert-manager.io/cluster-issuer"             = "letsencrypt-prod"
       "nginx.ingress.kubernetes.io/ssl-redirect"   = "true"
       "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+      "nginx.ingress.kubernetes.io/proxy-body-size" = "50m"
     }
   }
 

@@ -17,12 +17,33 @@ using OpenClone.Core.Services.Logging;
 using Microsoft.Extensions.Logging;
 using OpenClone.UI.Configuration.Services;
 using OpenClone.UI.Configuration.RoutingSetupAndRouting;
+using Microsoft.AspNetCore.Http.Features;
 
 // ######################################################################################
 // ###### STEP 1: SITE CONFIGURATION AND SERVICE SETUP  #################################
 // ######################################################################################
 
-var builder = WebApplication.CreateBuilder(args);
+// Disable all .NET file watching to prevent inotify limit issues in containers
+Environment.SetEnvironmentVariable("DOTNET_USE_POLLING_FILE_WATCHER", "1");
+Environment.SetEnvironmentVariable("ASPNETCORE_HOSTINGSTARTUPASSEMBLIES", "");
+
+// Configure builder options to disable file watching in production
+var options = new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = Directory.GetCurrentDirectory()
+};
+
+var builder = WebApplication.CreateBuilder(options);
+
+// Disable configuration file watching to avoid inotify limits in containers
+builder.Configuration.Sources.Clear();
+builder.Configuration
+    .SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: false)
+    .AddEnvironmentVariables()
+    .AddCommandLine(args ?? new string[] { });
 
 DbContextConfigurator.Configure(builder);
 IdentityConfigurator.Configure(builder);
@@ -31,6 +52,13 @@ RazorPageAndControllerConfigurator.Configure(builder);
 JSONConfigurator.Configure(builder);
 PolicyConfigurator.Configure(builder);
 SignalRConfigurator.ConfigureErrorHandling(builder);
+
+// Configure upload limits to handle large files (images/audio)
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 50 * 1024 * 1024; // 50MB (more conservative)
+    options.ValueLengthLimit = 50 * 1024 * 1024; // 50MB
+});
 
 // ######################################################################################
 // ###### STEP 2: BUILD THE APP #########################################################
@@ -47,7 +75,16 @@ StaticServiceProvider.ServiceProvider = app.Services; // this allows dependency 
 DevDataConfigurator.Configure(app).Wait();
 
 // SETUP SERVING FILES FROM FILE SYSTEM
-app.UseStaticFiles(); // server from wwwroot
+// Configure static files without file watching to avoid inotify limits in containers
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "wwwroot"))
+    {
+        UsePollingFileWatcher = false,
+        UseActivePolling = false
+    }
+}); // server from wwwroot
 OpenCloneFSMiddleware.SetupURL(app); // server from /OpenCloneFS
 
 // REDIRECT HTTP TO HTTPS

@@ -1,24 +1,29 @@
 rem START THE DOCKER ENGINE
-call ..\BatchScripts\Docker\start.bat
-rem call ..\BatchScripts\Docker\close-docker-desktop.bat
+call Docker\start.bat
 
 rem START DATABASE
-call ..\BatchScripts\Database\stop.bat
-call ..\BatchScripts\Database\start.bat
+call Database\stop.bat
+call Database\start.bat
 
 rem START LOGVIEWER
-call ..\BatchScripts\LogViewer\stop.bat
-call ..\BatchScripts\LogViewer\start.bat
+call LogViewer\stop.bat
+call LogViewer\start-local.bat
 
 rem START WEBPACK
-call ..\BatchScripts\WebPack\stop.bat
-call ..\BatchScripts\WebPack\start.bat
+call WebPack\stop.bat
+call WebPack\start.bat
 
 rem START SADTALKER
-call ..\BatchScripts\SadTalker\stop.bat
-call ..\BatchScripts\SadTalker\start.bat
+call SadTalker\stop.bat
+call SadTalker\start.bat
 
 rem START U-2-NET
-call ..\BatchScripts\U-2-NET\stop.bat
-call ..\BatchScripts\U-2-NET\start.bat
+call U-2-Net\stop.bat
+call U-2-Net\start.bat
+
+rem START WEBSITE
+call Website\start.bat
+
+rem START CLAUDE CODE INTEGRATION
+call Claude\start.bat
 

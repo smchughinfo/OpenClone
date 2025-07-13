@@ -165,7 +165,7 @@ get_cheapest_cpu_node_plan() {
 }
 
 get_cheapest_gpu_node_plan() {
-    filter_plans_in_region "vcg" 2 4086 160 "any" 4 | get_cheapest_plan
+    filter_plans_in_region "vcg" 2 4086 160 "any" 10 | get_cheapest_plan
 }
 
 get_cheapest_server_0_delta_plan() {

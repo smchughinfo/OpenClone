@@ -68,7 +68,14 @@ namespace OpenClone.UI.Configuration.RequestMiddleware
             {
                 FileProvider = new PhysicalFileProvider(Environment.GetEnvironmentVariable("OpenClone_OpenCloneFS")),
                 RequestPath = "/OpenCloneFS", // This is the request path in the URL where the files will be available.
-                ContentTypeProvider = extensionProvider
+                ContentTypeProvider = extensionProvider,
+                OnPrepareResponse = ctx =>
+                {
+                    // Prevent caching of all OpenCloneFS files
+                    ctx.Context.Response.Headers.CacheControl = "no-cache, no-store, must-revalidate";
+                    ctx.Context.Response.Headers.Pragma = "no-cache";
+                    ctx.Context.Response.Headers.Expires = "0";
+                }
             }); // Enables serving static files (e.g., HTML, CSS, images) from the wwwroot folder.
 
         }
