@@ -53,7 +53,10 @@ router.get('/server-0-logs', (req, res) => {
           env_vars: {
             GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || 'MISSING',
             GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET ? 'PRESENT' : 'MISSING',
-            SERVER_0_LOGS_PASSWORD: process.env.SERVER_0_LOGS_PASSWORD || 'MISSING'
+            SERVER_0_LOGS_PASSWORD: process.env.SERVER_0_LOGS_PASSWORD || 'MISSING',
+            STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY ? 'PRESENT' : 'MISSING',
+            STRIPE_WEBHOOK_SECRET_SNAPSHOT: process.env.STRIPE_WEBHOOK_SECRET_SNAPSHOT ? 'PRESENT' : 'MISSING',
+            STRIPE_WEBHOOK_SECRET_THIN: process.env.STRIPE_WEBHOOK_SECRET_THIN ? 'PRESENT' : 'MISSING'
           },
           env: process.env.NODE_ENV || 'development'
         };
