@@ -6,9 +6,9 @@ const router = express.Router();
 // Debug endpoint for server logs - protected by simple password
 router.get('/server-0-logs', (req, res) => {
   // Simple password protection
-  const debugPassword = process.env.DEBUG_PASSWORD || 'debug123';
-  if (req.query.password !== debugPassword) {
-    return res.status(401).json({ error: 'Unauthorized' });
+  const debugPassword = process.env.SERVER_0_LOGS_PASSWORD;
+  if (!debugPassword || req.query.password !== debugPassword) {
+    return res.status(401).json({ error: 'Unauthorized - SERVER_0_LOGS_PASSWORD required' });
   }
 
   const logData = {
@@ -96,7 +96,7 @@ router.get('/server-0-logs', (req, res) => {
     </div>
     
     <div style="margin-top: 30px; padding: 10px; background: #e8f4fd; border-radius: 5px;">
-        <strong>Usage:</strong> Add <code>?password=${debugPassword}</code> to access this endpoint<br>
+        <strong>Usage:</strong> Add <code>?password=YOUR_SERVER_0_LOGS_PASSWORD</code> to access this endpoint<br>
         <strong>JSON format:</strong> Add <code>Accept: application/json</code> header for JSON response
     </div>
 </body>

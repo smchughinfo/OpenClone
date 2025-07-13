@@ -175,6 +175,48 @@ NODE_ENV=production
 - **Error Handling**: Graceful error responses and logging
 - **Security**: Helmet.js security headers, input validation
 
+## Debug & Monitoring Endpoints
+
+### Server-0 Logs Endpoint
+**URL**: `https://clonezone.me/server-0-logs?password=debug123`
+
+**Purpose**: Real-time debugging and monitoring of server-0 operations
+
+**Features**:
+- **PM2 Logs**: Last 100 lines of application logs
+- **PM2 Status**: Process status and health information
+- **System Info**: Node processes, memory usage, uptime
+- **Server Details**: Node version, platform, environment
+- **Format Options**: HTML (browser) or JSON (API)
+
+**Authentication**: 
+- **Local Development**: Uses `.env` file with `SERVER_0_LOGS_PASSWORD=debug123`
+- **Production**: Set `SERVER_0_LOGS_PASSWORD` environment variable
+- **Security**: Password-protected endpoint, not exposed in source control
+
+**Usage Examples**:
+```bash
+# Browser access (HTML format)
+https://clonezone.me/server-0-logs?password=debug123
+
+# API access (JSON format)
+curl -H "Accept: application/json" \
+  "https://clonezone.me/server-0-logs?password=debug123"
+```
+
+**Troubleshooting OAuth Issues**:
+When debugging Google OAuth callback problems, check this endpoint for:
+- Passport authentication errors
+- Session management issues  
+- Environment variable problems
+- Application startup/crash logs
+
+### Health Check Endpoint
+**URL**: `https://clonezone.me/health`
+- **Purpose**: Basic uptime and health verification
+- **No Authentication**: Public endpoint for monitoring
+- **Response**: JSON with status, timestamp, uptime
+
 ## Cost Optimization Impact
 - **Server-0 Costs**: ~$5-20/month for basic VPS
 - **Traditional Approach**: ~$500-2000/month for 24/7 GPU cluster
