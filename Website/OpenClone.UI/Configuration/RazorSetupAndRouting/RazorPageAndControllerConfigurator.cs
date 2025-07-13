@@ -6,6 +6,7 @@ using OpenCloneUI;
 using OpenCloneUI.Configuration;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using OpenClone.UI.Configuration.RoutingSetupAndRouting.RouteConventions;
+using Microsoft.Extensions.FileProviders;
 
 namespace OpenClone.UI.Configuration.RoutingSetupAndRouting
 {
@@ -23,6 +24,7 @@ namespace OpenClone.UI.Configuration.RoutingSetupAndRouting
 
             builder.Services.AddRazorPages(options => AddRoutes(builder, options));
             builder.Services.AddControllers();
+            
         }
 
         private static void AddRoutes(WebApplicationBuilder builder, RazorPagesOptions options)
