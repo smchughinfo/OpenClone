@@ -26,7 +26,7 @@ router.post('/start-cluster', async (req, res) => {
     console.error('Error writing to log file:', err);
   }
 
-  // Fire and forget - start the script in background with logging
+  /*// Fire and forget - start the script in background with logging
   exec(`./start-cluster.sh >> ${logFile} 2>&1`, (error, stdout, stderr) => {
     const endTimestamp = new Date().toISOString();
     const logFooter = `\n=== Cluster Start Completed: ${endTimestamp} ===\n`;
@@ -45,7 +45,7 @@ router.post('/start-cluster', async (req, res) => {
     } else {
       console.log('Cluster script completed successfully');
     }
-  });
+  });*/
   
   // Return immediately
   res.json({
