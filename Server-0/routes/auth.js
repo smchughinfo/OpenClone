@@ -2,18 +2,32 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 
-// Google OAuth routes
-router.get('/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
-);
-
-router.get('/signin-google',
-  passport.authenticate('google', { failureRedirect: '/' }),
-  (req, res) => {
-    // Redirect to user info page to see authentication worked
-    res.redirect('/auth/user-info');
+// Dynamic OAuth routes - check configuration at request time
+router.get('/google', (req, res, next) => {
+  if (req.app.locals.isOAuthConfigured) {
+    passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
+  } else {
+    res.status(503).json({ 
+      error: 'OAuth not configured', 
+      message: 'Google OAuth environment variables are missing' 
+    });
   }
-);
+});
+
+router.get('/signin-google', (req, res, next) => {
+  if (req.app.locals.isOAuthConfigured) {
+    passport.authenticate('google', { failureRedirect: '/' })(req, res, (err) => {
+      if (err) return next(err);
+      // Redirect to user info page to see authentication worked
+      res.redirect('/auth/user-info');
+    });
+  } else {
+    res.status(503).json({ 
+      error: 'OAuth not configured', 
+      message: 'Google OAuth environment variables are missing' 
+    });
+  }
+});
 
 router.get('/logout', (req, res) => {
   req.logout(() => {

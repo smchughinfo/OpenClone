@@ -50,6 +50,11 @@ router.get('/server-0-logs', (req, res) => {
           platform: process.platform,
           uptime: process.uptime(),
           memory_usage: process.memoryUsage(),
+          env_vars: {
+            GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || 'MISSING',
+            GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET ? 'PRESENT' : 'MISSING',
+            SERVER_0_LOGS_PASSWORD: process.env.SERVER_0_LOGS_PASSWORD || 'MISSING'
+          },
           env: process.env.NODE_ENV || 'development'
         };
 
