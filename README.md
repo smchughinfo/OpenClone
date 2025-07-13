@@ -1,13 +1,9 @@
 # OpenClone
 
-**Note (6/24/2025):** I need to redo this video and improve the documentation for this project in general. The video is hard to watch and you can tell the documentation is largely AI generated and doesn't cover the big picture very well at all. There are good architectural choices here that you can't see by just looing at the code. I will redo this at the next available opportunity.
+### Note (7/12/2025): Video isn't the best. I'm going to redo it. Demo should be up on clonezone.me soon.
+[![Video Intro](https://seanmchugh.dev/github-images/poster.png)](https://youtu.be/-HNyzIxsI2c)
 
-[![Video Intro](https://img.youtube.com/vi/-HNyzIxsI2c/0.jpg)](https://youtu.be/-HNyzIxsI2c)
-
-
-Create AI-powered digital clones that talk, think, and interact just like you! OpenClone uses cutting-edge deepfake technology to bring your personal AI avatars to life.
-
-## What is OpenClone?
+## What Is OpenClone
 
 OpenClone lets you build personalized AI clones that can:
 - 🗣️ **Talk like you** - Train with your voice for realistic speech
