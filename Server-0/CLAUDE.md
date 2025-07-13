@@ -191,8 +191,16 @@ NODE_ENV=production
 
 **Authentication**: 
 - **Local Development**: Uses `.env` file with `SERVER_0_LOGS_PASSWORD=debug123`
-- **Production**: Set `SERVER_0_LOGS_PASSWORD` environment variable
+- **Production**: Add to `/etc/profile.d/openclone.sh` with other OpenClone environment variables
 - **Security**: Password-protected endpoint, not exposed in source control
+
+**Environment Variable Management**:
+All server-0 environment variables are managed in `/etc/profile.d/openclone.sh` (53KB file with all OpenClone secrets). To add new variables:
+```bash
+echo 'export SERVER_0_LOGS_PASSWORD="debug123"' >> /etc/profile.d/openclone.sh
+pm2 restart clonezone
+```
+This approach ensures consistency with existing infrastructure and automatic loading by PM2.
 
 **Usage Examples**:
 ```bash
@@ -210,6 +218,20 @@ When debugging Google OAuth callback problems, check this endpoint for:
 - Session management issues  
 - Environment variable problems
 - Application startup/crash logs
+
+**Error Log Access for Claude**:
+Claude can directly access server-0 logs for debugging using curl:
+```bash
+curl -s "https://clonezone.me/server-0-logs?password=debug123"
+```
+
+**Key debugging areas in logs**:
+- **clonezone-error.log**: OAuth failures, environment variable issues, startup errors
+- **clonezone-out.log**: HTTP requests, successful operations, application output
+- **PM2 Status**: Process health, memory usage, restart count
+- **Server Info**: Node version, uptime, memory consumption
+
+**Real-time debugging**: Claude can fetch fresh logs during issue reproduction to see live errors.
 
 ### Health Check Endpoint
 **URL**: `https://clonezone.me/health`
