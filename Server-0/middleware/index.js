@@ -11,6 +11,7 @@ const setupMiddleware = (app) => {
         defaultSrc: ["'self'"],
         styleSrc: ["'self'", "'unsafe-inline'"],
         scriptSrc: ["'self'", "'unsafe-inline'", "https://js.stripe.com"],
+        frameSrc: ["'self'", "https://js.stripe.com"],
         imgSrc: ["'self'", "data:", "https:"],
       },
     },
