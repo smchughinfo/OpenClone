@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Auto-refund system - tracks payments and monitors cluster deployment
-const activePayments = new Map(); // paymentIntentId -> { sessionId, email, amount, startTime, chargeId }
+const activePayments = new Map(); // paymentIntentId -> { sessionId, email, amount, startTime }
 
 const checkClusterStatus = async (paymentIntentId) => {
   try {
@@ -33,32 +33,25 @@ const issueRefund = async (paymentIntentId, reason = 'Cluster failed to provisio
   try {
     const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
     
-    // Use charge ID if we have it, otherwise try to get it from payment intent
-    let refundTarget = {};
-    if (paymentData.chargeId) {
-      console.log('💳 Refunding charge:', paymentData.chargeId);
-      refundTarget.charge = paymentData.chargeId;
-    } else {
-      console.log('🔍 No charge ID stored, fetching from payment intent:', paymentIntentId);
-      // Get the payment intent to find the charge
-      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-      if (paymentIntent.charges && paymentIntent.charges.data.length > 0) {
-        const chargeId = paymentIntent.charges.data[0].id;
-        console.log('💳 Found charge ID:', chargeId);
-        refundTarget.charge = chargeId;
-      } else {
-        throw new Error('No charge found for payment intent');
-      }
+    console.log('🔍 Fetching charge ID from payment intent:', paymentIntentId);
+    // Always get the charge ID from the payment intent (official Stripe recommendation)
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    
+    if (!paymentIntent.charges || paymentIntent.charges.data.length === 0) {
+      throw new Error('No charge found for payment intent');
     }
     
+    const chargeId = paymentIntent.charges.data[0].id;
+    console.log('💳 Found charge ID:', chargeId);
+    
     const refund = await stripe.refunds.create({
-      ...refundTarget,
+      charge: chargeId,
       reason: 'requested_by_customer'
     });
     
     console.log('💸 AUTO-REFUND ISSUED:', {
       paymentIntentId,
-      chargeId: refundTarget.charge,
+      chargeId,
       refundId: refund.id,
       amount: paymentData.amount,
       email: paymentData.email,
@@ -165,14 +158,7 @@ const handleStripeWebhook = (webhookType) => {
       case 'charge.succeeded':
         const charge = event.data.object;
         console.log('💳 Charge succeeded:', charge.id, 'for payment intent:', charge.payment_intent);
-        
-        // Store charge ID for potential refund
-        if (charge.payment_intent && activePayments.has(charge.payment_intent)) {
-          const paymentData = activePayments.get(charge.payment_intent);
-          paymentData.chargeId = charge.id;
-          activePayments.set(charge.payment_intent, paymentData);
-          console.log('💾 Stored charge ID for refund purposes');
-        }
+        // No need to store charge ID - we'll fetch it from payment intent when needed
         break;
         
       default:
