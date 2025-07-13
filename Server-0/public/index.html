@@ -5,12 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CloneZone - On-Demand AI Playground</title>
     <link rel="stylesheet" href="styles.css">
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </head>
 <body>
     <div class="container">
         <h1>🚀 CloneZone</h1>
         <p>On-demand AI playground with GPU clusters.</p>
-        <p>Payment integration coming soon...</p>
+        
+        <div class="payment-section">
+            <h3>🎯 Get AI Cluster Access</h3>
+            <stripe-buy-button
+              buy-button-id="buy_btn_1RkUdbRtE0CWpEZMpiXjOY4L"
+              publishable-key="pk_live_51RSBnJRtE0CWpEZMOWF3ctOre9QrdkxbrkhBZaVC9qcgtfTW6zdXoA4XU88k3ijduFNOBOqecGoeCPKreUfWrI7T00P3tqOFxy"
+            >
+            </stripe-buy-button>
+        </div>
         
         <div class="cluster-controls">
             <h3>Cluster Management</h3>
