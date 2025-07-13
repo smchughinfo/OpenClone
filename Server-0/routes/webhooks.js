@@ -1,6 +1,83 @@
 const express = require('express');
 const router = express.Router();
 
+// Auto-refund system - tracks payments and monitors cluster deployment
+const activePayments = new Map(); // paymentIntentId -> { sessionId, email, amount, startTime }
+
+const checkClusterStatus = async (paymentIntentId) => {
+  try {
+    const response = await fetch('https://app.clonezone.me', { 
+      method: 'HEAD',
+      timeout: 5000 
+    });
+    
+    if (response.ok) {
+      console.log('🎯 Cluster is LIVE! No refund needed for payment:', paymentIntentId);
+      activePayments.delete(paymentIntentId);
+      return true;
+    }
+  } catch (error) {
+    console.log('⏳ Cluster not ready yet for payment:', paymentIntentId);
+  }
+  return false;
+};
+
+const issueRefund = async (paymentIntentId, reason = 'Cluster failed to provision within 1 hour') => {
+  try {
+    const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+    const paymentData = activePayments.get(paymentIntentId);
+    
+    if (!paymentData) {
+      console.log('⚠️ No payment data found for refund:', paymentIntentId);
+      return;
+    }
+    
+    const refund = await stripe.refunds.create({
+      payment_intent: paymentIntentId,
+      reason: 'requested_by_customer'
+    });
+    
+    console.log('💸 AUTO-REFUND ISSUED:', {
+      paymentIntentId,
+      refundId: refund.id,
+      amount: paymentData.amount,
+      email: paymentData.email,
+      reason
+    });
+    
+    activePayments.delete(paymentIntentId);
+  } catch (error) {
+    console.error('❌ Refund failed:', error.message);
+  }
+};
+
+const startRefundTimer = (paymentIntentId) => {
+  const TIMEOUT_MS = 60 * 60 * 1000; // 1 hour
+  const CHECK_INTERVAL_MS = 30 * 1000; // Check every 30 seconds
+  
+  console.log(`⏰ Starting 1-hour refund timer for payment: ${paymentIntentId}`);
+  
+  const intervalId = setInterval(async () => {
+    const isClusterLive = await checkClusterStatus(paymentIntentId);
+    if (isClusterLive) {
+      clearInterval(intervalId);
+      return;
+    }
+    
+    const paymentData = activePayments.get(paymentIntentId);
+    if (!paymentData) {
+      clearInterval(intervalId);
+      return;
+    }
+    
+    const elapsedTime = Date.now() - paymentData.startTime;
+    if (elapsedTime >= TIMEOUT_MS) {
+      clearInterval(intervalId);
+      await issueRefund(paymentIntentId, 'Cluster failed to provision within 1 hour');
+    }
+  }, CHECK_INTERVAL_MS);
+};
+
 // Stripe webhook endpoints
 const handleStripeWebhook = (webhookType) => {
   return (req, res) => {
@@ -36,6 +113,21 @@ const handleStripeWebhook = (webhookType) => {
         if (webhookType === 'snapshot') {
           console.log('Customer email:', session.customer_details?.email);
           console.log('Amount paid:', session.amount_total / 100, session.currency);
+          
+          // Store payment data for potential refund
+          if (session.payment_intent) {
+            activePayments.set(session.payment_intent, {
+              sessionId: session.id,
+              email: session.customer_details?.email,
+              amount: session.amount_total / 100,
+              currency: session.currency,
+              startTime: Date.now()
+            });
+            
+            // Start auto-refund timer that checks for app.clonezone.me
+            startRefundTimer(session.payment_intent);
+            console.log('⏰ Auto-refund protection started - cluster has 1 hour to come online');
+          }
         }
         
         // TODO: Start cluster provisioning
@@ -45,6 +137,18 @@ const handleStripeWebhook = (webhookType) => {
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object;
         console.log('💳 Payment intent succeeded:', paymentIntent.id);
+        
+        // Also start refund timer for payment_intent events (backup)
+        if (webhookType === 'snapshot' && !activePayments.has(paymentIntent.id)) {
+          activePayments.set(paymentIntent.id, {
+            paymentIntentId: paymentIntent.id,
+            amount: paymentIntent.amount / 100,
+            currency: paymentIntent.currency,
+            startTime: Date.now()
+          });
+          startRefundTimer(paymentIntent.id);
+          console.log('⏰ Auto-refund protection started via payment_intent');
+        }
         break;
         
       default:
