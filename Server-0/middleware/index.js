@@ -20,7 +20,16 @@ const setupMiddleware = (app) => {
   // Other middleware
   app.use(cors());
   app.use(morgan('combined'));
-  app.use(express.json());
+  
+  // JSON parsing - exclude webhook routes that need raw body
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/webhooks/stripe')) {
+      next(); // Skip JSON parsing for webhook routes
+    } else {
+      express.json()(req, res, next); // Apply JSON parsing for other routes
+    }
+  });
+  
   app.use(express.urlencoded({ extended: true }));
   app.use(express.static('public'));
 };
