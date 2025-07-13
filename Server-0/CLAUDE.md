@@ -239,6 +239,124 @@ curl -s "https://clonezone.me/server-0-logs?password=debug123"
 - **No Authentication**: Public endpoint for monitoring
 - **Response**: JSON with status, timestamp, uptime
 
+## Google OAuth Integration (WORKING ✅)
+
+### Authentication Flow
+**Current Status**: Fully functional end-to-end Google OAuth authentication implemented and tested.
+
+**User Flow**:
+1. User visits clonezone.me and clicks "Sign in with Google"
+2. User redirected to Google OAuth consent screen
+3. User authorizes application access to profile and email
+4. Google redirects back to `/auth/signin-google` with authorization code
+5. Server exchanges code for user profile information
+6. User sees success page with their profile data at `/auth/user-info`
+
+### OAuth Configuration
+**Google Strategy Settings**:
+```javascript
+// /var/www/clonezone/Server-0/config/auth.js
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: "https://clonezone.me/auth/signin-google",
+  scope: ['profile', 'email']
+}, callback));
+```
+
+**Environment Variables Required**:
+- `GOOGLE_CLIENT_ID`: OAuth client ID from Google Console
+- `GOOGLE_CLIENT_SECRET`: OAuth client secret from Google Console
+
+### Google Console Configuration
+**Authorized Redirect URIs** (configured for all environments):
+```
+https://localhost:7039/signin-google          (local dev)
+https://www.clonezone.me/auth/signin-google   (www production)
+https://clonezone.me/auth/signin-google       (production)
+https://clonezone.me/signin-google            (fallback)
+https://www.clonezone.me/signin-google        (www fallback)
+```
+
+### OAuth Routes
+**Authentication Endpoints**:
+- `GET /auth/google` - Initiates OAuth flow, redirects to Google
+- `GET /auth/signin-google` - Callback URL, handles Google's authorization response
+- `GET /auth/user-info` - Success page displaying user profile after authentication
+- `GET /auth/logout` - Logs out user and redirects to home page
+- `GET /auth/user` - JSON API endpoint returning current user authentication status
+
+### Technical Implementation Notes
+**Environment Variable Loading**: 
+OAuth strategy initialization is delayed until app setup phase to ensure environment variables from `/etc/profile.d/openclone.sh` are properly loaded. The strategy uses a deferred initialization pattern:
+
+```javascript
+const initializeGoogleStrategy = () => {
+  if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    // Initialize strategy with loaded environment variables
+    return true;
+  }
+  return false;
+};
+```
+
+**Dynamic Route Registration**: 
+Routes check OAuth configuration status at request time and provide graceful error responses if environment variables are missing.
+
+**Session Management**: 
+User authentication state is maintained using express-session with Passport.js serialization/deserialization.
+
+### User Data Retrieved
+**Profile Information Available**:
+- **Name**: `user.displayName`
+- **Email**: `user.emails[0].value` 
+- **Google ID**: `user.id`
+- **Profile Picture**: `user.photos[0].value`
+- **Raw Profile**: Complete Google profile object
+
+### Success Page Features
+**URL**: `https://clonezone.me/auth/user-info`
+- Beautiful gradient UI with authentication confirmation
+- Complete user profile display
+- Navigation buttons (Back to Home, Logout)
+- Expandable raw user data viewer for debugging
+- Responsive design
+
+### Debugging OAuth Issues
+**Check Authentication Status**:
+```bash
+# Test OAuth initiation
+curl -s "https://clonezone.me/auth/google"
+
+# Check user authentication status
+curl -s "https://clonezone.me/auth/user"
+
+# Access debug logs for OAuth troubleshooting
+curl -s "https://clonezone.me/server-0-logs?password=debug123"
+```
+
+**Common OAuth Debugging Points**:
+- Environment variables present during strategy initialization
+- Google Console redirect URI configuration matches server callback URL
+- Passport strategy properly registered and accessible
+- Session middleware configured before authentication routes
+
+**Log Messages Indicating Successful OAuth Setup**:
+```
+Auth config - checking environment variables:
+GOOGLE_CLIENT_ID present: true
+GOOGLE_CLIENT_SECRET present: true
+Initializing Google OAuth Strategy...
+```
+
+### Integration with Server-0 Workflow
+**Current State**: OAuth authentication complete and ready for integration with payment processing and cluster provisioning workflow.
+
+**Next Integration Points**:
+1. **Payment Verification**: After successful OAuth, redirect to Stripe payment flow
+2. **Session Tracking**: Link authenticated user sessions to cluster provisioning requests
+3. **Access Control**: Use authentication state to protect cluster management endpoints
+
 ## Cost Optimization Impact
 - **Server-0 Costs**: ~$5-20/month for basic VPS
 - **Traditional Approach**: ~$500-2000/month for 24/7 GPU cluster
