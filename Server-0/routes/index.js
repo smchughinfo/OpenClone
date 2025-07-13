@@ -4,6 +4,7 @@ const setupRoutes = (app) => {
   app.use('/auth', require('./auth'));
   app.use('/cluster', require('./cluster'));
   app.use('/webhooks', require('./webhooks'));
+  app.use('/', require('./debug'));
 };
 
 module.exports = setupRoutes;
