@@ -33,17 +33,14 @@ const issueRefund = async (paymentIntentId, reason = 'Cluster failed to provisio
   try {
     const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-    console.log('🔍 Fetching charge ID from payment intent:', paymentIntentId);
-    // Always get the charge ID from the payment intent (official Stripe recommendation)
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-
+    console.log('💳 Issuing refund for payment intent:', paymentIntentId);
     const refund = await stripe.refunds.create({
-       payment_intent: paymentIntentId
+      payment_intent: paymentIntentId,
+      reason: 'requested_by_customer'
     });
 
     console.log('💸 AUTO-REFUND ISSUED:', {
       paymentIntentId,
-      chargeId,
       refundId: refund.id,
       amount: paymentData.amount,
       email: paymentData.email,
