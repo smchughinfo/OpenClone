@@ -24,31 +24,23 @@ const checkClusterStatus = async (paymentIntentId) => {
 
 const issueRefund = async (paymentIntentId, reason = 'Cluster failed to provision within 1 hour') => {
   const paymentData = activePayments.get(paymentIntentId);
-  
+
   if (!paymentData) {
     console.log('⚠️ No payment data found for refund:', paymentIntentId);
     return;
   }
-  
+
   try {
     const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-    
+
     console.log('🔍 Fetching charge ID from payment intent:', paymentIntentId);
     // Always get the charge ID from the payment intent (official Stripe recommendation)
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-    
-    if (!paymentIntent.charges || paymentIntent.charges.data.length === 0) {
-      throw new Error('No charge found for payment intent');
-    }
-    
-    const chargeId = paymentIntent.charges.data[0].id;
-    console.log('💳 Found charge ID:', chargeId);
-    
+
     const refund = await stripe.refunds.create({
-      charge: chargeId,
-      reason: 'requested_by_customer'
+       payment_intent: paymentIntentId
     });
-    
+
     console.log('💸 AUTO-REFUND ISSUED:', {
       paymentIntentId,
       chargeId,
@@ -57,7 +49,7 @@ const issueRefund = async (paymentIntentId, reason = 'Cluster failed to provisio
       email: paymentData.email,
       reason
     });
-    
+
     // Clean up successful refund
     activePayments.delete(paymentIntentId);
   } catch (error) {
