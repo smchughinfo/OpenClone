@@ -190,7 +190,7 @@ GPU clusters are expensive to run 24/7, but users need access to AI applications
 
 **Server-0-Delta (Created On-Demand)**
 - Only created after user payment verification
-- Server-0 spins up Server-0-Delta using VPS snapshot via `/scripts/server-0/server-0.sh`
+- Server-0 spins up Server-0-Delta using VPS snapshot via `/scripts/server-0-delta/server-0-delta.sh`
 - More powerful instance needed for compute-intensive cluster creation
 - Server-0-Delta creates the actual GPU Kubernetes cluster
 - Temporary instance - destroyed when user session ends

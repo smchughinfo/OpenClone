@@ -29,4 +29,4 @@ setenv() {
     echo "Set ${var_name} successfully"
 }
 
-echo "setup-server-0 complete!"
+echo "setup-server-0-delta complete!"

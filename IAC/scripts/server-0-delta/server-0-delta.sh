@@ -4,7 +4,7 @@ source /scripts/docker-cli/push-containers.sh
 source /vultr-api/instances.sh
 source /vultr-api/regions.sh
 
-server_0_delta_creds_path="/scripts/server-0/server-0-delta-creds"
+server_0_delta_creds_path="/scripts/server-0-delta/server-0-delta-delta-creds"
 
 # Creates Server-0-Delta VPS and "loads a program" onto it, where the program is this dev container (with it's cluster creation scripts)
 # Think of this as: creating a fresh computer, installing cluster creation software,
@@ -34,9 +34,9 @@ EOF
     ## setup the server 0 delta container (this project, with all the kubernetes stuff, aka openclone-iac)
     upload_script $main_ip $default_password "$setup_server_0_container_path" "/setup_server_0_container.sh" true
     ## print /setup_server_0_container.sh logs
-    execute_server_0_command $main_ip $default_password "docker logs openclone-iac-server-0"
+    execute_server_0_command $main_ip $default_password "docker logs openclone-iac-server-0-delta"
     ## copy the start cluster script to the server 0 delta vps, which is what's used by the paywall website to start the cluster after the user pays.
-    upload_script $main_ip $default_password "/scripts/server-0/start-cluster.sh" "/start-cluster.sh"
+    upload_script $main_ip $default_password "/scripts/server-0-delta/start-cluster.sh" "/start-cluster.sh"
 }
 create_server_0_delta_terminal() {
     main_ip=$(sed -n '2p' $server_0_delta_creds_path)
@@ -61,7 +61,7 @@ get_kube_config() {
     # Copy the kubeconfig file from the container to the host, then download it
     sshpass -p "$default_password" ssh -o StrictHostKeyChecking=no root@$main_ip "
         # Copy kubeconfig from container to host
-        docker cp openclone-iac-server-0:/terraform/vultr-dev-kube-config.yaml /tmp/vultr-dev-kube-config.yaml
+        docker cp openclone-iac-server-0-delta:/terraform/vultr-dev-kube-config.yaml /tmp/vultr-dev-kube-config.yaml
         
         # Output the file content so we can capture it
         cat /tmp/vultr-dev-kube-config.yaml
@@ -101,7 +101,7 @@ open_container_terminal() {
     ip_address="$1"
     password="$2"
     execute_server_0_command "$ip_address" "$password"'
-        CONTAINER_NAME="openclone-iac-server-0"
+        CONTAINER_NAME="openclone-iac-server-0-delta"
 
         if docker ps -a --format "{{.Names}}\t{{.Status}}" | grep -q "$CONTAINER_NAME"; then
             if docker ps --format "{{.Names}}" | grep -q "$CONTAINER_NAME"; then

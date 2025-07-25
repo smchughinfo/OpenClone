@@ -7,7 +7,7 @@ set_statusbar_text() {
         # Use jq to update the JSON file
         jq --arg text "$new_text" '.["opencloneDevContainerStatusBar.text"] = $text' "$settings_file" > tmp.json && mv tmp.json "$settings_file"
         echo "Updated opencloneDevContainerStatusBar.text to '$new_text'."
-    elif [ "$Server_0_IAC_ENV" != "server-0" ]; then
+    elif [ "$Server_0_IAC_ENV" != "server-0-delta" ]; then
         echo "Error: settings.json not found at $settings_file."
     fi
 }
@@ -19,7 +19,7 @@ set_statusbar_color() {
         # Use jq to update the JSON file
         jq --arg color "$new_background" '.["workbench.colorCustomizations"]["statusBar.background"] = $color' "$settings_file" > tmp.json && mv tmp.json "$settings_file"
         echo "Updated statusBar.background to '$new_background'."
-    elif [ "$Server_0_IAC_ENV" != "server-0" ]; then
+    elif [ "$Server_0_IAC_ENV" != "server-0-delta" ]; then
         echo "Error: settings.json not found at $settings_file."
     fi
 }

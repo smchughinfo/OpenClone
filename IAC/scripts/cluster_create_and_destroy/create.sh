@@ -11,7 +11,7 @@ source /vultr-api/domains.sh
 ################################################################################
 
 create() {
-  set_terraform_workspace $TF_VAR_environment #todo: seems superflous but this is for server-0. see if you can get rid of it (may not be easy)
+  set_terraform_workspace $TF_VAR_environment #todo: seems superflous but this is for server-0-delta. see if you can get rid of it (may not be easy)
   source_environment_logic
 
   if [ "$(does_cluster_exist)" == "false" ]; then

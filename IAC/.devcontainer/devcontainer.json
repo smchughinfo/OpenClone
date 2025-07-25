@@ -129,46 +129,46 @@
                             "command": "./push-containers.sh --push_container openclone-iac"
                         },
                         {
-                            "cwd": "/scripts/server-0",
+                            "cwd": "/scripts/server-0-delta",
                             "name": "$(squirrel) S",
                             "color": "#FFFFFF",
                             "singleInstance": true,
-                            "command": "./server-0.sh --create_server_0_delta"
+                            "command": "./server-0-delta.sh --create_server_0_delta"
                         },
                         {
-                            "cwd": "/scripts/server-0",
+                            "cwd": "/scripts/server-0-delta",
                             "name": "$(arrow-circle-down) K",
                             "color": "#FFFFFF",
                             "singleInstance": true,
-                            "command": "./server-0.sh --get_kube_config"
+                            "command": "./server-0-delta.sh --get_kube_config"
                         },
                         {
-                            "cwd": "/scripts/server-0",
+                            "cwd": "/scripts/server-0-delta",
                             "name": "$(terminal-view-icon) 0",
                             "color": "#FFFFFF",
                             "singleInstance": true,
-                            "command": "./server-0.sh --execute_server_0_command $TF_VAR_openclone_server_0_ip_address $OpenClone_Server_0_Password"
+                            "command": "./server-0-delta.sh --execute_server_0_command $TF_VAR_openclone_server_0_ip_address $OpenClone_Server_0_Password"
                         },
 {
-                            "cwd": "/scripts/server-0",
+                            "cwd": "/scripts/server-0-delta",
                             "name": "$(terminal-view-icon) C",
                             "color": "#FFFFFF",
                             "singleInstance": true,
-                            "command": "./server-0.sh --open_container_terminal $TF_VAR_openclone_server_0_ip_address $OpenClone_Server_0_Password"
+                            "command": "./server-0-delta.sh --open_container_terminal $TF_VAR_openclone_server_0_ip_address $OpenClone_Server_0_Password"
                         },
                         {
-                            "cwd": "/scripts/server-0",
+                            "cwd": "/scripts/server-0-delta",
                             "name": "$(terminal-view-icon) D0",
                             "color": "#FFFFFF",
                             "singleInstance": true,
-                            "command": "./server-0.sh --create_server_0_delta_terminal"
+                            "command": "./server-0-delta.sh --create_server_0_delta_terminal"
                         },
 {
-                            "cwd": "/scripts/server-0",
+                            "cwd": "/scripts/server-0-delta",
                             "name": "$(terminal-view-icon) DC",
                             "color": "#FFFFFF",
                             "singleInstance": true,
-                            "command": "./server-0.sh --create_server_0_delta_container_terminal"
+                            "command": "./server-0-delta.sh --create_server_0_delta_container_terminal"
                         },
                         {
                             "cwd": "/scripts/docker-cli",

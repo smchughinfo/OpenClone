@@ -69,7 +69,7 @@ docker run -d \
     set_env_variable TF_VAR_openclone_googleclientsecret \"${TF_VAR_openclone_googleclientsecret}\"
     set_env_variable TF_VAR_openclone_elevenlabsapikey \"${TF_VAR_openclone_elevenlabsapikey}\"
     set_env_variable TF_VAR_openclone_email_dkim \"${TF_VAR_openclone_email_dkim}\"
-    set_env_variable Server_0_IAC_ENV \"server-0\"
+    set_env_variable Server_0_IAC_ENV \"server-0-delta\"
     set_env_variable OpenClone_Root_Dir \"/\"
     set_env_variable OpenClone_OpenCloneFS \"/OpenCloneFS\"
     terraform -chdir="/terraform" init
@@ -94,4 +94,4 @@ echo "Stopping container..."
 docker stop openclone-iac
 echo "Container stopped."
 
-echo "setup-server-0-container complete!"
+echo "setup-server-0-delta-container complete!"
