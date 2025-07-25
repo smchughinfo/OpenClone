@@ -11,7 +11,7 @@ get_helm.sh
 *vultr-csi-secret.yaml
 **/setup-server-0-delta.sh
 **/setup-server-0-delta-container.sh
-server-0-delta-creds
+**/server-0-delta-creds
 
 ###################################################################
 ############# THIS GITIGNORE IS FOR DEVCONTAINERS #################

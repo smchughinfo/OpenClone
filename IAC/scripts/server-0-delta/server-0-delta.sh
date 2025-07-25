@@ -4,7 +4,7 @@ source /scripts/docker-cli/push-containers.sh
 source /vultr-api/instances.sh
 source /vultr-api/regions.sh
 
-server_0_delta_creds_path="/scripts/server-0-delta/server-0-delta-delta-creds"
+server_0_delta_creds_path="/scripts/server-0-delta/server-0-delta-creds"
 
 # Creates Server-0-Delta VPS and "loads a program" onto it, where the program is this dev container (with it's cluster creation scripts)
 # Think of this as: creating a fresh computer, installing cluster creation software,
