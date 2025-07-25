@@ -2,6 +2,7 @@
 
 source /scripts/docker-cli/push-containers.sh
 source /vultr-api/instances.sh
+source /vultr-api/regions.sh
 
 server_0_delta_creds_path="/scripts/server-0/server-0-delta-creds"
 
@@ -13,7 +14,9 @@ create_server_0_delta() {
     > /root/.ssh/known_hosts
     
     # create server 0 delta
-    result=$(create_instance_from_snapshot "$OpenClone_Server_0_Delta_Snapshot_ID")
+    server_0_delta_plan=$(get_cheapest_server_0_delta_plan)
+    result=$(create_blank_ubuntu_instance "$server_0_delta_plan")
+
     IFS="|" read -r instance_id default_password main_ip <<< "$result"
     echo "Server 0 Delta Instance ID: $instance_id"
     echo "Server 0 Delta Password: $default_password"

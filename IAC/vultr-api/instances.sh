@@ -32,19 +32,12 @@ get_instance_by_label() {
     echo "$instance"
 }
 
-create_instance_from_snapshot() {
-    snapshot_id="$1"
-    server_0_delta_plan=$(get_cheapest_server_0_delta_plan)
-    echo "Using server 0 delta plan: $server_0_delta_plan with snapshot id: $snapshot_id" >&2
-
-    json_data=$(jo \
-        label="Server-0-Delta"                          \
-        region="$vultr_region"                          \
-        plan="$server_0_delta_plan"                     \
-        snapshot_id="$snapshot_id"
-    )
-
-    echo -e "Creating Server 0 Delta:\n$json_data" >&2
+# Shared instance creation logic
+_create_instance_common() {
+    local json_data="$1"
+    local description="$2"
+    
+    echo -e "$description:\n$json_data" >&2
     response=$(post_vultr "$instances_endpoint" "$json_data")
     
     instance_id=$(echo "$response" | jq -r '.instance.id')
@@ -92,6 +85,35 @@ create_instance_from_snapshot() {
 
     # Only this line goes to stdout:
     echo "$instance_id|$default_password|$main_ip"
+}
+
+create_instance_from_snapshot() {
+    snapshot_id="$1"
+    server_0_delta_plan="$2"
+    echo "Using server 0 delta plan: $server_0_delta_plan with snapshot id: $snapshot_id" >&2
+
+    json_data=$(jo \
+        label="Server-0-Delta"                          \
+        region="$vultr_region"                          \
+        plan="$server_0_delta_plan"                     \
+        snapshot_id="$snapshot_id"
+    )
+
+    _create_instance_common "$json_data" "Creating Server 0 Delta from snapshot"
+}
+
+create_blank_ubuntu_instance() {
+    server_0_delta_plan="$1"
+    echo "Using server 0 delta plan: $server_0_delta_plan with Ubuntu 24.04 LTS" >&2
+
+    json_data=$(jo \
+        label="Server-0-Delta"                          \
+        region="$vultr_region"                          \
+        plan="$server_0_delta_plan"                     \
+        os_id=2284 # Ubuntu 24.04 LTS
+    )
+
+    _create_instance_common "$json_data" "Creating Server 0 Delta with Ubuntu (Docker install later)"
 }
 
 ################################################################################
