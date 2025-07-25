@@ -9,8 +9,8 @@ script-to-run.bat
 *.crt
 get_helm.sh
 *vultr-csi-secret.yaml
-setup-server-0-delta.sh
-setup-server-0-delta-container.sh
+**/setup-server-0-delta.sh
+**/setup-server-0-delta-container.sh
 server-0-delta-creds
 
 ###################################################################

@@ -189,11 +189,12 @@ GPU clusters are expensive to run 24/7, but users need access to AI applications
 - Located at `/Server-0/` in the codebase
 
 **Server-0-Delta (Created On-Demand)**
-- Only created after user payment verification
-- Server-0 spins up Server-0-Delta using VPS snapshot via `/scripts/server-0-delta/server-0-delta.sh`
+- Only created after user payment verification  
+- Server-0 spins up Server-0-Delta using fresh Ubuntu + Docker installation via `/scripts/server-0-delta/server-0-delta.sh`
 - More powerful instance needed for compute-intensive cluster creation
 - Server-0-Delta creates the actual GPU Kubernetes cluster
 - Temporary instance - destroyed when user session ends
+- **Setup Scripts**: VPS and container setup scripts organized in `/scripts/server-0-delta/setup-scripts/`
 
 ### User Flow
 1. User visits site → Server-0 serves landing page
@@ -233,6 +234,24 @@ This architecture treats Server-0 as a "cluster vending machine" that only dispe
 - However, in practice this approach has proven to be fairly sane and maintainable
 
 This shared container strategy allows the IAC codebase to handle everything from local development to production cluster provisioning with a single, well-tested set of tools and scripts.
+
+### Recent Infrastructure Improvements
+
+**Server-0-Delta VM Creation**:
+- **Eliminated Snapshot Dependency**: No longer relies on custom VPS snapshots 
+- **Fresh Ubuntu Installation**: Creates Ubuntu 24.04 LTS VMs with Docker installed via runtime scripts
+- **Simplified Maintenance**: No need to maintain and update custom snapshots
+- **Consistent Environment**: Every VM starts from a clean, up-to-date base image
+
+**Directory Reorganization**:
+- **Setup Scripts Moved**: All server-0-delta setup scripts moved to `/scripts/server-0-delta/setup-scripts/`
+- **Improved Organization**: Separates main functionality from setup/initialization scripts
+- **Clear Separation**: Makes it easier to understand which scripts run where in the deployment process
+
+**API Integration**:
+- **Operating Systems API**: Added `/vultr-api/operating-systems.sh` for querying available OS options
+- **Standardized Instance Creation**: Refactored instance creation logic with shared common functions
+- **Future-Proof Architecture**: Code structure supports both snapshot-based and fresh OS installations
 
 ### Vultr Resource Management Limitations
 
