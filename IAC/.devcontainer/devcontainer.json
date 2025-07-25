@@ -42,12 +42,9 @@
         "TF_VAR_openclone_ftp_password": "${localEnv:openclone_ftp_password}",
         "TF_VAR_letsencrypt_email": "${localEnv:OpenClone_Admin_Email}",
 
-        "TF_VAR_openclone_server_0_ip_address": "${localEnv:TF_VAR_openclone_server_0_ip_address}",
-        "OpenClone_OpenClone_Server_0_Password": "${localEnv:OpenClone_OpenClone_Server_0_Password}",
-        "OpenClone_Server_0_Password": "${localEnv:OpenClone_Server_0_Password}",
+        "TF_VAR_openclone_server_0_ip_address": "${localEnv:OpenClone_Server_0_IP_Address}",
         "OpenClone_Server_0_Delta_Snapshot_ID": "${localEnv:OpenClone_Server_0_Delta_Snapshot_ID}",
-        "OpenClone_Server_0_Cluster_Password": "${localEnv:OpenClone_Server_0_Cluster_Password}",
-        
+
         "OpenClone_Resistry_User": "${localEnv:OpenClone_Resistry_User}",
         "OpenClone_Registry_Password": "${localEnv:OpenClone_Registry_Password}"
     },
@@ -136,7 +133,7 @@
                             "name": "$(squirrel) S",
                             "color": "#FFFFFF",
                             "singleInstance": true,
-                            "command": "./server-0.sh --create_cluster_with_server_0_delta"
+                            "command": "./server-0.sh --create_server_0_delta"
                         },
                         {
                             "cwd": "/scripts/server-0",

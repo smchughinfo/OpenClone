@@ -394,3 +394,16 @@ The IAC container includes:
 - Claude executes single commands without persistent session
 - Example: `/StartStopScripts/Claude/iac-exec.sh "terraform validate"`
 - No tmux session needed for one-off operations
+
+## Container Registry Version Management
+
+**Issue**: `Dockerfile_ForDeployment` is hardcoded to `FROM openclone-iac:1.0` but the actual registry may contain higher version numbers (e.g., `4.0`, `5.0`).
+
+**Root Cause**: Docker `latest` tag is not automatically assigned to highest version numbers - it must be manually tagged.
+
+**Solution**: Keep IAC container versions simple by always using `1.0`:
+1. **Before updating**: Delete existing `openclone-iac` images from Vultr registry at https://my.vultr.com/registry/manage/
+2. **After deletion**: Next build will create `openclone-iac:1.0` 
+3. **Result**: `Dockerfile_ForDeployment` FROM line stays consistent
+
+**Why this works**: The tag resolver logic starts from `1.0` and increments, so deleting all versions resets the counter. This prevents version drift between the hardcoded Dockerfile and actual registry contents.

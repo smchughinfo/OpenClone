@@ -5,7 +5,13 @@ source /vultr-api/instances.sh
 
 server_0_delta_creds_path="/scripts/server-0/server-0-delta-creds"
 
-create_cluster_with_server_0_delta() {
+# Creates Server-0-Delta VPS and "loads a program" onto it, where the program is this dev container (with it's cluster creation scripts)
+# Think of this as: creating a fresh computer, installing cluster creation software,
+# configuring all settings, then putting the program to sleep until payment triggers activation
+create_server_0_delta() {
+    # Clear all SSH known hosts on local computer to avoid IP reuse conflicts
+    > /root/.ssh/known_hosts
+    
     # create server 0 delta
     result=$(create_instance_from_snapshot "$OpenClone_Server_0_Delta_Snapshot_ID")
     IFS="|" read -r instance_id default_password main_ip <<< "$result"

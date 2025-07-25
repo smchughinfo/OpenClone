@@ -17,6 +17,9 @@ setenv() {
     # Create profile.d directory if it doesn't exist
     [ ! -d /etc/profile.d ] && mkdir -p /etc/profile.d
     
+    # Remove existing entries first to prevent duplicates
+    sed -i "/^export ${var_name}=/d" /etc/profile.d/openclone.sh 2>/dev/null || true
+    
     # Save to persistent file
     echo "export ${var_name}='${var_value}'" >> /etc/profile.d/openclone.sh
     
@@ -25,7 +28,5 @@ setenv() {
     
     echo "Set ${var_name} successfully"
 }
-
-setenv OpenClone_Server_0_Cluster_Password "${OpenClone_Server_0_Cluster_Password}"
 
 echo "setup-server-0 complete!"

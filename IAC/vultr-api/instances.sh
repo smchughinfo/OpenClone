@@ -85,6 +85,11 @@ create_instance_from_snapshot() {
     echo "Default Password: $default_password" >&2
     echo "Main IP: $main_ip" >&2
 
+    # Wait for SSH daemon to be ready
+    echo "Waiting 60 seconds for SSH daemon to be ready..." >&2
+    sleep 60
+    echo "SSH wait complete!" >&2
+
     # Only this line goes to stdout:
     echo "$instance_id|$default_password|$main_ip"
 }

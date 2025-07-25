@@ -26,7 +26,7 @@ wait_for_container() {
 
 start_container() {
     if docker ps --filter "name=^${CONTAINER_NAME}$" --format "{{.Names}}" | grep -q "^${CONTAINER_NAME}$"; then
-        echo "Container is already running. Running create.sh and attaching..."
+        echo "Container is already running. Doing nothing..."
     else
         echo "Starting container, running create.sh and attaching..."
         docker start $CONTAINER_NAME
