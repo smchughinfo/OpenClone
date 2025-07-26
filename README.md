@@ -35,6 +35,8 @@ Monitoring dashboard that provides system insights, error tracking, and performa
 ### 🔧 **IAC** (Kubernetes + Terraform)
 DevOps infrastructure for deploying OpenClone to cloud environments, including Kubernetes clusters, databases, and monitoring systems.
 
+**Note on Kubernetes Versions**: The IAC system uses pinned Kubernetes versions for stability. If deployment fails with "Invalid K8 version" errors, check available versions with the Vultr API and update the version in `/IAC/setup-container.sh`. While auto-updating to latest versions is possible, manual version control prevents unexpected breaking changes from new Kubernetes releases.
+
 ### 🤖 **Code Assistant Integrattion**
 Technical documentation and context files for AI-powered development assistance. 
 

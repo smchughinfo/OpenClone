@@ -106,6 +106,17 @@ The system automatically resolves the latest available container image tags:
 - **Do NOT cancel**: Long deployment times are normal for complete cluster setup
 - **Progress Indicators**: Look for "Still creating..." rather than immediate failures
 
+### Kubernetes Version Management
+
+**Version Pinning Strategy**: The IAC system uses pinned Kubernetes versions in `/setup-container.sh` for deployment stability. 
+
+**When "Invalid K8 version" errors occur:**
+1. Check available versions: `curl -s -H "Authorization: Bearer $TF_VAR_vultr_api_key" "https://api.vultr.com/v2/kubernetes/versions" | jq -r ".versions[]"`
+2. Update the version in `/setup-container.sh`: `set_env_variable kubernetes_version "v1.33.0+3"`
+3. Reload with: `source /setup-container.sh`
+
+**Why not auto-update?** While automatically fetching the latest version is technically feasible, manual version control prevents surprise failures from breaking changes in new Kubernetes releases. The occasional manual update is preferable to unpredictable deployment failures.
+
 ### Environment-Specific Behavior
 
 **Vultr (Cloud Deployment)**:
