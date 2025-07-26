@@ -90,10 +90,7 @@ resource "kubernetes_deployment" "openclone_sftp" {
     }
   }
 }
-# IMPORTANT TODO: when you do security review make sure to think about using both node_ports and load_balancers.
-  # NodePort Purpose: Expose a service externally on a specific port of every Kubernetes node.
-  # LoadBalancer Purpose: Expose a service externally with a dedicated IP address managed by your cloud provider.
-# FYI - in order to expsoe this to your host computer (windows, the one running this dev container, you had to make an entry in kind-config-template.yaml)
+
 resource "kubernetes_service" "openclone_sftp_nodeport" {
   metadata {
     name = "openclone-sftp-nodeport"

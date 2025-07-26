@@ -69,7 +69,6 @@ npm run dev
 
 **LogViewer Scripts**: Python Flask monitoring application
 - **start-local.bat**: Local development environment
-- **start-kind.bat**: Kubernetes (kind) development  
 - **start-remote.bat**: Remote/production environments
 - **Path**: Uses Python virtual environment at `../../LogViewer/.venv/`
 

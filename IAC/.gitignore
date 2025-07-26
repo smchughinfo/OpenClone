@@ -4,7 +4,6 @@
 
 .terraform.lock.hcl
 *kube-config.yaml
-*kind-config.yaml
 script-to-run.bat
 *.crt
 get_helm.sh

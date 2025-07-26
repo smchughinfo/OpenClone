@@ -85,7 +85,7 @@ ID | Run# | Application | Machine | Timestamp | Level | OpenClone | Message
 
 ## Environment Configuration
 **Multi-Environment Support:**
-- `--environment local|remote|kind`: Configure database connections
+- `--environment local|remote`: Configure database connections
 - Environment variables: Database host, port, credentials
 - Development vs production database targeting
 

@@ -50,7 +50,7 @@ StartStopScripts/
 ├── Claude/                 # Claude Code integration tools
 ├── Database/               # PostgreSQL container scripts
 ├── Docker/                 # Docker Desktop management
-├── LogViewer/              # Monitoring scripts (local/kind/remote)
+├── LogViewer/              # Monitoring scripts (local/remote)
 ├── OpenClone/              # Main application scripts
 ├── SadTalker/              # AI video generation scripts
 ├── U-2-Net/                # Image processing scripts

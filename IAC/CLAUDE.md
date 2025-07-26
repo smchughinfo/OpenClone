@@ -50,12 +50,10 @@ The automated deployment follows this orchestrated sequence:
 
 1. **Environment Setup**
    - Sets Terraform workspace based on `$TF_VAR_environment`
-   - Sources environment-specific logic (kind vs vultr)
 
 2. **Cluster Creation** (if needed)
    - Checks if cluster exists with `does_cluster_exist()`
    - Creates cluster via environment-specific scripts:
-     - **Kind**: `/scripts/cluster_create_and_destroy/kind/cluster.sh`
      - **Vultr**: `/scripts/cluster_create_and_destroy/vultr/cluster.sh`
 
 3. **Terraform Initialization**
@@ -78,7 +76,6 @@ The automated deployment follows this orchestrated sequence:
 The system automatically resolves the latest available container image tags:
 
 **Tag Resolution Logic** (`/scripts/docker-cli/tag-resolver.sh`):
-- **Kind Environment**: Uses `localhost:5001/[service]:1.0` (local registry)
 - **Vultr Environment**: Queries Vultr Container Registry for latest version tags
 - **Version Format**: `X.0` (e.g., `1.0`, `2.0`, `3.0`)
 - **Auto-Discovery**: Finds highest numbered tag that exists in registry
