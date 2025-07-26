@@ -39,7 +39,7 @@ setup_container() {
 
     set_env_variable vultr_dev_kube_config_path "/terraform/vultr-dev-kube-config.yaml"
     switch_environment $(get_terraform_environment) 
-    set_env_variable kubernetes_version "v1.33.0+1" # this is the remote version. make sure it matches the kubectl you install in your dockerfile
+    set_env_variable kubernetes_version "v1.33.0+3" # this is the remote version. make sure it matches the kubectl you install in your dockerfile
 
     ################################################################################
     ######## VULTR KUBERNETES CONFIGURATIONS #######################################

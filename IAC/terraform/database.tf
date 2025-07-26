@@ -114,11 +114,6 @@ data "kubernetes_config_map" "db_init_status" {
   metadata {
     name = "openclone-db-init-status"
   }
-  
-  # This will fail if ConfigMap doesn't exist, but that's expected
-  lifecycle {
-    ignore_changes = all
-  }
 }
 
 resource "null_resource" "init_db" {

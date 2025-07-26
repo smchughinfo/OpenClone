@@ -204,12 +204,32 @@ resource "kubernetes_ingress_v1" "website_ingress" {
 
   spec {
     tls {
-      hosts       = ["app.clonezone.me"]
-      secret_name = "app-clonezone-me-tls"
+      hosts       = var.environment == "vultr_dev" ? ["dev.clonezone.me", "dev.www.clonezone.me"] : ["clonezone.me", "www.clonezone.me"]
+      secret_name = var.environment == "vultr_dev" ? "dev-clonezone-me-tls" : "clonezone-me-tls"
     }
 
+    # Root domain rule
     rule {
-      host = "app.clonezone.me"
+      host = var.environment == "vultr_dev" ? "dev.clonezone.me" : "clonezone.me"
+      http {
+        path {
+          path      = "/"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = kubernetes_service.openclone-website-nodeport.metadata[0].name
+              port {
+                number = 80
+              }
+            }
+          }
+        }
+      }
+    }
+
+    # WWW subdomain rule
+    rule {
+      host = var.environment == "vultr_dev" ? "dev.www.clonezone.me" : "www.clonezone.me"
       http {
         path {
           path      = "/"

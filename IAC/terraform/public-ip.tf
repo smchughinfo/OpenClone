@@ -5,7 +5,6 @@
 ################################################################################
 
 resource "vultr_dns_domain" "openclone_ai" {
-  count = var.dns_already_created == "false" ? 1 : 0
   domain = var.openclone_domain_name
 
   lifecycle {
@@ -129,10 +128,26 @@ data "kubernetes_service" "openclone_database_lb_external_ip" {
 ################################################################################
 
 
-resource "vultr_dns_record" "openclone_ai_app_record" {
+# Root domain record
+resource "vultr_dns_record" "openclone_ai_root_record" {
   count = 1
   domain = var.openclone_domain_name
-  name   = var.environment == "vultr_dev" ? "dev.app" : "app"
+  name   = var.environment == "vultr_dev" ? "dev" : ""
+  type   = "A"
+  data   = data.kubernetes_service.nginx_ingress_controller[0].status[0].load_balancer[0].ingress[0].ip
+
+  depends_on = [null_resource.wait_for_nginx_ingress_ip]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+# WWW subdomain record
+resource "vultr_dns_record" "openclone_ai_www_record" {
+  count = 1
+  domain = var.openclone_domain_name
+  name   = var.environment == "vultr_dev" ? "dev.www" : "www"
   type   = "A"
   data   = data.kubernetes_service.nginx_ingress_controller[0].status[0].load_balancer[0].ingress[0].ip
 

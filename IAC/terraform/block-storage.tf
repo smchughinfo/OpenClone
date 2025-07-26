@@ -41,11 +41,6 @@ data "kubernetes_config_map" "fs_init_status" {
   metadata {
     name = "openclone-fs-init-status"
   }
-  
-  # This will fail if ConfigMap doesn't exist, but that's expected
-  lifecycle {
-    ignore_changes = all
-  }
 }
 
 resource "null_resource" "init_fs" {
