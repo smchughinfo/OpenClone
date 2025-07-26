@@ -108,13 +108,30 @@ resource "kubernetes_service" "openclone-database-nodeport" {
   }
 }
 
-# TODO: IMPORTANT - THIS SHOULD ONLY CREATE SCHEMA AND MINIMUM DATA NEEDED FOR SYSTEM FUNCTIONALITY.
-# NOTE: IF THIS SCRIPT FAILS, TERRAFORM WILL NOT RETRY AUTOMATICALLY, AND IT WON’T RUN AGAIN ON FUTURE APPLIES.
-# TO FORCE A RE-RUN, MANUALLY TAINT THIS RESOURCE WITH `terraform taint null_resource.init_db`.
+# Check if database initialization was already completed
+data "kubernetes_config_map" "db_init_status" {
+  count = 1
+  metadata {
+    name = "openclone-db-init-status"
+  }
+  
+  # This will fail if ConfigMap doesn't exist, but that's expected
+  lifecycle {
+    ignore_changes = all
+  }
+}
+
 resource "null_resource" "init_db" {
   depends_on = [
       kubernetes_deployment.openclone-database, null_resource.init_fs
   ]
+  
+  # Only run when ConfigMap doesn't exist (triggers change forces re-run)
+  triggers = {
+    # This will change when ConfigMap state changes
+    config_exists = can(data.kubernetes_config_map.db_init_status[0].metadata[0].name) ? "exists" : "missing"
+  }
+  
   provisioner "local-exec" {
     command = "/scripts/database/database.sh --restore"
   }

@@ -51,7 +51,28 @@ function get_external_super_connectionstring() {
     echo "Host=$(get_external_database_host);Port=$(get_external_database_port);Database=$database;Username=postgres;Password=$TF_VAR_postgres_password;Include Error Detail=true;"
 }
 
+function check_db_init_status() {
+    k get configmap openclone-db-init-status >/dev/null 2>&1
+}
+
+function mark_db_init_complete() {
+    k create configmap openclone-db-init-status \
+        --from-literal=status=completed \
+        --from-literal=timestamp="$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+        --from-literal=version="1.0" \
+        --from-literal=openclone_db="$TF_VAR_openclone_openclonedb_name" \
+        --from-literal=log_db="$TF_VAR_openclone_logdb_name"
+}
+
 function restore() {
+    # Check if database initialization was already completed
+    if check_db_init_status; then
+        echo "Database already initialized (ConfigMap exists), skipping restore..."
+        return 0
+    fi
+    
+    echo "Running database restore initialization..."
+    
     wait_for_external_database_host_to_exist
     echo "doing restore... "
     default_connection="$(get_external_super_connectionstring "$TF_VAR_openclone_openclonedb_name")"
@@ -68,6 +89,16 @@ function restore() {
     command+=" --log_db_user_password \"$TF_VAR_openclone_logdb_password\""
 
     run_host_command "$command"
+    
+    # Mark database initialization as complete
+    if [ $? -eq 0 ]; then
+        echo "Database restore successful, marking as complete..."
+        mark_db_init_complete
+        echo "Database initialization complete!"
+    else
+        echo "Database restore failed, not marking as complete"
+        return 1
+    fi
 }
 
 function get_remote_shell_command() {

@@ -35,8 +35,28 @@ resource "kubernetes_persistent_volume_claim" "openclone_fs_pvc" {
   }
 }
 
+# Check if filesystem initialization was already completed
+data "kubernetes_config_map" "fs_init_status" {
+  count = 1
+  metadata {
+    name = "openclone-fs-init-status"
+  }
+  
+  # This will fail if ConfigMap doesn't exist, but that's expected
+  lifecycle {
+    ignore_changes = all
+  }
+}
+
 resource "null_resource" "init_fs" {
   depends_on = [ kubernetes_service.openclone_sftp_lb ]
+  
+  # Only run when ConfigMap doesn't exist (triggers change forces re-run)
+  triggers = {
+    # This will change when ConfigMap state changes
+    config_exists = can(data.kubernetes_config_map.fs_init_status[0].metadata[0].name) ? "exists" : "missing"
+  }
+  
   provisioner "local-exec" {
     command = "/scripts/openclone-fs/openclone-fs.sh --push_openclone_fs"
   }

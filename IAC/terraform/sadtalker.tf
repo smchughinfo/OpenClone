@@ -26,11 +26,10 @@ resource "kubernetes_deployment" "openclone-sadtalker" {
     null_resource.init_db
   ]
   
+  wait_for_rollout = false
+  
   metadata { name = "openclone-sadtalker-deployment" }
 
-  timeouts {
-    create = "30m"
-  }
 
   spec {
     replicas = 1                                                     # Number of pod replicas to run  # TODO USE Use a Horizontal Pod Autoscaler (HPA)

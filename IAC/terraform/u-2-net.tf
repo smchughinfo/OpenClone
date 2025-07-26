@@ -27,11 +27,10 @@ resource "kubernetes_deployment" "openclone-u-2-net" {
     null_resource.init_db
   ]
   
+  wait_for_rollout = false
+  
   metadata { name = "openclone-u-2-net-deployment" }
 
-  timeouts {
-    create = "30m"
-  }
 
   spec {
     replicas = 1                                                     # Number of pod replicas to run  # TODO USE Use a Horizontal Pod Autoscaler (HPA)
