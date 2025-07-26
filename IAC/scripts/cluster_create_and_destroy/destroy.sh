@@ -3,13 +3,13 @@
 source /scripts/shell-helpers/utility-functions.sh
 source /scripts/environment.sh
 source /scripts/docker-cli/tag-resolver.sh
+source /scripts/cluster_create_and_destroy/vultr/cluster.sh
 
 ################################################################################
 ######## MAIN LOGIC ############################################################
 ################################################################################
 
 destroy() {
-  source_environment_logic
   # actually this steps slows down deletion dramatically in some cases (for example can't get image name from registry) --- run_terraform_destroy # i think this step is actually not necessary as everything it does gets covered by destroying the cluster and the workspace. but here it is anyways, just in case... oh, and if it fails oh well, just continue executing the rest of the destroy script.
   ensure_success destroy_cluster_in_environment
   cleanup_cluster
@@ -30,10 +30,6 @@ run_terraform_destroy() { # this function is not actually used by any of the aut
 ################################################################################
 ######## HELPERS ###############################################################
 ################################################################################
-
-source_environment_logic() {
-  source /scripts/cluster_create_and_destroy/vultr/cluster.sh
-}
 
 destroy_cluster_in_environment() {
     # Initialize variables

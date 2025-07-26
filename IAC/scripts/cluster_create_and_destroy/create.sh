@@ -5,6 +5,7 @@ source /scripts/environment.sh
 source /scripts/docker-cli/tag-resolver.sh
 source /scripts/openclone-fs/longhorn/longhorn.sh
 source /vultr-api/domains.sh
+source /scripts/cluster_create_and_destroy/vultr/cluster.sh
 
 ################################################################################
 ######## MAIN LOGIC ############################################################
@@ -12,7 +13,6 @@ source /vultr-api/domains.sh
 
 create() {
   set_terraform_workspace $TF_VAR_environment #todo: seems superflous but this is for server-0-delta. see if you can get rid of it (may not be easy)
-  source_environment_logic
 
   if [ "$(does_cluster_exist)" == "false" ]; then
     ensure_success create_cluster_in_environment
@@ -31,10 +31,6 @@ create() {
 ################################################################################
 ######## HELPERS ###############################################################
 ################################################################################
-
-source_environment_logic() {
-  source /scripts/cluster_create_and_destroy/vultr/cluster.sh
-}
 
 create_cluster_in_environment() {
   create_cluster
