@@ -176,12 +176,7 @@ function MENU_get_database_connection_command() {
     external_ip=$(get_external_database_host)
     external_port=$(get_external_database_port)
     
-    if [[ "$TF_VAR_kube_config_path" == "$kind_kube_config_path" ]]; then
-        echo "FROM THE DEV CONTAINER -> psql -h host.docker.internal -p ${external_port} -U postgres -d postgres"
-        echo "FROM THE HOST COMPUTER -> psql -h ${external_ip} -p ${external_port} -U postgres -d postgres"
-    else
-        echo "psql -h ${external_ip} -p ${external_port} -U postgres -d postgres"
-    fi
+    echo "psql -h ${external_ip} -p ${external_port} -U postgres -d postgres"
 
     echo "password=${TF_VAR_postgres_password}"
 }

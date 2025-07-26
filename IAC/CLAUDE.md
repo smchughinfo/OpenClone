@@ -19,7 +19,6 @@ This function intelligently points to the correct kubeconfig file based on the c
 ### Multi-Environment Support
 
 This IAC environment supports deploying the OpenClone project to multiple environments:
-- **kind** - Local Kubernetes cluster
 - **vultr_dev** - Vultr development environment  
 - **vultr_prod** - Vultr production environment
 
@@ -111,11 +110,6 @@ The system automatically resolves the latest available container image tags:
 - **Progress Indicators**: Look for "Still creating..." rather than immediate failures
 
 ### Environment-Specific Behavior
-
-**Kind (Local Development)**:
-- Uses local Docker registry at `localhost:5001`
-- Custom Longhorn NFS configuration for containerized nodes
-- Simpler networking and storage setup
 
 **Vultr (Cloud Deployment)**:
 - Queries Vultr Container Registry for image versions

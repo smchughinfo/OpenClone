@@ -25,5 +25,5 @@ provider "vultr" {
 
 provider "kubernetes" {
   config_path = var.kube_config_path
-  insecure    = var.environment == "kind" ? true : false
+  insecure    = false
 }

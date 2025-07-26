@@ -9,14 +9,9 @@ get_first_pod_with_mount() {
 }
 
 push_openclone_fs() {
-    host=""
-    if [[ "$TF_VAR_kube_config_path" == "$kind_kube_config_path" ]]; then
-        host="host.docker.internal"
-    else
-        host="dev.sftp.$TF_VAR_openclone_domain_name"
-        echo "Flushing DNS to ensure $host uses the right ip address."
-        run_host_command "ipconfig /flushdns" # TODO: linux
-    fi
+    host="dev.sftp.$TF_VAR_openclone_domain_name"
+    echo "Flushing DNS to ensure $host uses the right ip address."
+    run_host_command "ipconfig /flushdns" # TODO: linux
 
     port="22"
     username="$TF_VAR_openclone_ftp_user"

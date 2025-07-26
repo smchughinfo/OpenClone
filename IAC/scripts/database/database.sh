@@ -11,12 +11,8 @@ function wait_for_external_database_host_to_exist() {
     echo "Starting check for external database host..."
 
     while [[ "$connection_success" == false ]]; do
-        # Get the external host IP, chose not to use get_external_database_host here as that would complicate the code. the get host logic in this function is half redundant but just think of this function as its own self-contained block of code.
-        if [[ "$TF_VAR_kube_config_path" == "$kind_kube_config_path" ]]; then
-            host="host.docker.internal" # dev container has to use this but the windows host computer has to use 127.0.0.1
-        else
-            host="$(k get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}' | cut -d' ' -f1)"
-        fi
+        # Get the external host IP for vultr cluster
+        host="$(k get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}' | cut -d' ' -f1)"
 
         if [[ -n "$host" ]]; then
             echo "Database host found: $host. Checking if we can connect to PostgreSQL..."
@@ -43,19 +39,11 @@ function wait_for_external_database_host_to_exist() {
 }
 
 function get_external_database_host() {
-    if [[ "$TF_VAR_kube_config_path" == "$kind_kube_config_path" ]]; then
-        echo "127.0.0.1" # the dev container has to use host.docker.internal, not 127.0.0.1 like the windows host computer.
-    else
-        echo "$(k get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}' | cut -d' ' -f1)"
-    fi
+    echo "$(k get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}' | cut -d' ' -f1)"
 }
 
 function get_external_database_port() {
-    if [[ "$TF_VAR_kube_config_path" == "$kind_kube_config_path" ]]; then
-        echo "$TF_VAR_database_nodeport"
-    else
-        echo "$(k get svc openclone-database-nodeport -o jsonpath='{.spec.ports[0].nodePort}')"
-    fi
+    echo "$(k get svc openclone-database-nodeport -o jsonpath='{.spec.ports[0].nodePort}')"
 }
 
 function get_external_super_connectionstring() {

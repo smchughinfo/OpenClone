@@ -7,7 +7,7 @@
 
 # NGINX Ingress Controller Namespace
 resource "kubernetes_namespace" "ingress_nginx" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   metadata {
     name = "ingress-nginx"
@@ -16,7 +16,7 @@ resource "kubernetes_namespace" "ingress_nginx" {
 
 # Install NGINX Ingress Controller
 resource "null_resource" "install_nginx_ingress" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   depends_on = [kubernetes_namespace.ingress_nginx]
   
@@ -27,7 +27,7 @@ resource "null_resource" "install_nginx_ingress" {
 
 # Wait for ingress controller to be ready
 resource "null_resource" "wait_for_nginx_ingress" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   depends_on = [null_resource.install_nginx_ingress]
   
@@ -38,7 +38,7 @@ resource "null_resource" "wait_for_nginx_ingress" {
 
 # Get the external IP of the ingress controller
 data "kubernetes_service" "nginx_ingress_controller" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   metadata {
     name      = "ingress-nginx-controller"
@@ -54,7 +54,7 @@ data "kubernetes_service" "nginx_ingress_controller" {
 
 # cert-manager Namespace
 resource "kubernetes_namespace" "cert_manager" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   metadata {
     name = "cert-manager"
@@ -63,7 +63,7 @@ resource "kubernetes_namespace" "cert_manager" {
 
 # Install cert-manager CRDs
 resource "null_resource" "install_cert_manager_crds" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   depends_on = [kubernetes_namespace.cert_manager]
   
@@ -74,7 +74,7 @@ resource "null_resource" "install_cert_manager_crds" {
 
 # Install cert-manager
 resource "null_resource" "install_cert_manager" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   depends_on = [null_resource.install_cert_manager_crds]
   
@@ -85,7 +85,7 @@ resource "null_resource" "install_cert_manager" {
 
 # Wait for cert-manager to be ready
 resource "null_resource" "wait_for_cert_manager" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   depends_on = [null_resource.install_cert_manager]
   
@@ -96,7 +96,7 @@ resource "null_resource" "wait_for_cert_manager" {
 
 # Wait for cert-manager CRDs to be fully ready
 resource "null_resource" "wait_for_cert_manager_crds" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   depends_on = [null_resource.wait_for_cert_manager]
   
@@ -111,7 +111,7 @@ resource "null_resource" "wait_for_cert_manager_crds" {
 
 # Create Let's Encrypt ClusterIssuer YAML files dynamically
 resource "local_file" "letsencrypt_prod_issuer" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   content = <<-EOT
 apiVersion: cert-manager.io/v1
@@ -134,7 +134,7 @@ EOT
 }
 
 resource "local_file" "letsencrypt_staging_issuer" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   content = <<-EOT
 apiVersion: cert-manager.io/v1
@@ -158,7 +158,7 @@ EOT
 
 # Create Let's Encrypt ClusterIssuers
 resource "null_resource" "create_letsencrypt_issuers" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   depends_on = [
     null_resource.wait_for_cert_manager_crds,
@@ -183,7 +183,7 @@ resource "null_resource" "create_letsencrypt_issuers" {
 
 # Ingress resource for app.clonezone.me with automatic HTTPS
 resource "kubernetes_ingress_v1" "website_ingress" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   depends_on = [
     kubernetes_deployment.openclone-website,
@@ -234,7 +234,7 @@ resource "kubernetes_ingress_v1" "website_ingress" {
 
 # Wait for nginx ingress controller to get external IP
 resource "null_resource" "wait_for_nginx_ingress_ip" {
-  count = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ? 1 : 0
+  count = 1
   
   depends_on = [null_resource.wait_for_nginx_ingress]
   

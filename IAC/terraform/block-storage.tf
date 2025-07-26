@@ -31,7 +31,7 @@ resource "kubernetes_persistent_volume_claim" "openclone_fs_pvc" {
         storage = "10Gi"
       }
     }
-    storage_class_name = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ?  "longhorn-rwx" :  kubernetes_storage_class.manual_hostpath.metadata[0].name
+    storage_class_name = "longhorn-rwx"
   }
 }
 
@@ -112,43 +112,3 @@ resource "kubernetes_service" "openclone_sftp_nodeport" {
   }
 }
 
-################################################################################
-######## KIND ##################################################################
-################################################################################
-
-# move KIND to longhorn. this was an attempt to get it to work on windows but WSL lacks some linux kernel files that are required for readwritemany. just switch to longhorn for kind and say KIND only works on linux, not windows.
-
-# StorageClass
-resource "kubernetes_storage_class" "manual_hostpath" {
-  metadata {
-    name = "manual-hostpath"
-  }
-  
-  storage_provisioner = "kubernetes.io/no-provisioner"
-  volume_binding_mode = "Immediate"
-  reclaim_policy      = "Retain"
-}
-
-# PersistentVolume
-resource "kubernetes_persistent_volume" "shared_data_pv" {
-  metadata {
-    name = "shared-data-pv"
-  }
-  
-  spec {
-    capacity = {
-      storage = "10Gi"
-    }
-    
-    access_modes = ["ReadWriteMany"]
-    persistent_volume_reclaim_policy = "Retain"
-    storage_class_name = kubernetes_storage_class.manual_hostpath.metadata[0].name
-    
-    persistent_volume_source {
-      host_path {
-        path = "/shared-data"
-        type = "DirectoryOrCreate"
-      }
-    }
-  }
-}

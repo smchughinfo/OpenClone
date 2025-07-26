@@ -4,18 +4,14 @@ source /scripts/docker-cli/login.sh
 source /vultr-api/registries.sh
 
 list_container_images() {
-    if [[ "$TF_VAR_kube_config_path" == "$kind_kube_config_path" ]]; then
-        docker exec -it kind-registry wget -qO- http://$kind_registry_hostname:$kind_registry_port/v2/_catalog
-    else
-        echo "getting please wait..."
-        repositories_json=$(get_repositories)
+    echo "getting please wait..."
+    repositories_json=$(get_repositories)
 
-        # Loop through each repository and print its name, trimming "openclone/" from the start
-        echo "$repositories_json" | jq -r '.repositories[].name' | while read -r repository_name; do
-            trimmed_name=$(echo "$repository_name" | sed 's|^openclone/||')
-            get_current_remote_image_name $trimmed_name
-        done
-    fi
+    # Loop through each repository and print its name, trimming "openclone/" from the start
+    echo "$repositories_json" | jq -r '.repositories[].name' | while read -r repository_name; do
+        trimmed_name=$(echo "$repository_name" | sed 's|^openclone/||')
+        get_current_remote_image_name $trimmed_name
+    done
 }
 
 
@@ -54,13 +50,9 @@ get_remote_registry_name() {
 }
 
 get_current_remote_image_name() { # this will return a tag with 0 as the version if nothing is found.
-    if [[ "$TF_VAR_kube_config_path" == "$kind_kube_config_path" ]]; then
-        echo "$kind_registry_host:$kind_registry_port/$1:1.0"
-    elif [[ "$TF_VAR_kube_config_path" == "$vultr_dev_kube_config_path" ]]; then
-        container_name="$1"
-        tag=$(get_current_version_tag "$container_name" | tail -n1)
-        echo "$(get_remote_registry_name)/$container_name:$tag"
-    fi
+    container_name="$1"
+    tag=$(get_current_version_tag "$container_name" | tail -n1)
+    echo "$(get_remote_registry_name)/$container_name:$tag"
 }
 
 get_next_remote_image_name() {

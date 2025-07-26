@@ -2,7 +2,6 @@
 
 source /scripts/shell-helpers/utility-functions.sh
 source /scripts/environment.sh
-source /scripts/cluster_create_and_destroy/kind/cluster.sh
 
 setup_container() {
     ################################################################################
@@ -38,7 +37,6 @@ setup_container() {
     ######## ENVIRONMENT ################################################
     ################################################################################
 
-    set_env_variable kind_kube_config_path "/terraform/kind-kube-config.yaml"
     set_env_variable vultr_dev_kube_config_path "/terraform/vultr-dev-kube-config.yaml"
     switch_environment $(get_terraform_environment) 
     set_env_variable kubernetes_version "v1.33.0+1" # this is the remote version. make sure it matches the kubectl you install in your dockerfile
@@ -67,29 +65,6 @@ setup_container() {
     set_env_variable TF_VAR_database_nodeport 30223
     set_env_variable TF_VAR_website_nodeport 30224
 
-    ################################################################################
-    ######## KIND ##################################################################
-    ################################################################################
-
-    set_env_variable cluster_name openclone-kind-cluster
-    set_env_variable cluster_control_plane_container_name openclone-kind-cluster-control-plane
-    set_env_variable kind_network_name kind-network
-
-    set_env_variable kind_registry_name kind-registry
-    set_env_variable kind_registry_host kind-registry.local
-    set_env_variable kind_registry_hostname "kind-registry.local"
-    set_env_variable kind_registry_port 5000
-
-    set_env_variable kind_config_path "/scripts/cluster_create_and_destroy/kind/config/kind-config.yaml"
-    kind_config_path_template="/scripts/cluster_create_and_destroy/kind/config/kind-config-template.yaml"
-    envsubst < $kind_config_path_template > $kind_config_path
-    if [[ -f "$kind_kube_config_path" ]]; then
-        setup_kind_network
-    fi
-
-    vultr_csi_secret_path_template="/scripts/cluster_create_and_destroy/kind/config/vultr-csi-secret-template.yaml"
-    set_env_variable vultr_csi_secret_path "/scripts/cluster_create_and_destroy/kind/config/vultr-csi-secret.yaml"
-    envsubst < "$vultr_csi_secret_path_template" > "$vultr_csi_secret_path"
 
     ################################################################################
     ######## SERVER-0 ##############################################################

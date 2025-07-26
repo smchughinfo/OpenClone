@@ -32,11 +32,7 @@ run_terraform_destroy() { # this function is not actually used by any of the aut
 ################################################################################
 
 source_environment_logic() {
-  if [[ "$TF_VAR_kube_config_path" == "$kind_kube_config_path" ]]; then
-    source /scripts/cluster_create_and_destroy/kind/cluster.sh    
-  elif [[ "$TF_VAR_kube_config_path" == "$vultr_dev_kube_config_path" ]]; then
-    source /scripts/cluster_create_and_destroy/vultr/cluster.sh
-  fi
+  source /scripts/cluster_create_and_destroy/vultr/cluster.sh
 }
 
 destroy_cluster_in_environment() {
