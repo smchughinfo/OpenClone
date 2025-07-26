@@ -49,6 +49,10 @@ setup_container() {
     set_env_variable vultr_cluster_label "openclone-cluster"
     set_env_variable vultr_cpu_node_pool_label "cpu-node-pool"
     set_env_variable vultr_gpu_node_pool_label "gpu-node-pool"
+    
+    # Set Terraform variables for node pool labels
+    set_env_variable TF_VAR_vultr_cpu_node_pool_label "cpu-node-pool"
+    set_env_variable TF_VAR_vultr_gpu_node_pool_label "gpu-node-pool"
 
     ################################################################################
     ######## CONNECTION STRINGS ####################################################
