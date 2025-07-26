@@ -57,15 +57,8 @@ function restore() {
     default_connection="$(get_external_super_connectionstring "$TF_VAR_openclone_openclonedb_name")"
     log_connection="$(get_external_super_connectionstring "$TF_VAR_openclone_logdb_name")"
 
-    # Determine script extension based on environment
-    if [[ "$Server_0_IAC_ENV" == "server-0-delta" ]]; then
-        script_ext="sh"
-    else
-        script_ext="bat"
-    fi
-
     # Build command string (same for both environments)
-    local command="${OpenClone_Root_Dir}/Database/BatchScripts/restore.${script_ext}"
+    local command="${OpenClone_Root_Dir}/Database/BatchScripts/restore.bat"
     command+=" --remote"
     command+=" --openclone_db_super_connection_string \"$default_connection\""
     command+=" --log_db_super_connection_string \"$log_connection\""
@@ -74,14 +67,7 @@ function restore() {
     command+=" --log_db_user_name \"$TF_VAR_openclone_logdb_user\""
     command+=" --log_db_user_password \"$TF_VAR_openclone_logdb_password\""
 
-    # Execute based on environment
-    if [[ "$Server_0_IAC_ENV" == "server-0-delta" ]]; then
-        # Execute directly on Linux
-        eval "$command"
-    else
-        # Use run_host_command for Windows dev container
-        run_host_command "$command"
-    fi
+    run_host_command "$command"
 }
 
 function get_remote_shell_command() {

@@ -70,8 +70,5 @@ RUN apt-get install iputils-ping
 RUN apt-get update
 RUN apt-get install gettext -y
 
-# Server-0
-RUN apt-get install sshpass -y
-
 # Keep the container running
 CMD ["tail", "-f", "/dev/null"]

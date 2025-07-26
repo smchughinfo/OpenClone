@@ -64,19 +64,6 @@ setup_container() {
     set_env_variable TF_VAR_sftp_nodeport 30222
     set_env_variable TF_VAR_database_nodeport 30223
     set_env_variable TF_VAR_website_nodeport 30224
-
-
-    ################################################################################
-    ######## SERVER-0 ##############################################################
-    ################################################################################
-
-    setup_server_0_path_template="/scripts/server-0-delta/setup-scripts/setup-server-0-delta-template.sh"
-    set_env_variable setup_server_0_path "/scripts/server-0-delta/setup-scripts/setup-server-0-delta.sh"
-    envsubst < "$setup_server_0_path_template" > "$setup_server_0_path"
-
-    setup_server_0_container_path_template="/scripts/server-0-delta/setup-scripts/setup-server-0-delta-container-template.sh"
-    set_env_variable setup_server_0_container_path "/scripts/server-0-delta/setup-scripts/setup-server-0-delta-container.sh"
-    envsubst '$TF_VAR_postgres_password,$TF_VAR_openclone_openclonedb_password,$TF_VAR_openclone_logdb_password,$TF_VAR_vultr_api_key,$TF_VAR_openclone_jwt_secretkey,$TF_VAR_openclone_openai_api_key,$TF_VAR_openclone_googleclientid,$TF_VAR_openclone_googleclientsecret,$TF_VAR_openclone_elevenlabsapikey,$TF_VAR_openclone_email_dkim,$Server_0_IAC_ENV,$OpenClone_Root_Dir,$OpenClone_OpenCloneFS,$OpenClone_Server_0_vultr_dev_kube_config_path,$OpenClone_Resistry_User,$OpenClone_Registry_Password,$Server_0_IAC_ENV,$OpenClone_Server_0_OpenClone_Root_Dir,$OpenClone_Server_0_OpenClone_OpenCloneFS' < "$setup_server_0_container_path_template" > "$setup_server_0_container_path"
 }
 setup_container
 echo "setup-container.sh complete!" # inform the user of our success.

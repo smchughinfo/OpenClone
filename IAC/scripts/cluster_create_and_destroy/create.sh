@@ -12,8 +12,6 @@ source /scripts/cluster_create_and_destroy/vultr/cluster.sh
 ################################################################################
 
 create() {
-  set_terraform_workspace $TF_VAR_environment #todo: seems superflous but this is for server-0-delta. see if you can get rid of it (may not be easy)
-
   if [ "$(does_cluster_exist)" == "false" ]; then
     ensure_success create_cluster_in_environment
   fi
