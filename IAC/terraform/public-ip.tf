@@ -18,12 +18,12 @@ resource "vultr_dns_domain" "openclone_ai" {
 ################################################################################
 
 # LOAD BALANCER FOR WEBSITE
-resource "kubernetes_service" "openclone_dev_lb" {
+resource "kubernetes_service" "openclone_website_lb" {
   count = 1
   depends_on = [kubernetes_deployment.openclone-website]
   
   metadata {
-    name = "openclone-dev-lb"
+    name = "openclone-website-lb"
   }
 
   spec {
@@ -103,10 +103,10 @@ resource "kubernetes_service" "openclone_database_lb" {
 ######## PUBLIC IP ADDRESS RESOLUTION ##########################################
 ################################################################################
 
-data "kubernetes_service" "openclone_dev_lb_external_ip" {
+data "kubernetes_service" "openclone_website_lb_external_ip" {
   count = 1
   metadata {
-    name = kubernetes_service.openclone_dev_lb[0].metadata[0].name
+    name = kubernetes_service.openclone_website_lb[0].metadata[0].name
   }
 }
 
