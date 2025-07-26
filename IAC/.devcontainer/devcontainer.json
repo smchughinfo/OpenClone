@@ -42,9 +42,6 @@
         "TF_VAR_openclone_ftp_password": "${localEnv:openclone_ftp_password}",
         "TF_VAR_letsencrypt_email": "${localEnv:OpenClone_Admin_Email}",
 
-        "TF_VAR_openclone_server_0_ip_address": "${localEnv:OpenClone_Server_0_IP_Address}",
-        "OpenClone_Server_0_Delta_Snapshot_ID": "${localEnv:OpenClone_Server_0_Delta_Snapshot_ID}",
-
         "OpenClone_Resistry_User": "${localEnv:OpenClone_Resistry_User}",
         "OpenClone_Registry_Password": "${localEnv:OpenClone_Registry_Password}"
     },

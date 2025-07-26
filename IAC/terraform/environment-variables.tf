@@ -51,5 +51,3 @@ variable "database_nodeport"                            { default = "" }
 variable "website_nodeport"                             { default = "" }
 variable "ssl_certificate_password"                    { default = "" }
 variable "letsencrypt_email"                            { default = "" }
-
-variable "openclone_server_0_ip_address"                          { default = "" }
