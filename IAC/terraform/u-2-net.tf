@@ -40,6 +40,10 @@ resource "kubernetes_deployment" "openclone-u-2-net" {
     template {                                                       # this is the pod template 
       metadata { labels = { pod_id = "openclone-u-2-net-pod" } }
       spec {
+        node_selector = {
+          "vke.vultr.com/node-pool" = var.vultr_gpu_node_pool_label
+        }
+        
         container {
           image = var.image_name_openclone_u-2-net # The container image pulled from your registry.
           name  = "openclone-u-2-net"              # The name of the container inside the pod.

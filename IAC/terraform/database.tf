@@ -12,6 +12,10 @@ resource "kubernetes_deployment" "openclone-database" {
     template {                                                        # this is the pod template 
       metadata { labels = { pod_id = "openclone-database-pod" } }
       spec {
+        node_selector = {
+          "vke.vultr.com/node-pool" = var.vultr_cpu_node_pool_label
+        }
+        
         container {
           image = var.image_name_openclone_database # The container image pulled from your registry.
           name  = "openclone-database"                  # The name of the container inside the pod.

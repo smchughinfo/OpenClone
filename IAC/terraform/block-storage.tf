@@ -57,6 +57,9 @@ resource "kubernetes_deployment" "openclone_sftp" {
     template {
       metadata { labels = { pod_id = "openclone-sftp-pod" } }
       spec {
+        node_selector = {
+          "vke.vultr.com/node-pool" = var.vultr_cpu_node_pool_label
+        }
         
         # Init container to set ownership
         init_container {

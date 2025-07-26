@@ -47,7 +47,8 @@ setup_container() {
 
     set_env_variable vultr_region "ewr"
     set_env_variable vultr_cluster_label "openclone-cluster"
-    set_env_variable vultr_all_deployments_node_pool_label "all-deployments-node-pool"
+    set_env_variable vultr_cpu_node_pool_label "cpu-node-pool"
+    set_env_variable vultr_gpu_node_pool_label "gpu-node-pool"
 
     ################################################################################
     ######## CONNECTION STRINGS ####################################################

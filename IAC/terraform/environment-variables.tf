@@ -5,7 +5,8 @@ variable "environment"                                  { default = "" }
 variable "kube_config_path"                             { default = "" }
 variable "vultr_cluster_label"                          { default = "" }
 variable "kubernetes_version"                           { default = "" }
-variable "vultr_all_deployments_node_pool_label"        { default = "" }
+variable "vultr_cpu_node_pool_label"                 { default = "" }
+variable "vultr_gpu_node_pool_label"                 { default = "" }
 
 variable "postgres_password"                            { default = "" }
 variable "dns_already_created"                          { default = "" }

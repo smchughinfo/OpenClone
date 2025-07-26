@@ -14,24 +14,37 @@ list_kubernetes_clusters() {
 }
 
 create_kubernetes_cluster() {
-    all_deployments_node_plan=$1
-    echo "Using node plan: $all_deployments_node_plan"
+    cpu_node_plan=$(get_cheapest_cpu_node_plan)
+    gpu_node_plan=$(get_cheapest_gpu_node_plan)
+    
+    echo "Using CPU node plan: $cpu_node_plan"
+    echo "Using GPU node plan: $gpu_node_plan"
 
     json_data=$(jo \
         label="$vultr_cluster_label"                    \
         region="$vultr_region"                          \
         version="$kubernetes_version"                   \
-        node_pools=$(jo -a $(jo                         \
-            node_quantity=1                             \
-            min_nodes=1                                 \
-            max_nodes=4                                 \
-            auto_scaler=true                            \
-            label="$vultr_all_deployments_node_pool_label"     \
-            plan="$all_deployments_node_plan"
-        ))
+        node_pools=$(jo -a \
+            $(jo                                        \
+                node_quantity=1                         \
+                min_nodes=1                             \
+                max_nodes=4                             \
+                auto_scaler=true                        \
+                label="$vultr_cpu_node_pool_label"      \
+                plan="$cpu_node_plan"                   \
+            )                                           \
+            $(jo                                        \
+                node_quantity=0                         \
+                min_nodes=0                             \
+                max_nodes=2                             \
+                auto_scaler=true                        \
+                label="$vultr_gpu_node_pool_label"      \
+                plan="$gpu_node_plan"                   \
+            )                                           \
+        )
     )
 
-    echo -e "Creating cluster:\n$json_data"
+    echo -e "Creating cluster with CPU and GPU node pools:\n$json_data"
     post_vultr "$clusters_endpoint" "$json_data"
     echo -e "\nCluster created!"
 }
