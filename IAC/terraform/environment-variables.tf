@@ -9,7 +9,6 @@ variable "vultr_cpu_node_pool_label"                 { default = "" }
 variable "vultr_gpu_node_pool_label"                 { default = "" }
 
 variable "postgres_password"                            { default = "" }
-variable "dns_already_created"                          { default = "" }
 variable "openclone_domain_name"                        { default = "" }
 variable "openclone_openclonedb_user"                   { default = "" }
 variable "openclone_openclonedb_password"               { default = "" }

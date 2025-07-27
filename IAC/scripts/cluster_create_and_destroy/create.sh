@@ -19,7 +19,6 @@ create() {
   terraform -chdir="/terraform" init
   install_longhorn
   terraform -chdir="/terraform" apply -auto-approve \
-    -var="dns_already_created=$(domain_exists $TF_VAR_openclone_domain_name)" \
     -var="image_name_openclone_sadtalker=$(get_current_remote_image_name openclone-sadtalker)" \
     -var="image_name_openclone_u-2-net=$(get_current_remote_image_name openclone-u-2-net)" \
     -var="image_name_openclone_database=$(get_current_remote_image_name openclone-database)" \

@@ -67,7 +67,6 @@ The automated deployment follows this orchestrated sequence:
 
 5. **Application Deployment via Terraform**
    - Runs `terraform apply -auto-approve` with dynamic variables:
-     - `dns_already_created`: Checks if domain exists to avoid conflicts
      - `image_name_*`: Resolves current container image tags from registry
    - Deploys all OpenClone services with resolved image versions
 

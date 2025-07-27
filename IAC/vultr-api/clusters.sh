@@ -34,8 +34,8 @@ create_kubernetes_cluster() {
                 plan="$cpu_node_plan"                   \
             )                                           \
             $(jo                                        \
-                node_quantity=0                         \
-                min_nodes=0                             \
+                node_quantity=1                         \
+                min_nodes=1                             \
                 max_nodes=2                             \
                 auto_scaler=true                        \
                 label="$vultr_gpu_node_pool_label"      \
