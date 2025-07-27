@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source /vultr-api/clusters.sh
+source /vultr-api/regions.sh
 source /scripts/shell-helpers/aliases.sh
 source /vultr-api/load-balancers.sh
 source /vultr-api/vpcs.sh
