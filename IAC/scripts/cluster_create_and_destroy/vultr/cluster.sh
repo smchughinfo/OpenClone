@@ -7,9 +7,12 @@ source /vultr-api/vpcs.sh
 source /vultr-api/domains.sh
 
 create_cluster() {
-    echo "Creating cluster with both CPU and GPU node pools..."
+    echo "Creating cluster with CPU node pool..."
     
-    create_kubernetes_cluster
+    # Get CPU node configuration from environment variables
+    cpu_node_plan=$(get_cheapest_cpu_node_plan)
+    
+    create_kubernetes_cluster "$cpu_node_plan" "$vultr_cpu_node_quantity" "$vultr_cpu_min_nodes" "$vultr_cpu_max_nodes" "$vultr_cpu_node_pool_label"
     wait_for_kube_config
     wait_until_all_nodes_are_ready
 }

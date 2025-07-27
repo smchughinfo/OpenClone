@@ -50,6 +50,16 @@ setup_container() {
     set_env_variable vultr_cpu_node_pool_label "cpu-node-pool"
     set_env_variable vultr_gpu_node_pool_label "gpu-node-pool"
     
+    # CPU Node Pool Configuration
+    set_env_variable vultr_cpu_node_quantity 1
+    set_env_variable vultr_cpu_min_nodes 1
+    set_env_variable vultr_cpu_max_nodes 4
+    
+    # GPU Node Pool Configuration  
+    set_env_variable vultr_gpu_node_quantity 1
+    set_env_variable vultr_gpu_min_nodes 1
+    set_env_variable vultr_gpu_max_nodes 2
+    
     # Set Terraform variables for node pool labels
     set_env_variable TF_VAR_vultr_cpu_node_pool_label "cpu-node-pool"
     set_env_variable TF_VAR_vultr_gpu_node_pool_label "gpu-node-pool"
