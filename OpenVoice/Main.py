@@ -2,6 +2,11 @@ import os
 import sys
 import torch
 
+# GPU Configuration (following SadTalker pattern)
+cuda_visible_devices = os.getenv("OpenClone_CUDA_VISIBLE_DEVICES", "0")
+os.environ["CUDA_VISIBLE_DEVICES"] = cuda_visible_devices
+print(f"CUDA_VISIBLE_DEVICES set to: {cuda_visible_devices}")
+
 # Add OpenVoice source to Python path
 openvoice_path = os.path.join(os.path.dirname(__file__), 'OpenVoice')
 if openvoice_path not in sys.path:
@@ -26,7 +31,16 @@ def openvoice_tts(text, reference_audio_path, output_path, language='English', s
     # Setup paths and device
     ckpt_base = 'OpenVoice/checkpoints/base_speakers/EN'
     ckpt_converter = 'OpenVoice/checkpoints/converter'
-    device = "cuda:0" if torch.cuda.is_available() else "cpu"
+    
+    # GPU Detection and Setup
+    if torch.cuda.is_available():
+        device = "cuda:0"
+        gpu_name = torch.cuda.get_device_name(0)
+        print(f"🚀 Using GPU: {gpu_name}")
+        print(f"GPU Memory: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB")
+    else:
+        device = "cpu"
+        print("⚠️  Using CPU (GPU not available)")
     
     print(f"Using device: {device}")
     print(f"Processing text: {text[:50]}...")
