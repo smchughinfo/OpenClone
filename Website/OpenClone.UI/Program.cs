@@ -18,7 +18,6 @@ using Microsoft.Extensions.Logging;
 using OpenClone.UI.Configuration.Services;
 using OpenClone.UI.Configuration.RoutingSetupAndRouting;
 using Microsoft.AspNetCore.Http.Features;
-using System.Security.Cryptography.X509Certificates;
 
 // ######################################################################################
 // ###### STEP 1: SITE CONFIGURATION AND SERVICE SETUP  #################################
@@ -37,40 +36,6 @@ var options = new WebApplicationOptions
 
 var builder = WebApplication.CreateBuilder(options);
 
-// Configure HTTPS directly in ASP.NET
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(80);  // HTTP
-    options.ListenAnyIP(443, listenOptions =>
-    {
-        // Use self-signed certificate for HTTPS
-        var certPath = "/app/ssl/fullchain.pem";
-        var keyPath = "/app/ssl/privkey.pem";
-        
-        if (File.Exists(certPath) && File.Exists(keyPath))
-        {
-            try
-            {
-                // Load certificate and private key
-                var cert = X509Certificate2.CreateFromPemFile(certPath, keyPath);
-                listenOptions.UseHttps(cert);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"SSL certificate error: {ex.Message}");
-                Console.WriteLine("Falling back to development certificate...");
-                listenOptions.UseHttps();
-            }
-        }
-        else
-        {
-            // Fallback to development certificate if SSL files don't exist
-            Console.WriteLine("SSL files not found, using development certificate...");
-            listenOptions.UseHttps();
-        }
-    });
-});
-
 // Disable configuration file watching to avoid inotify limits in containers
 builder.Configuration.Sources.Clear();
 builder.Configuration
@@ -80,6 +45,7 @@ builder.Configuration
     .AddEnvironmentVariables()
     .AddCommandLine(args ?? new string[] { });
 
+SelfHostingConfigurator.Configure(builder);
 DbContextConfigurator.Configure(builder);
 IdentityConfigurator.Configure(builder);
 OpenCloneServicesConfigurator.Configure(builder);
