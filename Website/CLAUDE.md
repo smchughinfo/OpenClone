@@ -423,6 +423,90 @@ Contains models, data contexts, DTOs, and extensions used across multiple projec
 - Migration files are computer-generated and treated as disposable artifacts  
 - OpenClone does not track migration history independently of entity definitions
 
+## HTTPS Self-Hosting Feature
+
+### **Overview**
+OpenClone includes built-in HTTPS support with automatic SSL certificate management for self-hosting scenarios. This is an **optional feature** for users who want to host OpenClone on their own infrastructure instead of using cloud providers.
+
+### **Features**
+- **Automatic SSL certificates** using Let's Encrypt or self-signed fallback
+- **Certificate renewal** with automated cron jobs inside Docker container
+- **Smart certificate validation** and regeneration when expired
+- **Zero-configuration setup** with sensible defaults
+- **Docker-integrated** - all SSL management happens inside the container
+
+### **Configuration**
+
+**Required Environment Variables** (for HTTPS self-hosting only):
+```bash
+OpenClone_Self_Hosting_Domain=your-domain.com    # Your domain name
+OpenClone_Admin_Email=admin@your-domain.com      # Email for Let's Encrypt registration
+```
+
+**Docker Configuration** (in `StartStopScripts/Website/start.bat`):
+```batch
+# Enable Let's Encrypt (production SSL certificates)
+set cmd=%cmd% -e USE_LETSENCRYPT=true
+
+# Self-signed certificates (development/testing)
+rem set cmd=%cmd% -e USE_LETSENCRYPT=false
+```
+
+### **Network Setup**
+
+**Router Port Forwarding:**
+- External port 80 → Internal port 8080 (HTTP redirect to HTTPS)
+- External port 443 → Internal port 8443 (HTTPS)
+
+**Windows Firewall Rules** (run as Administrator):
+```cmd
+netsh advfirewall firewall add rule name="OpenClone HTTP (8080)" dir=in action=allow protocol=TCP localport=8080
+netsh advfirewall firewall add rule name="OpenClone HTTPS (8443)" dir=in action=allow protocol=TCP localport=8443
+```
+
+### **How It Works**
+
+1. **Container starts** → SSL setup runs BEFORE web application starts
+2. **Certificate validation** → Checks for existing valid certificates
+3. **Automatic generation**:
+   - **Let's Encrypt mode**: Gets real certificates from Let's Encrypt CA (trusted by browsers)
+   - **Self-signed mode**: Creates certificates with proper SAN extensions (browser warnings)
+4. **Certificate renewal** → Sets up automatic renewal cron jobs (Let's Encrypt only)
+5. **Application startup** → Launches ASP.NET with HTTPS on ports 8080/8443
+
+### **Usage Modes**
+
+**Production (Let's Encrypt):**
+- Set `USE_LETSENCRYPT=true` in start.bat
+- Requires DNS pointing to your server before container startup
+- Gets trusted certificates automatically (no browser warnings)
+- Certificates auto-renew every 90 days
+
+**Development/Testing (Self-Signed):**
+- Default behavior (`USE_LETSENCRYPT=false`)
+- Generates certificates automatically with SAN extensions
+- Browsers show security warnings (click through to continue)
+- Perfect for local testing and development
+
+### **Files Created**
+- `setup-ssl.sh` - SSL certificate generation and management script
+- `docker-entrypoint.sh` - Container startup script with SSL setup
+- `Dockerfile` - Updated to include certbot, cron, and SSL tools
+- `/Website/ssl/` - SSL certificate storage (gitignored, Docker volume mounted)
+
+### **Technical Implementation**
+- **Let's Encrypt HTTP Challenge**: Uses port 80 for domain validation before web app starts
+- **Certificate Storage**: Persistent Docker volume at `/app/ssl/` mapped to host
+- **ASP.NET Integration**: Kestrel configured to load certificates from PEM files
+- **Automatic Renewal**: Cron jobs inside container handle certificate renewal
+- **Fallback Strategy**: Falls back to self-signed if Let's Encrypt fails
+
+### **Important Notes**
+- This is an **optional feature** - not required for cloud deployments
+- Only use this for self-hosting scenarios where you control the infrastructure
+- Cloud providers (AWS, Azure, GCP) typically provide their own SSL/TLS solutions
+- Let's Encrypt requires your domain to be publicly accessible for validation
+
 ## Build & Development
 
 ### **Setup Requirements**

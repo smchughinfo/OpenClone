@@ -36,13 +36,27 @@ RUN dotnet publish "OpenClone.UI/OpenClone.UI.csproj" -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 
-# Install FFmpeg
+# Install FFmpeg, Certbot for Let's Encrypt, and cron for certificate renewal
 RUN apt-get update && \
-    apt-get install -y ffmpeg && \
+    apt-get install -y ffmpeg certbot cron && \
     rm -rf /var/lib/apt/lists/*
+
+# Create SSL directory
+RUN mkdir -p /app/ssl
 
 # Copy the app files from the build stage
 COPY --from=build /app/publish .
 
-# Set the entry point to your main project DLL
-ENTRYPOINT ["dotnet", "OpenClone.UI.dll"]
+# Copy SSL setup script
+COPY setup-ssl.sh /app/setup-ssl.sh
+RUN chmod +x /app/setup-ssl.sh
+
+# Expose both HTTP and HTTPS ports
+EXPOSE 80 443
+
+# Create startup script that handles SSL certificate generation
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
+
+# Set the entry point to our custom script
+ENTRYPOINT ["/app/docker-entrypoint.sh"]

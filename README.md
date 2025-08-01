@@ -155,6 +155,10 @@ OpenClone_Admin_Email=<your@email.com>
 OpenClone_JWT_Issuer=https://www.clonezone.me
 OpenClone_JWT_Audience=OpenClone
 
+# Self-Hosting Configuration (Only for HTTPS self-hosting)
+OpenClone_Self_Hosting_Domain=app.clonezone.me  # Your domain name
+OpenClone_Admin_Email=<your@email.com>          # For Let's Encrypt certificates
+
 # File Storage (Update paths for your system)
 OpenClone_Root_Dir=C:/Users/seanm/Desktop/OpenClone
 OpenClone_OpenCloneFS=C:/Users/seanm/Desktop/OpenClone/OpenCloneFS
