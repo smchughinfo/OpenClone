@@ -32,12 +32,11 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-
                         @if (User.Identity.IsAuthenticated)
                         {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            </li>
                             <li class="nav-item">
                                 @* you cant use asp-page here because i want the CloneManager url but that gets rerouted to the CloneCRUD page*@
                                 <a class="nav-link text-dark" href="/CloneManager">Clone Manager</a>
@@ -48,26 +47,12 @@
                                 <a class="nav-link @(hasClone ? "text-dark" : "disabled pointer-events-none")" asp-area="" asp-page="@(hasClone ? "/ChatBot" : "#")">ChatBot</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link @(hasClone ? "text-dark" : "disabled pointer-events-none")" asp-area="" asp-page="@(hasClone ? "/AvatarBuilder" : "#")">Avatar Builder</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @(hasClone ? "text-dark" : "disabled pointer-events-none")" asp-area="" asp-page="@(hasClone ? "/PromptEngineering" : "#")">Prompt Engineering</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link @(hasClone ? "text-dark" : "disabled pointer-events-none")" asp-area="" asp-page="@(hasClone ? "/QA/QuestionCategories" : "#")">QA</a>
-                            </li>
-
-                            <li class="nav-item"> <!-- TODO: should this be DISABLED if user doesnt have a clone? -->
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Settings">Settings</a>
                             </li>
                         }
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/About">About</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/TestPage">Test Page</a>
+                            <a class="nav-link text-dark" href="https://github.com/smchughinfo/OpenClone/" target="_blank" rel="noopener noreferrer">About</a>
                         </li>
                     </ul>
                 </div>

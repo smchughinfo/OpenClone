@@ -45,7 +45,9 @@ builder.Configuration
     .AddEnvironmentVariables()
     .AddCommandLine(args ?? new string[] { });
 
+#if !BUILDING_ON_WINDOWS
 SelfHostingConfigurator.Configure(builder);
+#endif
 DbContextConfigurator.Configure(builder);
 IdentityConfigurator.Configure(builder);
 OpenCloneServicesConfigurator.Configure(builder);
