@@ -98,8 +98,8 @@ function ChatBot(props) {
         <ThreePanes
             id="chatBot"
             left={
-                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                    <div style={{ flexShrink: 0 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
+                    <div id="fakeWidget" style={{ flexShrink: 0 }}>
                         {deepFakeMode === 1 ? (
                             <QuickFake
                                 ref={deepFakePlayerRef}
@@ -121,7 +121,6 @@ function ChatBot(props) {
                     
                     {activeClone && (
                         <div style={{ 
-                            marginTop: '20px', 
                             padding: '20px', 
                             backgroundColor: '#f8f9fa', 
                             borderRadius: '8px', 
@@ -131,15 +130,28 @@ function ChatBot(props) {
                             flexDirection: 'column'
                         }}>
                             <h6 style={{ marginBottom: '15px', color: '#495057', borderBottom: '1px solid #dee2e6', paddingBottom: '8px' }}>Clone Profile</h6>
-                            <div style={{ fontSize: '14px', lineHeight: '1.8', flex: 1 }}>
-                                <div style={{ marginBottom: '8px' }}><strong>Name:</strong> {activeClone.firstName}{activeClone.lastName ? ` ${activeClone.lastName}` : ''}</div>
-                                <div style={{ marginBottom: '8px' }}>
-                                    <strong>Location:</strong> {
-                                        activeClone.city && activeClone.state ? `${activeClone.city}, ${activeClone.state}` :
-                                        activeClone.city ? activeClone.city :
-                                        activeClone.state ? activeClone.state :
-                                        <em style={{ color: '#6c757d' }}>Not specified</em>
-                                    }
+                            <div style={{ fontSize: '14px', lineHeight: '1.8', flex: 1, textAlign: 'left' }}>
+                                <div style={{ display: 'flex', gap: '15px', marginBottom: '8px' }}>
+                                    <div style={{ flex: 1 }}>
+                                        <strong>Name:</strong> {activeClone.firstName}{activeClone.lastName ? ` ${activeClone.lastName}` : ''}
+                                    </div>
+                                    <div style={{ flex: 1 }}>
+                                        <strong>Age:</strong> {activeClone.age || <em style={{ color: '#6c757d' }}>Not specified</em>}
+                                    </div>
+                                </div>
+                                
+                                <div style={{ display: 'flex', gap: '15px', marginBottom: '8px' }}>
+                                    <div style={{ flex: 1 }}>
+                                        <strong>Location:</strong> {
+                                            activeClone.city && activeClone.state ? `${activeClone.city}, ${activeClone.state}` :
+                                            activeClone.city ? activeClone.city :
+                                            activeClone.state ? activeClone.state :
+                                            <em style={{ color: '#6c757d' }}>Not specified</em>
+                                        }
+                                    </div>
+                                    <div style={{ flex: 1 }}>
+                                        <strong>Occupation:</strong> {activeClone.occupation || <em style={{ color: '#6c757d' }}>Not specified</em>}
+                                    </div>
                                 </div>
                                 <div style={{ marginBottom: '8px' }}>
                                     <strong>Biography:</strong>
@@ -157,7 +169,7 @@ function ChatBot(props) {
                                     </div>
                                 </div>
                                 
-                                <div style={{ marginTop: 'auto', paddingTop: '15px', borderTop: '1px solid #dee2e6', fontSize: '12px', color: '#6c757d' }}>
+                                <div style={{ marginTop: 'auto', paddingTop: '15px', borderTop: '1px solid #dee2e6', fontSize: '12px', color: '#6c757d', display: 'flex', justifyContent: 'space-between' }}>
                                     <div>Created: {new Date(activeClone.createDate).toLocaleDateString()}</div>
                                     <div>Logging: {activeClone.allowLogging ? 'Enabled' : 'Disabled'}</div>
                                 </div>
@@ -226,12 +238,16 @@ function ChatBot(props) {
                 <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-around' }}>
                     <div>
                         <h5>Settings</h5>
+                    </div>
+                    <hr />
+                    <div>
                         <DeepFakeModeChooser
                             selectedMode={deepFakeMode}
                             onModeChange={setDeepFakeMode}
                             cloneId={activeClone ? activeClone.id : null}
                         />
                     </div>
+                    <hr />
                     <div>
                         <SystemMessageBuilder
                             cloneId={activeClone ? activeClone.id : null}
