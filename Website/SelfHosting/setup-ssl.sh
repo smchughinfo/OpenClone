@@ -13,12 +13,10 @@ echo "Setting up Let's Encrypt SSL certificate for domain: $DOMAIN"
 mkdir -p $SSL_DIR
 
 # Check if certificate already exists and is valid (unless force renewal is requested)
-if [ "$FORCE_SSL_RENEWAL" != "true" ] && [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
+if [ "$FORCE_SSL_RENEWAL" != "true" ] && [ -f "$SSL_DIR/fullchain.pem" ] && [ -f "$SSL_DIR/privkey.pem" ]; then
     # Check if certificate is still valid (more than 30 days remaining)
-    if openssl x509 -checkend 2592000 -noout -in "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" >/dev/null 2>&1; then
-        echo "Valid Let's Encrypt certificate found, copying to app directory..."
-        cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" "$SSL_DIR/"
-        cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" "$SSL_DIR/"
+    if openssl x509 -checkend 2592000 -noout -in "$SSL_DIR/fullchain.pem" >/dev/null 2>&1; then
+        echo "Valid Let's Encrypt certificate found in persistent storage, skipping generation..."
         echo "Let's Encrypt certificate setup complete!"
         exit 0
     else
