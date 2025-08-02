@@ -6,6 +6,7 @@ using OpenClone;
 using OpenClone.Core.Models;
 using OpenClone.Core.Models.Enums;
 using OpenClone.Services;
+using OpenClone.Services.Extensions;
 using OpenClone.Services.Services;
 using OpenClone.Services.Services;
 using OpenCvSharp.Internal.Vectors;
@@ -111,12 +112,10 @@ namespace OpenClone.Services.Services
         public async Task SetActiveCloneToCloneWithMostRecentCreateDate(string userId)
         {
             var cloneWithMostRecentCreateDate = await _applicationDbContext.Clone
+                .Where(c => c.ApplicationUserId == userId)
                 .OrderByDescending(c => c.CreateDate)
                 .FirstOrDefaultAsync();
-            if (cloneWithMostRecentCreateDate != null)
-            {
-                await _applicationUserService.SetActiveCloneId(userId, cloneWithMostRecentCreateDate.Id);
-            }
+            await _applicationUserService.SetActiveCloneId(userId, cloneWithMostRecentCreateDate?.Id);
         }
 
         public bool CloneExists(string userId, string firstName)

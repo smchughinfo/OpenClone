@@ -139,6 +139,39 @@ function CloneCRUD(props) {
     }
     React.useEffect(handleActiveCloneChanged, [activeClone])
 
+    // Update navigation links based on clone count
+    React.useEffect(() => {
+        const hasClones = userClones.length > 0;
+        
+        // Find the navigation links by ID
+        const chatbotLink = document.getElementById('chatbotLink');
+        const qaLink = document.getElementById('qaLink');
+        
+        if (chatbotLink) {
+            if (hasClones) {
+                chatbotLink.href = "/ChatBot";
+                chatbotLink.classList.remove("disabled", "pointer-events-none");
+                chatbotLink.classList.add("text-dark");
+            } else {
+                chatbotLink.href = "#";
+                chatbotLink.classList.add("disabled", "pointer-events-none");
+                chatbotLink.classList.remove("text-dark");
+            }
+        }
+        
+        if (qaLink) {
+            if (hasClones) {
+                qaLink.href = "/QA";
+                qaLink.classList.remove("disabled", "pointer-events-none");
+                qaLink.classList.add("text-dark");
+            } else {
+                qaLink.href = "#";
+                qaLink.classList.add("disabled", "pointer-events-none");
+                qaLink.classList.remove("text-dark");
+            }
+        }
+    }, [userClones.length]);
+
     //////////////////////////////////////////////////////////////////
     ////////// MUTATE CLONE //////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
