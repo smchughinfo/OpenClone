@@ -636,12 +636,12 @@ function CloneCRUD(props) {
                                     </div>
                                     <div className="mt-5 mt-md-1 col-md-6 d-flex align-items-center">
                                         <div className="d-flex">
-                                            <div className="form-check me-3" data-bs-toggle="tooltip" title="If checked other users will be able to talk to your clone. This means any information you enter about your clone will be publicly available. Leave unchecked for privacy.">
+                                            {/* <div className="form-check me-3" data-bs-toggle="tooltip" title="If checked other users will be able to talk to your clone. This means any information you enter about your clone will be publicly available. Leave unchecked for privacy.">
                                                 <input className="form-check-input" type="checkbox" id="makePublic" checked={makePublic} onChange={(e) => setMakePublic(e.target.checked)} />
                                                 <label className="form-check-label" for="makePublic">
                                                     Make Public
                                                 </label>
-                                            </div>
+                                            </div> */}
                                             <div className="form-check" data-bs-toggle="tooltip" title="If checked some records of your conversations and interactions with this clone may be logged. Logs are useful for improving code quality and resolving errors. Leave unchecked for privacy. Third parties such as ElevenLabs and OpenAI do their own logging which can't be controlled here.">
                                                 <input className="form-check-input" type="checkbox" id="allowLogging" checked={allowLogging} onChange={(e) => setAllowLogging(e.target.checked)} />
                                                 <label className="form-check-label" for="allowLogging">

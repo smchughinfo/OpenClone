@@ -15,16 +15,26 @@ html {
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+  height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.container-fluid {
+  flex: 1;
 }
 
 .openclone-modal-y-position {
     top: 25%;
     margin-top: 0;
     --openclone-modal-y-position-top-translate-y: -50%;
+}
+
+.footer-text {
+    text-align: center;
 }
