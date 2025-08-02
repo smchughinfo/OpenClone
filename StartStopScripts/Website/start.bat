@@ -42,17 +42,16 @@ rem ###### SSL CERTIFICATE #############################################
 rem ####################################################################
 
 rem Get the SSL directory path (relative to this script)
-set SSL_PATH=%~dp0..\..\Website\ssl
+set SSL_PATH=%~dp0..\..\Website\SelfHosting\ssl
 set cmd=%cmd% -v "%SSL_PATH%":/app/ssl
 
 rem SSL Configuration Environment Variables
-rem Set USE_LETSENCRYPT=true to use real SSL certificates (requires DNS pointing to server)
-set cmd=%cmd% -e USE_LETSENCRYPT=true
-
-rem Default: Use self-signed certificates (comment out above line to use Let's Encrypt)
-rem set cmd=%cmd% -e USE_LETSENCRYPT=false
+rem Let's Encrypt SSL certificates (requires DNS pointing to server)
 set cmd=%cmd% -e SSL_DOMAIN=%OpenClone_Self_Hosting_Domain%
 set cmd=%cmd% -e SSL_EMAIL=%OpenClone_Admin_Email%
+
+rem Force SSL certificate renewal (uncomment to regenerate on next startup)
+rem set cmd=%cmd% -e FORCE_SSL_RENEWAL=true
 
 rem ####################################################################
 rem ###### SIGNALR #####################################################

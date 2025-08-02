@@ -48,14 +48,14 @@ RUN mkdir -p /app/ssl
 COPY --from=build /app/publish .
 
 # Copy SSL setup script
-COPY setup-ssl.sh /app/setup-ssl.sh
+COPY SelfHosting/setup-ssl.sh /app/setup-ssl.sh
 RUN chmod +x /app/setup-ssl.sh
 
 # Expose both HTTP and HTTPS ports
 EXPOSE 80 443
 
 # Create startup script that handles SSL certificate generation
-COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+COPY SelfHosting/docker-entrypoint.sh /app/docker-entrypoint.sh
 RUN chmod +x /app/docker-entrypoint.sh
 
 # Set the entry point to our custom script
