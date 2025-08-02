@@ -37,6 +37,27 @@ If you see 404 errors for JavaScript bundles or React components don't work, run
 
 Set required environment variables (see root README.md for complete list). Run the container using `/StartStopScripts/Website/start.bat` or start manually with the docker command. The application runs on port 8080 and requires SadTalker and U-2-Net services to be running for full functionality.
 
+### Service Communication Issue with SSL
+
+**IMPORTANT**: When using SSL self-hosting, the website container cannot reach other services using `127.0.0.1` addresses. You must use your host computer's LAN IP address instead.
+
+**Required environment variable changes:**
+```bash
+# Instead of localhost addresses:
+# OpenClone_SadTalker_HostAddress=http://127.0.0.1:5001
+# OpenClone_U2Net_HostAddress=http://127.0.0.1:5002
+
+# Use your host computer's LAN IP address:
+OpenClone_SadTalker_HostAddress=http://192.168.0.100:5001    # Replace with your actual IP
+OpenClone_U2Net_HostAddress=http://192.168.0.100:5002       # Replace with your actual IP
+```
+
+**To find your IP address:**
+- Windows: `ipconfig` (look for IPv4 Address)
+- Linux/Mac: `ip addr` or `ifconfig`
+
+**Why this happens**: The SSL container setup appears to break Docker's default bridge networking for `127.0.0.1` inter-container communication. Using the host's LAN IP address works around this limitation.
+
 ## HTTPS Self-Hosting
 
 The website includes built-in HTTPS support with automatic Let's Encrypt SSL certificate management for self-hosting scenarios where you want to expose OpenClone to the internet with proper SSL encryption.

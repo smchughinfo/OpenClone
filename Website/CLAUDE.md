@@ -516,6 +516,30 @@ Website/SelfHosting/
 - Cloud providers (AWS, Azure, GCP) typically provide their own SSL/TLS solutions
 - Let's Encrypt has rate limits: respect them by using certificate reuse and force renewal sparingly
 
+### **Known Issue: Service Communication with SSL**
+
+**Problem**: When SSL self-hosting is enabled, the website container cannot reach other OpenClone services (SadTalker, U-2-Net) using `127.0.0.1` addresses. This appears to be caused by the SSL container setup interfering with Docker's default bridge networking.
+
+**Symptoms**:
+- "Connection refused (127.0.0.1:5001)" errors when updating clones
+- SadTalker/U-2-Net services work fine from host (Postman, curl) but not from website container
+- `curl` from inside website container fails to `127.0.0.1:5001` but succeeds to host LAN IP
+
+**Solution**: Use host computer's LAN IP address instead of localhost for service communication:
+
+```bash
+# Environment variables that need updating:
+OpenClone_SadTalker_HostAddress=http://192.168.0.100:5001    # Replace with actual host IP
+OpenClone_U2Net_HostAddress=http://192.168.0.100:5002       # Replace with actual host IP
+```
+
+**Root Cause**: The SSL container setup (certbot, cron, certificate management) appears to modify the container's network stack in a way that breaks `127.0.0.1` loopback connectivity to host services. The exact mechanism is unclear, but using the host's LAN IP address bypasses this limitation.
+
+**Alternative Solutions**:
+- Run all services in containers with Docker networking (more complex)
+- Use `host.docker.internal` on Windows/Mac (may not work consistently)
+- Disable SSL for local development (not recommended for production self-hosting)
+
 ## Build & Development
 
 ### **Setup Requirements**
