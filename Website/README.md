@@ -39,53 +39,72 @@ Set required environment variables (see root README.md for complete list). Run t
 
 ## HTTPS Self-Hosting
 
-The website includes built-in HTTPS support with automatic SSL certificate management for self-hosting scenarios where you want to expose OpenClone to the internet with proper SSL encryption.
+The website includes built-in HTTPS support with automatic Let's Encrypt SSL certificate management for self-hosting scenarios where you want to expose OpenClone to the internet with proper SSL encryption.
 
 ### Features
-- **Automatic SSL certificates** using Let's Encrypt or self-signed fallback
-- **Certificate renewal** with automated cron jobs
-- **Smart certificate validation** and regeneration
-- **Zero-configuration setup** with sensible defaults
+- **Automatic Let's Encrypt SSL certificates** - production-ready trusted certificates
+- **Certificate renewal** with automated cron jobs inside container
+- **Smart certificate validation** and regeneration when needed
+- **Force renewal option** for certificate troubleshooting
+- **Persistent certificate storage** via Docker volume mounts
 
 ### Configuration
 
-**Required Environment Variables** (for HTTPS self-hosting only):
+**Required Environment Variables**:
 ```bash
 OpenClone_Self_Hosting_Domain=your-domain.com    # Your domain name
-OpenClone_Admin_Email=admin@your-domain.com      # Email for Let's Encrypt
+OpenClone_Admin_Email=admin@your-domain.com      # Email for Let's Encrypt registration
+```
+
+**Optional Environment Variables**:
+```bash
+FORCE_SSL_RENEWAL=true    # Forces certificate regeneration (use sparingly)
 ```
 
 ### Usage
 
-**Development/Testing (Self-Signed Certificates):**
-- Default behavior - generates self-signed certificates automatically
-- Browsers will show security warnings (click through to continue)
-- Perfect for local testing and development
-
-**Production (Let's Encrypt Certificates):**
-- Edit `/StartStopScripts/Website/start.bat`
-- Uncomment: `set cmd=%cmd% -e USE_LETSENCRYPT=true`
-- Requires DNS pointing to your server before container startup
-- Automatically gets trusted certificates (no browser warnings)
+1. **Set up DNS** - Point your domain to your server's public IP
+2. **Configure environment variables** - Set domain and email
+3. **Run container** - Use `/StartStopScripts/Website/start.bat`
+4. **Certificate generation** - Automatic Let's Encrypt certificate on first startup
+5. **Automatic renewal** - Certificates renew automatically every 90 days
 
 ### How It Works
 
-1. **Container starts** → Checks for existing SSL certificates
-2. **Certificate validation** → Ensures certificates are valid and not expiring soon
-3. **Automatic generation**:
-   - **Let's Encrypt mode**: Gets real certificates from Let's Encrypt CA
-   - **Self-signed mode**: Creates certificates with proper SAN extensions
-4. **Certificate renewal** → Sets up automatic renewal cron jobs (Let's Encrypt only)
-5. **Application startup** → Launches ASP.NET with HTTPS on ports 8080/8443
+1. **Container starts** → SSL setup runs before web application
+2. **Certificate validation** → Checks for existing valid certificates (>30 days remaining)
+3. **Let's Encrypt generation** → Uses HTTP challenge on port 80 for domain validation
+4. **Certificate storage** → Copies certificates to `/app/ssl/` for ASP.NET usage
+5. **Renewal setup** → Installs cron jobs for automatic certificate renewal
+6. **Application startup** → Launches ASP.NET with HTTPS on ports 8080/8443
+
+### Force Certificate Renewal
+
+For certificate troubleshooting, you can force regeneration:
+
+1. Edit `/StartStopScripts/Website/start.bat`
+2. Uncomment: `rem set cmd=%cmd% -e FORCE_SSL_RENEWAL=true`
+3. Restart container
+4. Comment the line again to return to normal behavior
 
 ### Network Configuration
 
 **Router Port Forwarding:**
-- External port 80 → Internal port 8080 (HTTP redirect to HTTPS)
-- External port 443 → Internal port 8443 (HTTPS)
+- External port 80 → Internal port 8080 (Required for Let's Encrypt validation)
+- External port 443 → Internal port 8443 (HTTPS traffic)
 
-**Access URLs:**
-- `https://your-domain.com` (external visitors)
-- `https://localhost:8443` (local testing)
+**Prerequisites:**
+- Domain must resolve to your server's public IP
+- Port 80 must be accessible from internet for Let's Encrypt validation
+- No other services using port 80 during certificate generation
+
+### Certificate Storage
+
+Certificates are stored persistently on the host at:
+- **Host path**: `/StartStopScripts/Website/SelfHosting/ssl/`
+- **Container path**: `/app/ssl/`
+- **Files**: `fullchain.pem`, `privkey.pem`
+
+Certificates survive container recreation and are automatically reused if valid.
 
 For more technical details and architecture information, see [CLAUDE.md](CLAUDE.md).

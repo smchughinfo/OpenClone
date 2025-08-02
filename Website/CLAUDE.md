@@ -426,30 +426,27 @@ Contains models, data contexts, DTOs, and extensions used across multiple projec
 ## HTTPS Self-Hosting Feature
 
 ### **Overview**
-OpenClone includes built-in HTTPS support with automatic SSL certificate management for self-hosting scenarios. This is an **optional feature** for users who want to host OpenClone on their own infrastructure instead of using cloud providers.
+OpenClone includes built-in HTTPS support with automatic Let's Encrypt SSL certificate management for self-hosting scenarios. This is an **optional feature** for users who want to host OpenClone on their own infrastructure with production-ready SSL certificates.
 
 ### **Features**
-- **Automatic SSL certificates** using Let's Encrypt or self-signed fallback
+- **Automatic Let's Encrypt SSL certificates** - production-ready trusted certificates
 - **Certificate renewal** with automated cron jobs inside Docker container
-- **Smart certificate validation** and regeneration when expired
-- **Zero-configuration setup** with sensible defaults
+- **Smart certificate validation** and regeneration when needed (>30 days remaining check)
+- **Force renewal option** for certificate troubleshooting via environment variable
+- **Persistent certificate storage** via Docker volume mounts
 - **Docker-integrated** - all SSL management happens inside the container
 
 ### **Configuration**
 
-**Required Environment Variables** (for HTTPS self-hosting only):
+**Required Environment Variables**:
 ```bash
 OpenClone_Self_Hosting_Domain=your-domain.com    # Your domain name
 OpenClone_Admin_Email=admin@your-domain.com      # Email for Let's Encrypt registration
 ```
 
-**Docker Configuration** (in `StartStopScripts/Website/start.bat`):
-```batch
-# Enable Let's Encrypt (production SSL certificates)
-set cmd=%cmd% -e USE_LETSENCRYPT=true
-
-# Self-signed certificates (development/testing)
-rem set cmd=%cmd% -e USE_LETSENCRYPT=false
+**Optional Environment Variables**:
+```bash
+FORCE_SSL_RENEWAL=true    # Forces certificate regeneration (use sparingly due to rate limits)
 ```
 
 ### **Network Setup**
@@ -466,46 +463,58 @@ netsh advfirewall firewall add rule name="OpenClone HTTPS (8443)" dir=in action=
 
 ### **How It Works**
 
-1. **Container starts** → SSL setup runs BEFORE web application starts
-2. **Certificate validation** → Checks for existing valid certificates
-3. **Automatic generation**:
-   - **Let's Encrypt mode**: Gets real certificates from Let's Encrypt CA (trusted by browsers)
-   - **Self-signed mode**: Creates certificates with proper SAN extensions (browser warnings)
-4. **Certificate renewal** → Sets up automatic renewal cron jobs (Let's Encrypt only)
-5. **Application startup** → Launches ASP.NET with HTTPS on ports 8080/8443
+1. **Container starts** → SSL setup runs BEFORE web application starts via `docker-entrypoint.sh`
+2. **Certificate validation** → Checks for existing valid certificates (>30 days remaining)
+3. **Let's Encrypt generation** → Uses HTTP challenge on port 80 for domain validation
+4. **Certificate storage** → Copies certificates to `/app/ssl/` for ASP.NET usage
+5. **Certificate renewal** → Sets up automatic renewal cron jobs inside container
+6. **Application startup** → Launches ASP.NET with HTTPS on ports 8080/8443
 
-### **Usage Modes**
+### **Certificate Management**
 
-**Production (Let's Encrypt):**
-- Set `USE_LETSENCRYPT=true` in start.bat
-- Requires DNS pointing to your server before container startup
-- Gets trusted certificates automatically (no browser warnings)
-- Certificates auto-renew every 90 days
+**Automatic Renewal:**
+- Cron jobs run twice daily inside container
+- Certificates auto-renew when <30 days remaining
+- Renewal uses `certbot renew --quiet --deploy-hook "/app/setup-ssl.sh"`
 
-**Development/Testing (Self-Signed):**
-- Default behavior (`USE_LETSENCRYPT=false`)
-- Generates certificates automatically with SAN extensions
-- Browsers show security warnings (click through to continue)
-- Perfect for local testing and development
+**Force Renewal:**
+- Set `FORCE_SSL_RENEWAL=true` environment variable
+- Bypasses existing certificate checks
+- Use sparingly due to Let's Encrypt rate limits (20 certs/week/domain)
 
-### **Files Created**
-- `setup-ssl.sh` - SSL certificate generation and management script
-- `docker-entrypoint.sh` - Container startup script with SSL setup
-- `Dockerfile` - Updated to include certbot, cron, and SSL tools
-- `/Website/ssl/` - SSL certificate storage (gitignored, Docker volume mounted)
+**Certificate Storage:**
+- **Host path**: `/Website/SelfHosting/ssl/` (persistent across container recreations)
+- **Container path**: `/app/ssl/` (where ASP.NET reads certificates)
+- **Files**: `fullchain.pem`, `privkey.pem`
+
+### **SSL File Structure**
+```
+Website/SelfHosting/
+├── docker-entrypoint.sh     # Container startup script with SSL setup
+├── setup-ssl.sh            # SSL certificate generation and management
+└── ssl/                     # Certificate storage (gitignored)
+    ├── fullchain.pem        # Let's Encrypt certificate chain
+    └── privkey.pem          # Private key
+```
 
 ### **Technical Implementation**
 - **Let's Encrypt HTTP Challenge**: Uses port 80 for domain validation before web app starts
-- **Certificate Storage**: Persistent Docker volume at `/app/ssl/` mapped to host
-- **ASP.NET Integration**: Kestrel configured to load certificates from PEM files
-- **Automatic Renewal**: Cron jobs inside container handle certificate renewal
-- **Fallback Strategy**: Falls back to self-signed if Let's Encrypt fails
+- **Certificate Storage**: Persistent Docker volume mount preserves certificates across container recreations
+- **ASP.NET Integration**: Kestrel configured to load certificates from PEM files at startup
+- **Automatic Renewal**: Cron jobs inside container handle certificate renewal without manual intervention
+- **Error Handling**: Clear error messages with troubleshooting steps if certificate generation fails
+
+### **Prerequisites**
+- Domain must resolve to your server's public IP address
+- Port 80 must be accessible from internet for Let's Encrypt validation
+- No other services using port 80 during certificate generation
+- Container needs internet connectivity to reach Let's Encrypt servers
 
 ### **Important Notes**
 - This is an **optional feature** - not required for cloud deployments
 - Only use this for self-hosting scenarios where you control the infrastructure
 - Cloud providers (AWS, Azure, GCP) typically provide their own SSL/TLS solutions
-- Let's Encrypt requires your domain to be publicly accessible for validation
+- Let's Encrypt has rate limits: respect them by using certificate reuse and force renewal sparingly
 
 ## Build & Development
 
