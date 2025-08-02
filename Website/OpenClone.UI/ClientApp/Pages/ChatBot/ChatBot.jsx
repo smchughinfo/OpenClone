@@ -60,39 +60,26 @@ function ChatBot(props) {
         <ThreePanes
             id="chatBot"
             left={
-                <>
-                    <DeepFakeModeChooser
-                        selectedMode={deepFakeMode}
-                        onModeChange={setDeepFakeMode}
-                        cloneId={activeClone ? activeClone.id : null}
-                    />
-                    <SystemMessageBuilder
-                        cloneId={activeClone ? activeClone.id : null}
-                        onReadyStateChange={onSystemMessageBuilderReadyStateChange}
-                    >
-                        
-                    </SystemMessageBuilder>
-                </>
+                <div>
+                    {deepFakeMode === 1 ? (
+                        <QuickFake
+                            ref={deepFakePlayerRef}
+                            cloneId={activeClone ? activeClone.id : null}
+                            messageToClone={messageToClone}
+                            onDeepFakePlayerReadyStateChange={onDeepFakePlayerReadyStateChange}
+                        />
+                    ) : deepFakeMode === 2 ? (
+                        <DeepFake
+                            ref={deepFakePlayerRef}
+                            cloneId={activeClone ? activeClone.id : null}
+                            messageToClone={messageToClone}
+                            onDeepFakePlayerReadyStateChange={onDeepFakePlayerReadyStateChange}
+                        />
+                    ) : null /* Handle other cases if necessary */}
+                </div>
             }
             center={
                 <div>
-                    <div className="row">
-                        {deepFakeMode === 1 ? (
-                            <QuickFake
-                                ref={deepFakePlayerRef}
-                                cloneId={activeClone ? activeClone.id : null}
-                                messageToClone={messageToClone}
-                                onDeepFakePlayerReadyStateChange={onDeepFakePlayerReadyStateChange}
-                            />
-                        ) : deepFakeMode === 2 ? (
-                            <DeepFake
-                                ref={deepFakePlayerRef}
-                                cloneId={activeClone ? activeClone.id : null}
-                                messageToClone={messageToClone}
-                                onDeepFakePlayerReadyStateChange={onDeepFakePlayerReadyStateChange}
-                            />
-                        ) : null /* Handle other cases if necessary */}
-                    </div>
                     <div className="row">
                         <div className="col-10">
                             <textarea
@@ -113,11 +100,19 @@ function ChatBot(props) {
             }
             right={
                 <div>
-                    {/* THING 3
-                    <hr />
-                    <span>
-                        {activeClone ? activeClone.id + " <-activeClone.id" : "NO ACTIVECLONEID"}
-                    </span> */}
+                    <h5>Settings</h5>
+                    <DeepFakeModeChooser
+                        selectedMode={deepFakeMode}
+                        onModeChange={setDeepFakeMode}
+                        cloneId={activeClone ? activeClone.id : null}
+                    />
+                    <div style={{ marginTop: '20px' }}>
+                        <SystemMessageBuilder
+                            cloneId={activeClone ? activeClone.id : null}
+                            onReadyStateChange={onSystemMessageBuilderReadyStateChange}
+                        >
+                        </SystemMessageBuilder>
+                    </div>
                 </div>
             }
         />

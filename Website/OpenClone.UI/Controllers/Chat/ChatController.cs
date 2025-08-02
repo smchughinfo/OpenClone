@@ -43,5 +43,12 @@ namespace OpenClone.UI.Controllers.Chat
             var systemMessageData = await _chatService.GetSystemMessageData(User.GetActiveCloneId());
             return Ok(systemMessageData);
         }
+
+        [HttpGet("GetChatSessionMessages")]
+        public async Task<IActionResult> GetChatSessionMessages()
+        {
+            var chatSession = await _chatService.GetChatSession(User.GetActiveCloneId());
+            return Ok(chatSession.ChatMessages);
+        }
     }
 }
