@@ -11,6 +11,10 @@
     resize: vertical;
 }
 
+#sendButton {
+    box-shadow: none;
+}
+
 .chat-interface {
     display: flex;
     flex-direction: column;

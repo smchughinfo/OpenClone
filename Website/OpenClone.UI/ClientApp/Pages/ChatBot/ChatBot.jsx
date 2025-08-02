@@ -9,7 +9,7 @@ import { get, post } from 'js/services/network.js';
 
 function ChatBot(props) {
     const [activeClone, setActiveClone] = React.useState(null);
-    const [messageToClone, setMessageToClone] = React.useState("hi, do you prefer red or blue (pick one)");
+    const [messageToClone, setMessageToClone] = React.useState();
     const [deepFakeMode, setDeepFakeMode] = React.useState(null);
     const [deepFakePlayerReadyState, setDeepFakePlayerReadyState] = React.useState(false);
     const deepFakePlayerRef = React.useRef();
@@ -79,30 +79,91 @@ function ChatBot(props) {
 
     function handleParentButtonClick() {
         if (deepFakePlayerRef.current) {
+            // Set cursor to wait while message is being processed
+            document.body.style.cursor = 'wait';
+            // Clear the textarea
+            setMessageToClone("");
             deepFakePlayerRef.current.handleClick();
         }
+    }
+
+    async function onMessageFromClone() {
+        // Reset cursor back to default
+        document.body.style.cursor = 'default';
+        // Refresh chat history with new messages
+        await loadChatMessages();
     }
 
     return (
         <ThreePanes
             id="chatBot"
             left={
-                <div>
-                    {deepFakeMode === 1 ? (
-                        <QuickFake
-                            ref={deepFakePlayerRef}
-                            cloneId={activeClone ? activeClone.id : null}
-                            messageToClone={messageToClone}
-                            onDeepFakePlayerReadyStateChange={onDeepFakePlayerReadyStateChange}
-                        />
-                    ) : deepFakeMode === 2 ? (
-                        <DeepFake
-                            ref={deepFakePlayerRef}
-                            cloneId={activeClone ? activeClone.id : null}
-                            messageToClone={messageToClone}
-                            onDeepFakePlayerReadyStateChange={onDeepFakePlayerReadyStateChange}
-                        />
-                    ) : null /* Handle other cases if necessary */}
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <div style={{ flexShrink: 0 }}>
+                        {deepFakeMode === 1 ? (
+                            <QuickFake
+                                ref={deepFakePlayerRef}
+                                cloneId={activeClone ? activeClone.id : null}
+                                messageToClone={messageToClone}
+                                onDeepFakePlayerReadyStateChange={onDeepFakePlayerReadyStateChange}
+                                onMessageFromClone={onMessageFromClone}
+                            />
+                        ) : deepFakeMode === 2 ? (
+                            <DeepFake
+                                ref={deepFakePlayerRef}
+                                cloneId={activeClone ? activeClone.id : null}
+                                messageToClone={messageToClone}
+                                onDeepFakePlayerReadyStateChange={onDeepFakePlayerReadyStateChange}
+                                onMessageFromClone={onMessageFromClone}
+                            />
+                        ) : null /* Handle other cases if necessary */}
+                    </div>
+                    
+                    {activeClone && (
+                        <div style={{ 
+                            marginTop: '20px', 
+                            padding: '20px', 
+                            backgroundColor: '#f8f9fa', 
+                            borderRadius: '8px', 
+                            border: '1px solid #dee2e6',
+                            flex: 1,
+                            display: 'flex',
+                            flexDirection: 'column'
+                        }}>
+                            <h6 style={{ marginBottom: '15px', color: '#495057', borderBottom: '1px solid #dee2e6', paddingBottom: '8px' }}>Clone Profile</h6>
+                            <div style={{ fontSize: '14px', lineHeight: '1.8', flex: 1 }}>
+                                <div style={{ marginBottom: '8px' }}><strong>Name:</strong> {activeClone.firstName}{activeClone.lastName ? ` ${activeClone.lastName}` : ''}</div>
+                                <div style={{ marginBottom: '8px' }}>
+                                    <strong>Location:</strong> {
+                                        activeClone.city && activeClone.state ? `${activeClone.city}, ${activeClone.state}` :
+                                        activeClone.city ? activeClone.city :
+                                        activeClone.state ? activeClone.state :
+                                        <em style={{ color: '#6c757d' }}>Not specified</em>
+                                    }
+                                </div>
+                                <div style={{ marginBottom: '8px' }}>
+                                    <strong>Biography:</strong>
+                                    <div style={{ 
+                                        marginTop: '5px', 
+                                        padding: '10px', 
+                                        backgroundColor: 'white', 
+                                        borderRadius: '4px', 
+                                        border: '1px solid #e9ecef',
+                                        minHeight: '60px',
+                                        fontStyle: activeClone.biography ? 'normal' : 'italic',
+                                        color: activeClone.biography ? 'inherit' : '#6c757d'
+                                    }}>
+                                        {activeClone.biography || 'No biography provided...'}
+                                    </div>
+                                </div>
+                                
+                                <div style={{ marginTop: 'auto', paddingTop: '15px', borderTop: '1px solid #dee2e6', fontSize: '12px', color: '#6c757d' }}>
+                                    <div>Created: {new Date(activeClone.createDate).toLocaleDateString()}</div>
+                                    <div>Logging: {activeClone.allowLogging ? 'Enabled' : 'Disabled'}</div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             }
             center={
@@ -141,10 +202,17 @@ function ChatBot(props) {
                                 placeholder="Type your message..."
                                 value={messageToClone}
                                 onChange={(e) => { setMessageToClone(e.target.value); }}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                        e.preventDefault();
+                                        handleParentButtonClick();
+                                    }
+                                }}
                                 rows="2"
                             />
                             <button 
-                                type="button" 
+                                type="button"
+                                id="sendButton"
                                 className="btn btn-primary" 
                                 onClick={handleParentButtonClick}
                             >
@@ -155,14 +223,16 @@ function ChatBot(props) {
                 </div>
             }
             right={
-                <div>
-                    <h5>Settings</h5>
-                    <DeepFakeModeChooser
-                        selectedMode={deepFakeMode}
-                        onModeChange={setDeepFakeMode}
-                        cloneId={activeClone ? activeClone.id : null}
-                    />
-                    <div style={{ marginTop: '20px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-around' }}>
+                    <div>
+                        <h5>Settings</h5>
+                        <DeepFakeModeChooser
+                            selectedMode={deepFakeMode}
+                            onModeChange={setDeepFakeMode}
+                            cloneId={activeClone ? activeClone.id : null}
+                        />
+                    </div>
+                    <div>
                         <SystemMessageBuilder
                             cloneId={activeClone ? activeClone.id : null}
                             onReadyStateChange={onSystemMessageBuilderReadyStateChange}

@@ -28,6 +28,7 @@ const DeepFake = React.forwardRef((props, ref) => {
             return;
         }
         await chatHub.sendMessageToCloneAndWaitForResponse(chatSessionId, props.messageToClone);
+        props.onMessageFromClone();
         var m3u8Url = getCloneM3u8Path(props.cloneId);
         var videoElement = document.getElementById("cloneStream");
         StreamM3u8(m3u8Url, videoElement);
