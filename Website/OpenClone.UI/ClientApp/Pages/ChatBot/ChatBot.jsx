@@ -14,6 +14,8 @@ function ChatBot(props) {
     const [deepFakePlayerReadyState, setDeepFakePlayerReadyState] = React.useState(false);
     const deepFakePlayerRef = React.useRef();
     const [systemMessageBuilderReadyState, setSystemMessageBuilderReadyState] = React.useState(false);
+    const [chatMessages, setChatMessages] = React.useState([]);
+    const chatContainerRef = React.useRef();
 
     //////////////////////////////////////////////////////////////////
     ////////// PAGE INIT /////////////////////////////////////////////
@@ -22,6 +24,7 @@ function ChatBot(props) {
     async function init() {
         window.showLoader();
         await loadClone();
+        await loadChatMessages();
     }
     React.useEffect(() => init(), []);
 
@@ -31,12 +34,36 @@ function ChatBot(props) {
         setDeepFakeMode(_activeClone.deepFakeMode.id);
     }
 
+    async function loadChatMessages() {
+        try {
+            var messages = await get("/api/Chat/GetChatSessionMessages");
+            setChatMessages(messages || []);
+        } catch (error) {
+            console.error("Error loading chat messages:", error);
+            setChatMessages([]);
+        }
+    }
+
     async function onChildComponentLoaded() {
         if (deepFakePlayerReadyState && systemMessageBuilderReadyState) {
             window.hideLoader();
         }
     }
     React.useEffect(() => onChildComponentLoaded(), [deepFakePlayerReadyState, systemMessageBuilderReadyState]);
+
+    // Auto-scroll to bottom when messages change
+    function scrollToBottom() {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    }
+    React.useEffect(() => scrollToBottom(), [chatMessages]);
+
+    // Format timestamp for display
+    function formatTimestamp(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
 
     //////////////////////////////////////////////////////////////////
     ////////// PARENT/CHILD STATE SYNC ///////////////////////////////
@@ -79,20 +106,49 @@ function ChatBot(props) {
                 </div>
             }
             center={
-                <div>
-                    <div className="row">
-                        <div className="col-10">
+                <div className="chat-interface">
+                    <div 
+                        className="chat-messages-container" 
+                        ref={chatContainerRef}
+                    >
+                        {chatMessages.length === 0 ? (
+                            <div className="empty-chat">
+                                <p className="text-muted">Start a conversation with your clone!</p>
+                            </div>
+                        ) : (
+                            chatMessages.map((message, index) => (
+                                <div 
+                                    key={message.id || index} 
+                                    className={`message ${message.chatRole.enumName.toLowerCase()}`}
+                                >
+                                    <div className="message-content">
+                                        <div className="message-text">
+                                            {message.message}
+                                        </div>
+                                        <div className="message-time">
+                                            {formatTimestamp(message.timeStamp)}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                    <div className="chat-input-container">
+                        <div className="input-group">
                             <textarea
                                 id="messageInput"
                                 className="form-control"
+                                placeholder="Type your message..."
                                 value={messageToClone}
                                 onChange={(e) => { setMessageToClone(e.target.value); }}
+                                rows="2"
+                            />
+                            <button 
+                                type="button" 
+                                className="btn btn-primary" 
+                                onClick={handleParentButtonClick}
                             >
-                            </textarea>
-                        </div>
-                        <div className="col-2">
-                            <button type="button" className="btn btn-primary w-100" onClick={handleParentButtonClick}>
-                                <i className="bi bi-floppy"></i>
+                                <i className="bi bi-send"></i>
                             </button>
                         </div>
                     </div>
