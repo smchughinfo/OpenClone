@@ -39,7 +39,7 @@ namespace OpenClone.UI.Configuration.RoutingSetupAndRouting
 
         private static void ConfigureCloneCrudRoutes(WebApplicationBuilder builder, RazorPagesOptions options)
         {
-            // this shit doesn't work
+            // this doesn't work
             //options.Conventions.AddPageRoute("/Pages/CloneCRUD", "/CloneCRUD");
             //options.Conventions.AddPageRoute("/Pages/CloneCRUD", "/CloneManager");
 

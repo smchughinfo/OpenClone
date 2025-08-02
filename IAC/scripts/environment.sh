@@ -4,7 +4,6 @@ source /scripts/status-bar.sh
 source /scripts/shell-helpers/utility-functions.sh
 
 # Define environment names as constants
-ENV_KIND="kind"
 ENV_VULTR_DEV="vultr_dev"
 ENV_VULTR_PROD="vultr_prod"
 
@@ -14,24 +13,18 @@ switch_environment() {
     # If no argument is provided, display a menu
     if [ -z "$env" ]; then
         echo "Please select an environment:"
-        echo "1. $ENV_KIND"
-        echo "2. $ENV_VULTR_DEV"
-        echo "3. $ENV_VULTR_PROD"
+        echo "1. $ENV_VULTR_DEV"
+        echo "2. $ENV_VULTR_PROD"
         read -p "Enter the number of your choice: " choice
         case "$choice" in
-            1) env="$ENV_KIND" ;;
-            2) env="$ENV_VULTR_DEV" ;;
-            3) env="$ENV_VULTR_PROD" ;;
+            1) env="$ENV_VULTR_DEV" ;;
+            2) env="$ENV_VULTR_PROD" ;;
             *) echo "Invalid choice"; return 1 ;;
         esac
     fi
 
     # Set the TF_VAR_kube_config_path based on the selected environment
     case "$env" in
-        "$ENV_KIND")
-            set_env_variable TF_VAR_kube_config_path "$kind_kube_config_path"
-            set_statusbar_color "#21272e"
-            ;;
         "$ENV_VULTR_DEV")
             set_env_variable TF_VAR_kube_config_path "$vultr_dev_kube_config_path"
             set_statusbar_color "#5A2500"
@@ -76,11 +69,6 @@ set_terraform_workspace() {
 }
 
 get_terraform_environment() {
-    if [ "$Server_0_IAC_ENV" == "server-0" ]; then
-        echo "$ENV_VULTR_DEV"
-        return
-    fi
-
     local env_file="/terraform/.terraform/environment"
     local env_value="$ENV_VULTR_DEV"  # Default to vultr_dev
     
@@ -88,7 +76,7 @@ get_terraform_environment() {
         local file_value=$(cat "$env_file")
         if [[ "$file_value" == "default" ]]; then
             echo "$env_value" > "$env_file"  # Update file to vultr_dev
-        elif [[ "$file_value" == "$ENV_KIND" || "$file_value" == "$ENV_VULTR_DEV" || "$file_value" == "$ENV_VULTR_PROD" ]]; then
+        elif [[ "$file_value" == "$ENV_VULTR_DEV" || "$file_value" == "$ENV_VULTR_PROD" ]]; then
             env_value="$file_value"  # Use valid environment from file
         else
             echo "$env_value" > "$env_file"  # Replace invalid value with default

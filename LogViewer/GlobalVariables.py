@@ -14,10 +14,3 @@ elif os.getenv("OPENCLONE_ENVIRONMENT") == "local":
     dbName = os.getenv("OpenClone_LogDB_Name")
     dbUser = os.getenv("OpenClone_LogDB_User")
     dbUserPassword = os.getenv("OpenClone_LogDB_Password")
-
-elif os.getenv("OPENCLONE_ENVIRONMENT") == "kind":
-    dbHost = "127.0.0.1"
-    dbPort = "30223"
-    dbName = "log_db_prod"
-    dbUser = "log_user_prod"
-    dbUserPassword = "bunnies"

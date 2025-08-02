@@ -1,40 +1,19 @@
 #!/bin/bash
 
 source /vultr-api/clusters.sh
+source /vultr-api/regions.sh
 source /scripts/shell-helpers/aliases.sh
 source /vultr-api/load-balancers.sh
 source /vultr-api/vpcs.sh
 source /vultr-api/domains.sh
 
 create_cluster() {
-    echo "begin create vultr cluster..."
+    echo "Creating cluster with CPU node pool..."
     
-    while true; do
-        echo "Choose cluster type:"
-        echo "1) CPU cluster (cheapest CPU nodes)"
-        echo "2) GPU cluster (cheapest GPU nodes)"
-        echo -n "Enter your choice (1 or 2): "
-        read choice
-        
-        case $choice in
-            1)
-                echo "Creating CPU cluster..."
-                node_plan=$(get_cheapest_cpu_node_plan)
-                break
-                ;;
-            2)
-                echo "Creating GPU cluster..."
-                node_plan=$(get_cheapest_gpu_node_plan)
-                break
-                ;;
-            *)
-                echo "Invalid choice. Please enter 1 or 2."
-                echo ""
-                ;;
-        esac
-    done
+    # Get CPU node configuration from environment variables
+    cpu_node_plan=$(get_cheapest_cpu_node_plan)
     
-    create_kubernetes_cluster $node_plan
+    create_kubernetes_cluster "$cpu_node_plan" "$vultr_cpu_node_quantity" "$vultr_cpu_min_nodes" "$vultr_cpu_max_nodes" "$vultr_cpu_node_pool_label"
     wait_for_kube_config
     wait_until_all_nodes_are_ready
 }
@@ -50,13 +29,9 @@ destroy_cluster() {
 }
 
 cleanup_environment_specific_cluster_remnants() {
-    # these ones don't get handled by terraform for some reason so do them manually
-    # todo: these should be done based on environment (dev/prod). see note in public-ip.tf
     delete_all_loadbalancers
     delete_all_vpcs
-    delete_record "app" 
-    delete_record "dev.sftp"
-    delete_record "dev.database"
+    delete_domain "$TF_VAR_openclone_domain_name"
 }
 
 ################################################################################

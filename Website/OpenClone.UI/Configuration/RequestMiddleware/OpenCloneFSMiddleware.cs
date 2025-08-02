@@ -49,7 +49,6 @@ namespace OpenClone.UI.Configuration.RequestMiddleware
 
         bool HasAccess(HttpContext context)
         {
-            return true; // important todo: remove
             var url = context.Request.Path.ToString();
             var cloneId = context.User.GetActiveCloneId();
             var urlComponents = url.Split('/');

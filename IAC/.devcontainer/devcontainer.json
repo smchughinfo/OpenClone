@@ -42,12 +42,6 @@
         "TF_VAR_openclone_ftp_password": "${localEnv:openclone_ftp_password}",
         "TF_VAR_letsencrypt_email": "${localEnv:OpenClone_Admin_Email}",
 
-        "TF_VAR_openclone_server_0_ip_address": "${localEnv:TF_VAR_openclone_server_0_ip_address}",
-        "OpenClone_OpenClone_Server_0_Password": "${localEnv:OpenClone_OpenClone_Server_0_Password}",
-        "OpenClone_Server_0_Password": "${localEnv:OpenClone_Server_0_Password}",
-        "OpenClone_Server_0_Delta_Snapshot_ID": "${localEnv:OpenClone_Server_0_Delta_Snapshot_ID}",
-        "OpenClone_Server_0_Cluster_Password": "${localEnv:OpenClone_Server_0_Cluster_Password}",
-        
         "OpenClone_Resistry_User": "${localEnv:OpenClone_Resistry_User}",
         "OpenClone_Registry_Password": "${localEnv:OpenClone_Registry_Password}"
     },
@@ -97,12 +91,6 @@
                         },
                         {
                             "cwd": "/scripts/docker-cli",
-                            "name": "$(extensions) Create kind Registry",
-                            "color": "#22D18B",
-                            "command": "./local-registry.sh --create_local_registry"
-                        },
-                        {
-                            "cwd": "/scripts/docker-cli",
                             "name": "$(extensions) D",
                             "color": "#22D18B",
                             "command": "./push-containers.sh --push_container openclone-database"
@@ -130,48 +118,6 @@
                             "name": "$(extensions) I",
                             "color": "#FFFFFF",
                             "command": "./push-containers.sh --push_container openclone-iac"
-                        },
-                        {
-                            "cwd": "/scripts/server-0",
-                            "name": "$(squirrel) S",
-                            "color": "#FFFFFF",
-                            "singleInstance": true,
-                            "command": "./server-0.sh --create_cluster_with_server_0_delta"
-                        },
-                        {
-                            "cwd": "/scripts/server-0",
-                            "name": "$(arrow-circle-down) K",
-                            "color": "#FFFFFF",
-                            "singleInstance": true,
-                            "command": "./server-0.sh --get_kube_config"
-                        },
-                        {
-                            "cwd": "/scripts/server-0",
-                            "name": "$(terminal-view-icon) 0",
-                            "color": "#FFFFFF",
-                            "singleInstance": true,
-                            "command": "./server-0.sh --execute_server_0_command $TF_VAR_openclone_server_0_ip_address $OpenClone_Server_0_Password"
-                        },
-{
-                            "cwd": "/scripts/server-0",
-                            "name": "$(terminal-view-icon) C",
-                            "color": "#FFFFFF",
-                            "singleInstance": true,
-                            "command": "./server-0.sh --open_container_terminal $TF_VAR_openclone_server_0_ip_address $OpenClone_Server_0_Password"
-                        },
-                        {
-                            "cwd": "/scripts/server-0",
-                            "name": "$(terminal-view-icon) D0",
-                            "color": "#FFFFFF",
-                            "singleInstance": true,
-                            "command": "./server-0.sh --create_server_0_delta_terminal"
-                        },
-{
-                            "cwd": "/scripts/server-0",
-                            "name": "$(terminal-view-icon) DC",
-                            "color": "#FFFFFF",
-                            "singleInstance": true,
-                            "command": "./server-0.sh --create_server_0_delta_container_terminal"
                         },
                         {
                             "cwd": "/scripts/docker-cli",

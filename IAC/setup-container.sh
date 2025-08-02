@@ -2,7 +2,6 @@
 
 source /scripts/shell-helpers/utility-functions.sh
 source /scripts/environment.sh
-source /scripts/cluster_create_and_destroy/kind/cluster.sh
 
 setup_container() {
     ################################################################################
@@ -38,10 +37,9 @@ setup_container() {
     ######## ENVIRONMENT ################################################
     ################################################################################
 
-    set_env_variable kind_kube_config_path "/terraform/kind-kube-config.yaml"
     set_env_variable vultr_dev_kube_config_path "/terraform/vultr-dev-kube-config.yaml"
     switch_environment $(get_terraform_environment) 
-    set_env_variable kubernetes_version "v1.33.0+1" # this is the remote version. make sure it matches the kubectl you install in your dockerfile
+    set_env_variable kubernetes_version "v1.33.0+3" # this is the remote version. make sure it matches the kubectl you install in your dockerfile
 
     ################################################################################
     ######## VULTR KUBERNETES CONFIGURATIONS #######################################
@@ -49,7 +47,22 @@ setup_container() {
 
     set_env_variable vultr_region "ewr"
     set_env_variable vultr_cluster_label "openclone-cluster"
-    set_env_variable vultr_all_deployments_node_pool_label "all-deployments-node-pool"
+    set_env_variable vultr_cpu_node_pool_label "cpu-node-pool"
+    set_env_variable vultr_gpu_node_pool_label "gpu-node-pool"
+    
+    # CPU Node Pool Configuration
+    set_env_variable vultr_cpu_node_quantity 1
+    set_env_variable vultr_cpu_min_nodes 1
+    set_env_variable vultr_cpu_max_nodes 4
+    
+    # GPU Node Pool Configuration  
+    set_env_variable vultr_gpu_node_quantity 1
+    set_env_variable vultr_gpu_min_nodes 1
+    set_env_variable vultr_gpu_max_nodes 2
+    
+    # Set Terraform variables for node pool labels
+    set_env_variable TF_VAR_vultr_cpu_node_pool_label "cpu-node-pool"
+    set_env_variable TF_VAR_vultr_gpu_node_pool_label "gpu-node-pool"
 
     ################################################################################
     ######## CONNECTION STRINGS ####################################################
@@ -66,44 +79,6 @@ setup_container() {
     set_env_variable TF_VAR_sftp_nodeport 30222
     set_env_variable TF_VAR_database_nodeport 30223
     set_env_variable TF_VAR_website_nodeport 30224
-
-    ################################################################################
-    ######## KIND ##################################################################
-    ################################################################################
-
-    set_env_variable cluster_name openclone-kind-cluster
-    set_env_variable cluster_control_plane_container_name openclone-kind-cluster-control-plane
-    set_env_variable kind_network_name kind-network
-
-    set_env_variable kind_registry_name kind-registry
-    set_env_variable kind_registry_host kind-registry.local
-    set_env_variable kind_registry_hostname "kind-registry.local"
-    set_env_variable kind_registry_port 5000
-
-    set_env_variable kind_config_path "/scripts/cluster_create_and_destroy/kind/config/kind-config.yaml"
-    kind_config_path_template="/scripts/cluster_create_and_destroy/kind/config/kind-config-template.yaml"
-    envsubst < $kind_config_path_template > $kind_config_path
-    if [[ -f "$kind_kube_config_path" ]]; then
-        setup_kind_network
-    fi
-
-    vultr_csi_secret_path_template="/scripts/cluster_create_and_destroy/kind/config/vultr-csi-secret-template.yaml"
-    set_env_variable vultr_csi_secret_path "/scripts/cluster_create_and_destroy/kind/config/vultr-csi-secret.yaml"
-    envsubst < "$vultr_csi_secret_path_template" > "$vultr_csi_secret_path"
-
-    ################################################################################
-    ######## SERVER-0 ##############################################################
-    ################################################################################
-
-    # todo: these files should be server-0-delta, not server-0
-    setup_server_0_path_template="/scripts/server-0/setup-server-0-template.sh"
-    set_env_variable setup_server_0_path "/scripts/server-0/setup-server-0.sh"
-    envsubst '$OpenClone_Server_0_Cluster_Password' < "$setup_server_0_path_template" > "$setup_server_0_path"
-
-    # todo: these files should be server-0-delta, not server-0
-    setup_server_0_container_path_template="/scripts/server-0/setup-server-0-container-template.sh"
-    set_env_variable setup_server_0_container_path "/scripts/server-0/setup-server-0-container.sh"
-    envsubst '$TF_VAR_postgres_password,$TF_VAR_openclone_openclonedb_password,$TF_VAR_openclone_logdb_password,$TF_VAR_vultr_api_key,$TF_VAR_openclone_jwt_secretkey,$TF_VAR_openclone_openai_api_key,$TF_VAR_openclone_googleclientid,$TF_VAR_openclone_googleclientsecret,$TF_VAR_openclone_elevenlabsapikey,$TF_VAR_openclone_email_dkim,$Server_0_IAC_ENV,$OpenClone_Root_Dir,$OpenClone_OpenCloneFS,$CLUSTER_PASSWORD,$OpenClone_Server_0_vultr_dev_kube_config_path,$OpenClone_Resistry_User,$OpenClone_Registry_Password,$Server_0_IAC_ENV,$OpenClone_Server_0_OpenClone_Root_Dir,$OpenClone_Server_0_OpenClone_OpenCloneFS' < "$setup_server_0_container_path_template" > "$setup_server_0_container_path"
 }
 setup_container
 echo "setup-container.sh complete!" # inform the user of our success.

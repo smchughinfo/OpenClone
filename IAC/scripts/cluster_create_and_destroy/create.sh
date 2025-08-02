@@ -5,15 +5,13 @@ source /scripts/environment.sh
 source /scripts/docker-cli/tag-resolver.sh
 source /scripts/openclone-fs/longhorn/longhorn.sh
 source /vultr-api/domains.sh
+source /scripts/cluster_create_and_destroy/vultr/cluster.sh
 
 ################################################################################
 ######## MAIN LOGIC ############################################################
 ################################################################################
 
 create() {
-  set_terraform_workspace $TF_VAR_environment #todo: seems superflous but this is for server-0. see if you can get rid of it (may not be easy)
-  source_environment_logic
-
   if [ "$(does_cluster_exist)" == "false" ]; then
     ensure_success create_cluster_in_environment
   fi
@@ -21,7 +19,6 @@ create() {
   terraform -chdir="/terraform" init
   install_longhorn
   terraform -chdir="/terraform" apply -auto-approve \
-    -var="dns_already_created=$(domain_exists $TF_VAR_openclone_domain_name)" \
     -var="image_name_openclone_sadtalker=$(get_current_remote_image_name openclone-sadtalker)" \
     -var="image_name_openclone_u-2-net=$(get_current_remote_image_name openclone-u-2-net)" \
     -var="image_name_openclone_database=$(get_current_remote_image_name openclone-database)" \
@@ -31,14 +28,6 @@ create() {
 ################################################################################
 ######## HELPERS ###############################################################
 ################################################################################
-
-source_environment_logic() {
-  if [[ "$TF_VAR_kube_config_path" == "$kind_kube_config_path" ]]; then
-    source /scripts/cluster_create_and_destroy/kind/cluster.sh    
-  elif [[ "$TF_VAR_kube_config_path" == "$vultr_dev_kube_config_path" ]]; then
-    source /scripts/cluster_create_and_destroy/vultr/cluster.sh
-  fi
-}
 
 create_cluster_in_environment() {
   create_cluster

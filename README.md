@@ -1,3 +1,8 @@
+# OpenClone
+
+### Live Demo
+[https://clonezone.me](https://clonezone.me)
+
 ## What Is OpenClone
 
 OpenClone lets you build personalized AI clones that can:
@@ -29,6 +34,8 @@ Monitoring dashboard that provides system insights, error tracking, and performa
 
 ### 🔧 **IAC** (Kubernetes + Terraform)
 DevOps infrastructure for deploying OpenClone to cloud environments, including Kubernetes clusters, databases, and monitoring systems.
+
+**Note on Kubernetes Versions**: The IAC system uses pinned Kubernetes versions for stability. If deployment fails with "Invalid K8 version" errors, check available versions with the Vultr API and update the version in `/IAC/setup-container.sh`. While auto-updating to latest versions is possible, manual version control prevents unexpected breaking changes from new Kubernetes releases.
 
 ### 🤖 **Code Assistant Integrattion**
 Technical documentation and context files for AI-powered development assistance. 
@@ -147,6 +154,10 @@ OpenClone_LogDbConnection_Super=Host=192.168.0.100;Port=5433;Database=open_clone
 OpenClone_Admin_Email=<your@email.com>
 OpenClone_JWT_Issuer=https://www.clonezone.me
 OpenClone_JWT_Audience=OpenClone
+
+# Self-Hosting Configuration (Only for HTTPS self-hosting)
+OpenClone_Self_Hosting_Domain=app.clonezone.me  # Your domain name
+OpenClone_Admin_Email=<your@email.com>          # For Let's Encrypt certificates
 
 # File Storage (Update paths for your system)
 OpenClone_Root_Dir=C:/Users/seanm/Desktop/OpenClone

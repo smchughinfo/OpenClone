@@ -45,6 +45,10 @@ builder.Configuration
     .AddEnvironmentVariables()
     .AddCommandLine(args ?? new string[] { });
 
+#if !BUILDING_ON_WINDOWS
+SelfHostingConfigurator.Configure(builder);
+#endif
+CORSConfigurator.Configure(builder);
 DbContextConfigurator.Configure(builder);
 IdentityConfigurator.Configure(builder);
 OpenCloneServicesConfigurator.Configure(builder);
@@ -105,6 +109,7 @@ app.UseMiddleware<ExceptionHandlingMiddleware>(); // handle global exceptions, e
 app.UseMiddleware<OpenCloneFSMiddleware>(); // allow files to be served from /OpenCloneFS directory
 
 // CONFIGURE ASP.NET MIDDLEWARE
+app.UseCors("SplashPagePolicy"); // Enable CORS for splash page requests
 app.UseRouting(); // Configures routing for the application, allowing it to match incoming requests to appropriate endpoints.
 app.UseAuthorization(); // Adds the middleware required for authentication and authorization, enabling the application to authenticate and authorize requests.
 app.MapRazorPages(); // Configures the routing system to handle Razor Pages, which are used for building UI views and handling user interactions in MVC-based applications.

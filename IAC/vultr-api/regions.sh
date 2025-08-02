@@ -168,12 +168,6 @@ get_cheapest_gpu_node_plan() {
     filter_plans_in_region "vcg" 2 4086 160 "any" 10 | get_cheapest_plan
 }
 
-get_cheapest_server_0_delta_plan() {
-    #filter_plans_in_region "" 12 32000 160 | get_cheapest_plan
-    #filter_plans_in_region "" 6 16000 160 | get_cheapest_plan
-    filter_plans_in_region "vc2" 2 4086 160 | get_cheapest_plan
-}
-
 get_cheapest_plan() {
     local plans=$(cat)  # Read from stdin
     

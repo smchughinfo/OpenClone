@@ -23,12 +23,6 @@ install_longhorn() {
 
     # Install the latest Longhorn NFS package to enable the creation of ReadWriteMany (RWX) volumes in your cluster.
     longhorn_nfs_path=https://raw.githubusercontent.com/longhorn/longhorn/v1.7.2/deploy/prerequisite/longhorn-nfs-installation.yaml
-    if [[ "$TF_VAR_kube_config_path" == "$kind_kube_config_path" ]]; then
-        # Use a custom YAML file for kind because the default NFS installation YAML
-        # is designed for non-containerized nodes and needs adjustments (e.g., compatible base image)
-        # to work properly in kind's containerized environment.
-        longhorn_nfs_path="/scripts/openclone-fs/longhorn/longhorn-nfs-installation.yaml"
-    fi
     k apply -f $longhorn_nfs_path
 }
 

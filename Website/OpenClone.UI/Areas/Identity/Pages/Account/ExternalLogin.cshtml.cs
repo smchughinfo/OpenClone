@@ -100,16 +100,38 @@ namespace OpenClone.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
+            
+            // Handle remote errors from Google
             if (remoteError != null)
             {
-                ErrorMessage = $"Error from external provider: {remoteError}";
-                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+                _logger.LogWarning("External login error: {RemoteError}", remoteError);
+                return RedirectToPage("./ExternalLoginFailure", new { 
+                    error = remoteError, 
+                    description = "Google returned an error during authentication." 
+                });
             }
-            var info = await _signInManager.GetExternalLoginInfoAsync();
+
+            ExternalLoginInfo info;
+            try
+            {
+                info = await _signInManager.GetExternalLoginInfoAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to get external login information");
+                return RedirectToPage("./ExternalLoginFailure", new { 
+                    error = "external_login_info_failed", 
+                    technical = ex.Message 
+                });
+            }
+
             if (info == null)
             {
-                ErrorMessage = "Error loading external login information.";
-                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+                _logger.LogWarning("External login info was null");
+                return RedirectToPage("./ExternalLoginFailure", new { 
+                    error = "invalid_request", 
+                    description = "Failed to receive authentication information from Google. Please try again." 
+                });
             }
 
             // Sign in the user with this external login provider if the user already has a login.
@@ -125,7 +147,40 @@ namespace OpenClone.Areas.Identity.Pages.Account
             }
             else
             {
-                // If the user does not have an account, then ask the user to create an account.
+                // If the user does not have an account, automatically create one with Google email
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                {
+                    var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                    var user = CreateUser();
+
+                    await _userStore.SetUserNameAsync(user, email, CancellationToken.None);
+                    await _emailStore.SetEmailAsync(user, email, CancellationToken.None);
+
+                    var createResult = await _userManager.CreateAsync(user);
+                    if (createResult.Succeeded)
+                    {
+                        createResult = await _userManager.AddLoginAsync(user, info);
+                        if (createResult.Succeeded)
+                        {
+                            _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+
+                            // Automatically confirm email for Google OAuth users (no email confirmation needed)
+                            var userId = await _userManager.GetUserIdAsync(user);
+                            var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            await _userManager.ConfirmEmailAsync(user, emailConfirmationToken);
+
+                            // Sign in the user immediately without email confirmation
+                            await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
+                            return LocalRedirect(returnUrl);
+                        }
+                    }
+                    foreach (var error in createResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+                
+                // Fallback - if something goes wrong, show the form
                 ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
@@ -165,24 +220,12 @@ namespace OpenClone.Areas.Identity.Pages.Account
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
+                        // Automatically confirm email for Google OAuth users (no email confirmation needed)
                         var userId = await _userManager.GetUserIdAsync(user);
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                        var callbackUrl = Url.Page(
-                            "/Account/ConfirmEmail",
-                            pageHandler: null,
-                            values: new { area = "Identity", userId = userId, code = code },
-                            protocol: Request.Scheme);
+                        var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        await _userManager.ConfirmEmailAsync(user, emailConfirmationToken);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                        // If account confirmation is required, we need to show the link if we don't have a real email sender
-                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                        {
-                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
-                        }
-
+                        // Sign in the user immediately without email confirmation
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
                         return LocalRedirect(returnUrl);
                     }

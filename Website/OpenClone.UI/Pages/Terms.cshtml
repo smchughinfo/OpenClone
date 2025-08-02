@@ -1,0 +1,74 @@
+@page
+@{
+    ViewData["Title"] = "Terms of Service";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5">
+                    <div class="text-center mb-5">
+                        <h1 class="h2 mb-3">Terms of Service</h1>
+                        <p class="text-muted">Last updated: @DateTime.Now.ToString("MMMM dd, yyyy")</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="h4 mb-3">Welcome to OpenClone</h3>
+                        <p>By using OpenClone, you agree to these terms. Please read them carefully.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="h4 mb-3">🚫 What You Cannot Do</h3>
+                        <div class="alert alert-danger">
+                            <h5 class="alert-heading mb-3">Prohibited Activities</h5>
+                            <ul class="mb-0">
+                                <li><strong>No Torture:</strong> Do not create content intended to torture, harm, or abuse AI clones in any way.</li>
+                                <li><strong>No Criminal Activity:</strong> Do not use clones to commit crimes, fraud, harassment, or any illegal activities.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="h4 mb-3">✅ What You Can Do</h3>
+                        <div class="alert alert-success">
+                            <h5 class="alert-heading mb-3">Freedom to Explore</h5>
+                            <p class="mb-2">Everything else is free and open! You can:</p>
+                            <ul class="mb-0">
+                                <li>Create any type of clone for legitimate purposes</li>
+                                <li>Use clones for entertainment, education, or business</li>
+                                <li>Experiment with different personalities and characteristics</li>
+                                <li>Share your clones with others (subject to privacy settings)</li>
+                                <li>Use the service for creative and innovative projects</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="h4 mb-3">Service Availability</h3>
+                        <p>OpenClone is provided "as is" without warranties. We strive to keep the service available but cannot guarantee 100% uptime.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="h4 mb-3">Content Ownership</h3>
+                        <p>You retain ownership of the content you create. OpenClone does not claim ownership of your clones or generated content.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="h4 mb-3">Account Termination</h3>
+                        <p>We reserve the right to terminate accounts that violate these terms, particularly the prohibited activities listed above.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="h4 mb-3">Changes to Terms</h3>
+                        <p>We may update these terms occasionally. Continued use of the service constitutes acceptance of any changes.</p>
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <a href="/" class="btn btn-primary">Back to OpenClone</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

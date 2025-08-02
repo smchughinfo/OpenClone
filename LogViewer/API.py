@@ -12,8 +12,8 @@ import argparse
 #############################################################
 
 parser = argparse.ArgumentParser(description='Run the Flask app with specified environment')
-parser.add_argument('--environment', type=str, choices=['local', 'remote', 'kind'], default='local',
-                    help='Specify the environment to use (local, remote, or kind)')
+parser.add_argument('--environment', type=str, choices=['local', 'remote'], default='local',
+                    help='Specify the environment to use (local, remote)')
 args = parser.parse_args()
 
 os.environ['OPENCLONE_ENVIRONMENT'] = args.environment

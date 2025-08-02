@@ -19,7 +19,6 @@ This function intelligently points to the correct kubeconfig file based on the c
 ### Multi-Environment Support
 
 This IAC environment supports deploying the OpenClone project to multiple environments:
-- **kind** - Local Kubernetes cluster
 - **vultr_dev** - Vultr development environment  
 - **vultr_prod** - Vultr production environment
 
@@ -51,12 +50,10 @@ The automated deployment follows this orchestrated sequence:
 
 1. **Environment Setup**
    - Sets Terraform workspace based on `$TF_VAR_environment`
-   - Sources environment-specific logic (kind vs vultr)
 
 2. **Cluster Creation** (if needed)
    - Checks if cluster exists with `does_cluster_exist()`
    - Creates cluster via environment-specific scripts:
-     - **Kind**: `/scripts/cluster_create_and_destroy/kind/cluster.sh`
      - **Vultr**: `/scripts/cluster_create_and_destroy/vultr/cluster.sh`
 
 3. **Terraform Initialization**
@@ -70,7 +67,6 @@ The automated deployment follows this orchestrated sequence:
 
 5. **Application Deployment via Terraform**
    - Runs `terraform apply -auto-approve` with dynamic variables:
-     - `dns_already_created`: Checks if domain exists to avoid conflicts
      - `image_name_*`: Resolves current container image tags from registry
    - Deploys all OpenClone services with resolved image versions
 
@@ -79,7 +75,6 @@ The automated deployment follows this orchestrated sequence:
 The system automatically resolves the latest available container image tags:
 
 **Tag Resolution Logic** (`/scripts/docker-cli/tag-resolver.sh`):
-- **Kind Environment**: Uses `localhost:5001/[service]:1.0` (local registry)
 - **Vultr Environment**: Queries Vultr Container Registry for latest version tags
 - **Version Format**: `X.0` (e.g., `1.0`, `2.0`, `3.0`)
 - **Auto-Discovery**: Finds highest numbered tag that exists in registry
@@ -110,12 +105,18 @@ The system automatically resolves the latest available container image tags:
 - **Do NOT cancel**: Long deployment times are normal for complete cluster setup
 - **Progress Indicators**: Look for "Still creating..." rather than immediate failures
 
-### Environment-Specific Behavior
+### Kubernetes Version Management
 
-**Kind (Local Development)**:
-- Uses local Docker registry at `localhost:5001`
-- Custom Longhorn NFS configuration for containerized nodes
-- Simpler networking and storage setup
+**Version Pinning Strategy**: The IAC system uses pinned Kubernetes versions in `/setup-container.sh` for deployment stability. 
+
+**When "Invalid K8 version" errors occur:**
+1. Check available versions: `curl -s -H "Authorization: Bearer $TF_VAR_vultr_api_key" "https://api.vultr.com/v2/kubernetes/versions" | jq -r ".versions[]"`
+2. Update the version in `/setup-container.sh`: `set_env_variable kubernetes_version "v1.33.0+3"`
+3. Reload with: `source /setup-container.sh`
+
+**Why not auto-update?** While automatically fetching the latest version is technically feasible, manual version control prevents surprise failures from breaking changes in new Kubernetes releases. The occasional manual update is preferable to unpredictable deployment failures.
+
+### Environment-Specific Behavior
 
 **Vultr (Cloud Deployment)**:
 - Queries Vultr Container Registry for image versions
@@ -158,81 +159,8 @@ EOF
 
 This provides a bridge between the containerized IAC environment and the Windows host when necessary.
 
-## Server-0 Architecture
 
-**Cost-Efficient On-Demand GPU Cluster Management**
 
-The OpenClone project uses a two-tier architecture to minimize GPU hosting costs while maintaining user accessibility.
-
-### The Problem
-GPU clusters are expensive to run 24/7, but users need access to AI applications that require GPU resources.
-
-### Architecture Options Considered
-
-**Option 1: Always-On Hybrid CPU/GPU Cluster**
-- Keep CPU nodes running 24/7, spin up GPU nodes on-demand
-- More complex orchestration and resource management
-- Would eventually scale to multiple nodes with dedicated CPU/GPU separation
-
-**Option 2: Full On-Demand Cluster Creation** ✅ **Selected**
-- Create entire cluster (CPU + GPU) only when users need it
-- Simpler to implement for MVP
-- Currently uses single powerful node, but could eventually scale to multi-node CPU/GPU separation
-- Chosen to get project finished rather than over-engineering the architecture
-
-### Two-Tier Implementation
-
-**Server-0 (Always Running)**
-- Cheap VPS hosting simple Node.js landing page ("CloneZone")
-- Handles Google OAuth authentication and Stripe payments
-- Always online to catch users, minimal hosting costs
-- Located at `/Server-0/` in the codebase
-
-**Server-0-Delta (Created On-Demand)**
-- Only created after user payment verification
-- Server-0 spins up Server-0-Delta using VPS snapshot via `/scripts/server-0/server-0.sh`
-- More powerful instance needed for compute-intensive cluster creation
-- Server-0-Delta creates the actual GPU Kubernetes cluster
-- Temporary instance - destroyed when user session ends
-
-### User Flow
-1. User visits site → Server-0 serves landing page
-2. User authenticates and pays → Server-0 validates payment
-3. Server-0 creates Server-0-Delta instance
-4. Server-0-Delta provisions GPU Kubernetes cluster
-5. User gets access to OpenClone AI applications
-6. After session timeout, both Server-0-Delta and GPU cluster are destroyed
-
-### Cost Benefits
-- GPU resources only consumed during active user sessions
-- Server-0 stays cheap and always available as the "cluster vending machine"
-- Server-0-Delta is temporary and only exists during active sessions
-- Significant cost savings compared to 24/7 GPU cluster operation
-
-This architecture treats Server-0 as a "cluster vending machine" that only dispenses expensive GPU resources after payment validation.
-
-**Application Implementation Details**: See `/Server-0/CLAUDE.md` for Node.js application code, API endpoints, and technical implementation.
-
-### IAC Container Reuse Strategy
-
-**The IAC container gets extensive mileage across different contexts:**
-
-1. **Local Development** - Used as a dev container for development work
-2. **Server-0** - Runs IAC container to leverage existing variables and logic for creating Server-0-Delta instances
-3. **Server-0-Delta** - Runs IAC container to provision the actual Kubernetes cluster
-
-**Benefits of Shared IAC Code:**
-- All infrastructure logic, variables, and scripts are centralized
-- Server-0 can easily create Server-0-Delta because it already has all the provisioning logic
-- Consistent tooling and environment across all deployment contexts
-- Reduces code duplication and maintenance overhead
-
-**Potential Complexity:**
-- The overlap/underlap between different use cases could theoretically create blind spots
-- Same container serves different purposes in different contexts
-- However, in practice this approach has proven to be fairly sane and maintainable
-
-This shared container strategy allows the IAC codebase to handle everything from local development to production cluster provisioning with a single, well-tested set of tools and scripts.
 
 ### Vultr Resource Management Limitations
 
@@ -394,3 +322,4 @@ The IAC container includes:
 - Claude executes single commands without persistent session
 - Example: `/StartStopScripts/Claude/iac-exec.sh "terraform validate"`
 - No tmux session needed for one-off operations
+

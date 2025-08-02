@@ -423,6 +423,123 @@ Contains models, data contexts, DTOs, and extensions used across multiple projec
 - Migration files are computer-generated and treated as disposable artifacts  
 - OpenClone does not track migration history independently of entity definitions
 
+## HTTPS Self-Hosting Feature
+
+### **Overview**
+OpenClone includes built-in HTTPS support with automatic Let's Encrypt SSL certificate management for self-hosting scenarios. This is an **optional feature** for users who want to host OpenClone on their own infrastructure with production-ready SSL certificates.
+
+### **Features**
+- **Automatic Let's Encrypt SSL certificates** - production-ready trusted certificates
+- **Certificate renewal** with automated cron jobs inside Docker container
+- **Smart certificate validation** and regeneration when needed (>30 days remaining check)
+- **Force renewal option** for certificate troubleshooting via environment variable
+- **Persistent certificate storage** via Docker volume mounts
+- **Docker-integrated** - all SSL management happens inside the container
+
+### **Configuration**
+
+**Required Environment Variables**:
+```bash
+OpenClone_Self_Hosting_Domain=your-domain.com    # Your domain name
+OpenClone_Admin_Email=admin@your-domain.com      # Email for Let's Encrypt registration
+```
+
+**Optional Environment Variables**:
+```bash
+FORCE_SSL_RENEWAL=true    # Forces certificate regeneration (use sparingly due to rate limits)
+```
+
+### **Network Setup**
+
+**Router Port Forwarding:**
+- External port 80 → Internal port 8080 (HTTP redirect to HTTPS)
+- External port 443 → Internal port 8443 (HTTPS)
+
+**Windows Firewall Rules** (run as Administrator):
+```cmd
+netsh advfirewall firewall add rule name="OpenClone HTTP (8080)" dir=in action=allow protocol=TCP localport=8080
+netsh advfirewall firewall add rule name="OpenClone HTTPS (8443)" dir=in action=allow protocol=TCP localport=8443
+```
+
+### **How It Works**
+
+1. **Container starts** → SSL setup runs BEFORE web application starts via `docker-entrypoint.sh`
+2. **Certificate validation** → Checks for existing valid certificates (>30 days remaining)
+3. **Let's Encrypt generation** → Uses HTTP challenge on port 80 for domain validation
+4. **Certificate storage** → Copies certificates to `/app/ssl/` for ASP.NET usage
+5. **Certificate renewal** → Sets up automatic renewal cron jobs inside container
+6. **Application startup** → Launches ASP.NET with HTTPS on ports 8080/8443
+
+### **Certificate Management**
+
+**Automatic Renewal:**
+- Cron jobs run twice daily inside container
+- Certificates auto-renew when <30 days remaining
+- Renewal uses `certbot renew --quiet --deploy-hook "/app/setup-ssl.sh"`
+
+**Force Renewal:**
+- Set `FORCE_SSL_RENEWAL=true` environment variable
+- Bypasses existing certificate checks
+- Use sparingly due to Let's Encrypt rate limits (20 certs/week/domain)
+
+**Certificate Storage:**
+- **Host path**: `/Website/SelfHosting/ssl/` (persistent across container recreations)
+- **Container path**: `/app/ssl/` (where ASP.NET reads certificates)
+- **Files**: `fullchain.pem`, `privkey.pem`
+
+### **SSL File Structure**
+```
+Website/SelfHosting/
+├── docker-entrypoint.sh     # Container startup script with SSL setup
+├── setup-ssl.sh            # SSL certificate generation and management
+└── ssl/                     # Certificate storage (gitignored)
+    ├── fullchain.pem        # Let's Encrypt certificate chain
+    └── privkey.pem          # Private key
+```
+
+### **Technical Implementation**
+- **Let's Encrypt HTTP Challenge**: Uses port 80 for domain validation before web app starts
+- **Certificate Storage**: Persistent Docker volume mount preserves certificates across container recreations
+- **ASP.NET Integration**: Kestrel configured to load certificates from PEM files at startup
+- **Automatic Renewal**: Cron jobs inside container handle certificate renewal without manual intervention
+- **Error Handling**: Clear error messages with troubleshooting steps if certificate generation fails
+
+### **Prerequisites**
+- Domain must resolve to your server's public IP address
+- Port 80 must be accessible from internet for Let's Encrypt validation
+- No other services using port 80 during certificate generation
+- Container needs internet connectivity to reach Let's Encrypt servers
+
+### **Important Notes**
+- This is an **optional feature** - not required for cloud deployments
+- Only use this for self-hosting scenarios where you control the infrastructure
+- Cloud providers (AWS, Azure, GCP) typically provide their own SSL/TLS solutions
+- Let's Encrypt has rate limits: respect them by using certificate reuse and force renewal sparingly
+
+### **Known Issue: Service Communication with SSL**
+
+**Problem**: When SSL self-hosting is enabled, the website container cannot reach other OpenClone services (SadTalker, U-2-Net) using `127.0.0.1` addresses. This appears to be caused by the SSL container setup interfering with Docker's default bridge networking.
+
+**Symptoms**:
+- "Connection refused (127.0.0.1:5001)" errors when updating clones
+- SadTalker/U-2-Net services work fine from host (Postman, curl) but not from website container
+- `curl` from inside website container fails to `127.0.0.1:5001` but succeeds to host LAN IP
+
+**Solution**: Use host computer's LAN IP address instead of localhost for service communication:
+
+```bash
+# Environment variables that need updating:
+OpenClone_SadTalker_HostAddress=http://192.168.0.100:5001    # Replace with actual host IP
+OpenClone_U2Net_HostAddress=http://192.168.0.100:5002       # Replace with actual host IP
+```
+
+**Root Cause**: The SSL container setup (certbot, cron, certificate management) appears to modify the container's network stack in a way that breaks `127.0.0.1` loopback connectivity to host services. The exact mechanism is unclear, but using the host's LAN IP address bypasses this limitation.
+
+**Alternative Solutions**:
+- Run all services in containers with Docker networking (more complex)
+- Use `host.docker.internal` on Windows/Mac (may not work consistently)
+- Disable SSL for local development (not recommended for production self-hosting)
+
 ## Build & Development
 
 ### **Setup Requirements**

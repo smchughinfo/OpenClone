@@ -39,8 +39,18 @@ Without these profiles, scripts will fall back to default terminal appearance bu
 ## Requirements
 
 - Windows with Docker Desktop
-- OpenClone_ environment variables configured
+- OpenClone_ environment variables configured (see root README.md)
 - WSL2 for shared terminal functionality
+
+### Additional Environment Variables for HTTPS Self-Hosting
+
+**Only required if using HTTPS self-hosting with Let's Encrypt certificates:**
+```bash
+OpenClone_Self_Hosting_Domain=your-domain.com     # Your domain name
+OpenClone_Admin_Email=admin@your-domain.com       # Email for Let's Encrypt registration
+```
+
+These variables are used by the Website container's built-in SSL certificate management system. Self-signed certificates are generated automatically if these are not set.
 
 ## File Structure
 
@@ -50,7 +60,7 @@ StartStopScripts/
 ├── Claude/                 # Claude Code integration tools
 ├── Database/               # PostgreSQL container scripts
 ├── Docker/                 # Docker Desktop management
-├── LogViewer/              # Monitoring scripts (local/kind/remote)
+├── LogViewer/              # Monitoring scripts (local/remote)
 ├── OpenClone/              # Main application scripts
 ├── SadTalker/              # AI video generation scripts
 ├── U-2-Net/                # Image processing scripts

@@ -8,13 +8,13 @@ using OpenClone.Core;
 using OpenClone.Core.Models;
 using OpenClone.Services;
 using OpenClone.Services.Services;
+using OpenClone.Services.Services;
 using OpenClone.Services.Services.ElevenLabs;
 using OpenClone.Services.Services.OpenAI;
-using OpenClone.Services.Services;
 using OpenCvSharp;
+using SixLabors.ImageSharp;
 using static System.Net.Mime.MediaTypeNames;
 using Image = SixLabors.ImageSharp.Image;
-using SixLabors.ImageSharp;
 
 namespace OpenClone.Services.Services
 {
@@ -30,8 +30,9 @@ namespace OpenClone.Services.Services
         ElevenLabsService _elevenLabsService;
         CloneMetadataService _cloneMetadataService;
         ConfigurationService _configurationService;
+        ILogger _logger;
 
-        public CloneCRUDService(ApplicationDbContext applicationDbContext, ApplicationUserService userService, QAService qAService, CompletionService openAIService, EmbeddingService<Answer> embeddingsService, RenderingService renderingService, IMapper mapper, ElevenLabsService elevenLabsService, CloneMetadataService cloneMetadataService, ConfigurationService configurationService)
+        public CloneCRUDService(ApplicationDbContext applicationDbContext, ApplicationUserService userService, QAService qAService, CompletionService openAIService, EmbeddingService<Answer> embeddingsService, RenderingService renderingService, IMapper mapper, ElevenLabsService elevenLabsService, CloneMetadataService cloneMetadataService, ConfigurationService configurationService, ILoggerFactory loggerFactory)
         {
             _applicationDbContext = applicationDbContext;
             _applicationUserService = userService;
@@ -43,6 +44,7 @@ namespace OpenClone.Services.Services
             _elevenLabsService = elevenLabsService;
             _cloneMetadataService = cloneMetadataService;
             _configurationService = configurationService;
+            _logger = loggerFactory.CreateLogger(GlobalVariables.OpenCloneCategory);
         }
         
         /// <param name="audioSample">Must be .wav</param>
@@ -143,11 +145,12 @@ namespace OpenClone.Services.Services
             try
             {
                 await image.SaveAsPngAsync(bgImagePathTmp);
-                await _renderingService.RemoveBackgroundImage(bgImagePathTmp, noBgImagePathTmp);
-                await _renderingService.GenerateDeepFakeMp4(noBgImagePathTmp, quickFakeAudioPath, mp4PathTmp, true);
+                //await _renderingService.RemoveBackgroundImage(bgImagePathTmp, noBgImagePathTmp);
+                //await _renderingService.GenerateDeepFakeMp4(noBgImagePathTmp, quickFakeAudioPath, mp4PathTmp, true);
+                await _renderingService.GenerateDeepFakeMp4(bgImagePathTmp, quickFakeAudioPath, mp4PathTmp, true);
 
                 File.Copy(bgImagePathTmp, bgImagePath, true);
-                File.Copy(noBgImagePathTmp, noBgImagePath, true);
+                //File.Copy(noBgImagePathTmp, noBgImagePath, true);
                 File.Copy(mp4PathTmp, mp4Path, true);
             }
             catch (Exception ex)
@@ -157,7 +160,7 @@ namespace OpenClone.Services.Services
             finally
             {
                 File.Delete(bgImagePathTmp);
-                File.Delete(noBgImagePathTmp);
+                //File.Delete(noBgImagePathTmp);
                 File.Delete(mp4PathTmp);
             }
         }
@@ -194,7 +197,6 @@ namespace OpenClone.Services.Services
 
         public async Task DeleteClone(string userId, int cloneId)
         {
-            // TODO: IMPORTANT - if it fails to delete elevenlabs voice, which is not uncommon, clone deletion will fail. 
             var logErrors = false; // if it fails before this gets set it will lead to a situation where logging is allowed but doesn't happen. but i guess that could happen anywhere since the clone has to be pulled out of the db before we know whether or not we can log. todo: should something be done about that?
             var cloneDir = _cloneMetadataService.GetCloneDir(cloneId);
             var isActiveClone = _applicationUserService.GetActiveCloneId(userId) == cloneId;
@@ -207,7 +209,21 @@ namespace OpenClone.Services.Services
 
                     // delete clone's voice from ElevenLabs
                     var voiceId = await _cloneMetadataService.GetVoiceId(cloneId);
-                    await _elevenLabsService.DeleteVoice(voiceId, cloneToDelete.AllowLogging);
+                    try
+                    {
+                        await _elevenLabsService.DeleteVoice(voiceId, cloneToDelete.AllowLogging);
+                    }
+                    catch (Exception ex)
+                    {
+                        if(ex.Message.ToLower().Contains("voice_does_not_exist"))
+                        {
+                            _logger.LogInformation($"Unable to delete ElevenLabs voice id {voiceId} for clone {cloneId} because ElevenLabs did not find the voice id.");
+                        }
+                        else
+                        {
+                            throw ex;
+                        }
+                    }
 
                     // delete from database (if clone belongs to this user)
                     logErrors = cloneToDelete.AllowLogging;

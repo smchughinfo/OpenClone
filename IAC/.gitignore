@@ -4,14 +4,10 @@
 
 .terraform.lock.hcl
 *kube-config.yaml
-*kind-config.yaml
 script-to-run.bat
 *.crt
 get_helm.sh
 *vultr-csi-secret.yaml
-setup-server-0.sh
-setup-server-0-container.sh
-server-0-delta-creds
 
 ###################################################################
 ############# THIS GITIGNORE IS FOR DEVCONTAINERS #################

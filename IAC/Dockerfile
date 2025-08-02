@@ -52,17 +52,14 @@ RUN apt-get install -y lftp
 # Install lsof (used for port forwarding in Prometheus and Grafana)
 RUN apt-get install -y lsof
 
-# Install Kind
-RUN curl -Lo /usr/local/bin/kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64 && \
-    chmod +x /usr/local/bin/kind
 
-# Install Locales (this is for connecting to postgres on kind)
+# Install Locales
 RUN apt-get install -y locales && \
     locale-gen en_US.UTF-8 && \
     dpkg-reconfigure locales && \
     locale-gen en_US.UTF-8
 
-# Install yq (this is a yaml processor, used to set server field in kube-config in kind to "kubernetes" which matches an entry for kubernetes in /etc/hosts (gets around helm tls requirements when installing prometheus))
+# Install yq (yaml processor)
 RUN curl -L https://github.com/mikefarah/yq/releases/download/v4.35.1/yq_linux_amd64 -o /usr/local/bin/yq && \
     chmod +x /usr/local/bin/yq
 
@@ -72,9 +69,6 @@ RUN apt-get install iputils-ping
 # Install envsubst
 RUN apt-get update
 RUN apt-get install gettext -y
-
-# Server-0
-RUN apt-get install sshpass -y
 
 # Keep the container running
 CMD ["tail", "-f", "/dev/null"]

@@ -11,12 +11,8 @@ function wait_for_external_database_host_to_exist() {
     echo "Starting check for external database host..."
 
     while [[ "$connection_success" == false ]]; do
-        # Get the external host IP, chose not to use get_external_database_host here as that would complicate the code. the get host logic in this function is half redundant but just think of this function as its own self-contained block of code.
-        if [[ "$TF_VAR_kube_config_path" == "$kind_kube_config_path" ]]; then
-            host="host.docker.internal" # dev container has to use this but the windows host computer has to use 127.0.0.1
-        else
-            host="$(k get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}' | cut -d' ' -f1)"
-        fi
+        # Get the external host IP for vultr cluster
+        host="$(k get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}' | cut -d' ' -f1)"
 
         if [[ -n "$host" ]]; then
             echo "Database host found: $host. Checking if we can connect to PostgreSQL..."
@@ -43,19 +39,11 @@ function wait_for_external_database_host_to_exist() {
 }
 
 function get_external_database_host() {
-    if [[ "$TF_VAR_kube_config_path" == "$kind_kube_config_path" ]]; then
-        echo "127.0.0.1" # the dev container has to use host.docker.internal, not 127.0.0.1 like the windows host computer.
-    else
-        echo "$(k get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}' | cut -d' ' -f1)"
-    fi
+    echo "$(k get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}' | cut -d' ' -f1)"
 }
 
 function get_external_database_port() {
-    if [[ "$TF_VAR_kube_config_path" == "$kind_kube_config_path" ]]; then
-        echo "$TF_VAR_database_nodeport"
-    else
-        echo "$(k get svc openclone-database-nodeport -o jsonpath='{.spec.ports[0].nodePort}')"
-    fi
+    echo "$(k get svc openclone-database-nodeport -o jsonpath='{.spec.ports[0].nodePort}')"
 }
 
 function get_external_super_connectionstring() {
@@ -63,21 +51,35 @@ function get_external_super_connectionstring() {
     echo "Host=$(get_external_database_host);Port=$(get_external_database_port);Database=$database;Username=postgres;Password=$TF_VAR_postgres_password;Include Error Detail=true;"
 }
 
+function check_db_init_status() {
+    k get configmap openclone-db-init-status >/dev/null 2>&1
+}
+
+function mark_db_init_complete() {
+    k create configmap openclone-db-init-status \
+        --from-literal=status=completed \
+        --from-literal=timestamp="$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+        --from-literal=version="1.0" \
+        --from-literal=openclone_db="$TF_VAR_openclone_openclonedb_name" \
+        --from-literal=log_db="$TF_VAR_openclone_logdb_name"
+}
+
 function restore() {
+    # Check if database initialization was already completed
+    if check_db_init_status; then
+        echo "Database already initialized (ConfigMap exists), skipping restore..."
+        return 0
+    fi
+    
+    echo "Running database restore initialization..."
+    
     wait_for_external_database_host_to_exist
     echo "doing restore... "
     default_connection="$(get_external_super_connectionstring "$TF_VAR_openclone_openclonedb_name")"
     log_connection="$(get_external_super_connectionstring "$TF_VAR_openclone_logdb_name")"
 
-    # Determine script extension based on environment
-    if [[ "$Server_0_IAC_ENV" == "server-0" ]]; then
-        script_ext="sh"
-    else
-        script_ext="bat"
-    fi
-
     # Build command string (same for both environments)
-    local command="${OpenClone_Root_Dir}/Database/BatchScripts/restore.${script_ext}"
+    local command="${OpenClone_Root_Dir}/Database/BatchScripts/restore.bat"
     command+=" --remote"
     command+=" --openclone_db_super_connection_string \"$default_connection\""
     command+=" --log_db_super_connection_string \"$log_connection\""
@@ -86,13 +88,16 @@ function restore() {
     command+=" --log_db_user_name \"$TF_VAR_openclone_logdb_user\""
     command+=" --log_db_user_password \"$TF_VAR_openclone_logdb_password\""
 
-    # Execute based on environment
-    if [[ "$Server_0_IAC_ENV" == "server-0" ]]; then
-        # Execute directly on Linux
-        eval "$command"
+    run_host_command "$command"
+    
+    # Mark database initialization as complete
+    if [ $? -eq 0 ]; then
+        echo "Database restore successful, marking as complete..."
+        mark_db_init_complete
+        echo "Database initialization complete!"
     else
-        # Use run_host_command for Windows dev container
-        run_host_command "$command"
+        echo "Database restore failed, not marking as complete"
+        return 1
     fi
 }
 

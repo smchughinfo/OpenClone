@@ -1,0 +1,70 @@
+﻿@page
+@model ExternalLoginFailureModel
+@{
+    ViewData["Title"] = "Sign-in Failed";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    Sign-in Failed
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-danger" role="alert">
+                    <h5 class="alert-heading">Google Sign-in Error</h5>
+                    <p>
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        {
+                            @Model.ErrorMessage
+                        }
+                        else
+                        {
+                            <text>We encountered an error while signing you in with Google. This could be due to:</text>
+                        }
+                    </p>
+                    
+                    @if (string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <ul>
+                            <li>Temporary Google service issues</li>
+                            <li>Network connectivity problems</li>
+                            <li>Browser privacy settings blocking authentication</li>
+                            <li>Expired or revoked Google app permissions</li>
+                        </ul>
+                    }
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <a href="/Identity/Account/Login" class="btn btn-primary">
+                        <i class="bi bi-arrow-clockwise me-2"></i>
+                        Try Again
+                    </a>
+                    <a href="/" class="btn btn-outline-secondary">
+                        <i class="bi bi-house me-2"></i>
+                        Go to Home
+                    </a>
+                </div>
+                
+                @if (Model.ShowTechnicalDetails && !string.IsNullOrEmpty(Model.TechnicalError))
+                {
+                    <div class="mt-4">
+                        <button class="btn btn-link text-muted" type="button" data-bs-toggle="collapse" data-bs-target="#technicalDetails">
+                            Show Technical Details
+                        </button>
+                        <div class="collapse" id="technicalDetails">
+                            <div class="card card-body bg-light mt-2">
+                                <small class="text-muted">
+                                    <strong>Error:</strong> @Model.TechnicalError
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

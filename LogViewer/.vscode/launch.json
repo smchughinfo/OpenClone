@@ -22,14 +22,5 @@
             "justMyCode": true,
             "args": ["--environment", "remote"]
         },
-        {
-            "name": "kind",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/API.py",
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "args": ["--environment", "kind"]
-        }
     ]
 }

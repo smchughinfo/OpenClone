@@ -6,7 +6,7 @@
 
 This is a VS Code dev container that contains the infrastructure automation and deployment tooling for the OpenClone project. It packages Terraform configurations, Kubernetes manifests, shell scripts, and monitoring tools into a containerized development environment. The container includes custom VS Code tasks accessible via status bar buttons for common operations like applying Terraform changes, pushing Docker images, and managing cluster resources.
 
-The infrastructure is designed around Vultr cloud resources and supports multiple deployment environments (local kind clusters, development, and production). All deployment logic lives in the `/scripts` directory and uses a function-based execution pattern via shell helpers.
+The infrastructure is designed around Vultr cloud resources and supports multiple deployment environments (development and production). All deployment logic lives in the `/scripts` directory and uses a function-based execution pattern via shell helpers.
 
 ## How to run it
 

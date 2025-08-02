@@ -31,12 +31,27 @@ resource "kubernetes_persistent_volume_claim" "openclone_fs_pvc" {
         storage = "10Gi"
       }
     }
-    storage_class_name = (var.environment == "vultr_dev" || var.environment == "vultr_prod") ?  "longhorn-rwx" :  kubernetes_storage_class.manual_hostpath.metadata[0].name
+    storage_class_name = "longhorn-rwx"
+  }
+}
+
+# Check if filesystem initialization was already completed
+data "kubernetes_config_map" "fs_init_status" {
+  count = 1
+  metadata {
+    name = "openclone-fs-init-status"
   }
 }
 
 resource "null_resource" "init_fs" {
   depends_on = [ kubernetes_service.openclone_sftp_lb ]
+  
+  # Only run when ConfigMap doesn't exist (triggers change forces re-run)
+  triggers = {
+    # This will change when ConfigMap state changes
+    config_exists = can(data.kubernetes_config_map.fs_init_status[0].metadata[0].name) ? "exists" : "missing"
+  }
+  
   provisioner "local-exec" {
     command = "/scripts/openclone-fs/openclone-fs.sh --push_openclone_fs"
   }
@@ -57,6 +72,9 @@ resource "kubernetes_deployment" "openclone_sftp" {
     template {
       metadata { labels = { pod_id = "openclone-sftp-pod" } }
       spec {
+        node_selector = {
+          "vke.vultr.com/node-pool" = var.vultr_cpu_node_pool_label
+        }
         
         # Init container to set ownership
         init_container {
@@ -90,10 +108,7 @@ resource "kubernetes_deployment" "openclone_sftp" {
     }
   }
 }
-# IMPORTANT TODO: when you do security review make sure to think about using both node_ports and load_balancers.
-  # NodePort Purpose: Expose a service externally on a specific port of every Kubernetes node.
-  # LoadBalancer Purpose: Expose a service externally with a dedicated IP address managed by your cloud provider.
-# FYI - in order to expsoe this to your host computer (windows, the one running this dev container, you had to make an entry in kind-config-template.yaml)
+
 resource "kubernetes_service" "openclone_sftp_nodeport" {
   metadata {
     name = "openclone-sftp-nodeport"
@@ -112,43 +127,3 @@ resource "kubernetes_service" "openclone_sftp_nodeport" {
   }
 }
 
-################################################################################
-######## KIND ##################################################################
-################################################################################
-
-# move KIND to longhorn. this was an attempt to get it to work on windows but WSL lacks some linux kernel files that are required for readwritemany. just switch to longhorn for kind and say KIND only works on linux, not windows.
-
-# StorageClass
-resource "kubernetes_storage_class" "manual_hostpath" {
-  metadata {
-    name = "manual-hostpath"
-  }
-  
-  storage_provisioner = "kubernetes.io/no-provisioner"
-  volume_binding_mode = "Immediate"
-  reclaim_policy      = "Retain"
-}
-
-# PersistentVolume
-resource "kubernetes_persistent_volume" "shared_data_pv" {
-  metadata {
-    name = "shared-data-pv"
-  }
-  
-  spec {
-    capacity = {
-      storage = "10Gi"
-    }
-    
-    access_modes = ["ReadWriteMany"]
-    persistent_volume_reclaim_policy = "Retain"
-    storage_class_name = kubernetes_storage_class.manual_hostpath.metadata[0].name
-    
-    persistent_volume_source {
-      host_path {
-        path = "/shared-data"
-        type = "DirectoryOrCreate"
-      }
-    }
-  }
-}

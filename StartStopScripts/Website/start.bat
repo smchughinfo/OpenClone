@@ -14,6 +14,9 @@ rem ####################################################################
 rem ###### RUN CONTAINER FOR THE FIRST TIME ############################
 rem ####################################################################
 
+rem Note: SSL certificate generation is now handled automatically 
+rem inside the Docker container during startup
+
 rem Initialize the command string
 set cmd=docker run
 
@@ -21,11 +24,11 @@ rem Run container in detached mode (background); use this in production to free 
 rem set cmd=%cmd% -d
 
 rem ####################################################################
-rem ###### NETWORK #####################################################
+rem ###### NETWORK (HTTPS SUPPORT) ####################################
 rem ####################################################################
 
 set cmd=%cmd% -p 8080:80
-set cmd=%cmd% -e ASPNETCORE_URLS=http://+:80
+set cmd=%cmd% -p 8443:443
 
 rem ####################################################################
 rem ###### FILE SYSTEM #################################################
@@ -33,6 +36,22 @@ rem ####################################################################
 
 set cmd=%cmd% -v "%OpenClone_OpenCloneFS%":/OpenCloneFS
 set cmd=%cmd% -e OpenClone_OpenCloneFS=/OpenCloneFS
+
+rem ####################################################################
+rem ###### SSL CERTIFICATE #############################################
+rem ####################################################################
+
+rem Get the SSL directory path (relative to this script)
+set SSL_PATH=%~dp0..\..\Website\SelfHosting\ssl
+set cmd=%cmd% -v "%SSL_PATH%":/app/ssl
+
+rem SSL Configuration Environment Variables
+rem Let's Encrypt SSL certificates (requires DNS pointing to server)
+set cmd=%cmd% -e SSL_DOMAIN=%OpenClone_Self_Hosting_Domain%
+set cmd=%cmd% -e SSL_EMAIL=%OpenClone_Admin_Email%
+
+rem Force SSL certificate renewal (uncomment to regenerate on next startup)
+rem set cmd=%cmd% -e FORCE_SSL_RENEWAL=true
 
 rem ####################################################################
 rem ###### SIGNALR #####################################################
@@ -52,6 +71,10 @@ set cmd=%cmd% -e OpenClone_U2Net_HostAddress=%OpenClone_U2Net_HostAddress%
 rem ####################################################################
 rem ###### LOG LEVELS ##################################################
 rem ####################################################################
+
+rem Set default log levels if not defined
+if "%OpenClone_OpenCloneLogLevel%"=="" set OpenClone_OpenCloneLogLevel=Information
+if "%OpenClone_SystemLogLevel%"=="" set OpenClone_SystemLogLevel=Information
 
 set cmd=%cmd% -e OpenClone_OpenCloneLogLevel=%OpenClone_OpenCloneLogLevel%
 set cmd=%cmd% -e OpenClone_SystemLogLevel=%OpenClone_SystemLogLevel%

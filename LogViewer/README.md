@@ -18,6 +18,6 @@ The frontend uses React with localStorage caching for efficient log management a
 
 ## How to run it
 
-Set environment variables for database connection (see root README.md). Run with environment parameter: `python API.py --environment local|remote|kind` to target the appropriate database. The application runs on port 1234 by default. Use the scripts in `/StartStopScripts/LogViewer/` for different environment configurations.
+Set environment variables for database connection (see root README.md). Run with environment parameter: `python API.py --environment local|remote` to target the appropriate database. The application runs on port 1234 by default. Use the scripts in `/StartStopScripts/LogViewer/` for different environment configurations.
 
 For more technical details and architecture information, see [CLAUDE.md](CLAUDE.md).

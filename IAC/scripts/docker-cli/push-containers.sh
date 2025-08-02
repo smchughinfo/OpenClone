@@ -33,12 +33,7 @@ push_container() {
 
     echo "remote name: $remote_name"
 
-    if [[ "$image_name" == "openclone-iac" ]]; then
-        local_name="${image_name}:1.0"
-        dockerfile="Dockerfile_ForDeployment"
-        echo "deleting /terraform/.terraform for clean image creation"
-        rm -r /terraform/.terraform
-    elif [[ "$image_name" == "openclone-database" ]]; then
+    if [[ "$image_name" == "openclone-database" ]]; then
         local_name="${image_name}:1.0"
         dockerfile="Container/Dockerfile"
     else

@@ -29,3 +29,4 @@ coverage
 **/values.dev.yaml
 LICENSE
 .dockerignore
+SelfHosting/ssl/

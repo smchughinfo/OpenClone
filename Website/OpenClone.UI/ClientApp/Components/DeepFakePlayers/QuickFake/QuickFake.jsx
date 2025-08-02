@@ -31,7 +31,8 @@ const QuickFake = React.forwardRef((props, ref) => {
             return;
         }
         await chatHub.sendMessageToCloneAndWaitForResponse(chatSessionId, props.messageToClone);
-        PlayQuickFake()
+        props.onMessageFromClone();
+        await PlayQuickFake();
     }
 
     async function PlayQuickFake() {

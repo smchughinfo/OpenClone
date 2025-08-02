@@ -32,8 +32,8 @@ namespace OpenCloneUI.Configuration
                 };
             });
              
-            // Configures default identity with confirmed accounts, role management, and Entity Framework Core data persistence.
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            // Configures default identity with NO email confirmation requirement, role management, and Entity Framework Core data persistence.
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 

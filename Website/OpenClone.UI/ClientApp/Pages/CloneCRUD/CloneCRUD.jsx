@@ -139,6 +139,39 @@ function CloneCRUD(props) {
     }
     React.useEffect(handleActiveCloneChanged, [activeClone])
 
+    // Update navigation links based on clone count
+    React.useEffect(() => {
+        const hasClones = userClones.length > 0;
+        
+        // Find the navigation links by ID
+        const chatbotLink = document.getElementById('chatbotLink');
+        const qaLink = document.getElementById('qaLink');
+        
+        if (chatbotLink) {
+            if (hasClones) {
+                chatbotLink.href = "/ChatBot";
+                chatbotLink.classList.remove("disabled", "pointer-events-none");
+                chatbotLink.classList.add("text-dark");
+            } else {
+                chatbotLink.href = "#";
+                chatbotLink.classList.add("disabled", "pointer-events-none");
+                chatbotLink.classList.remove("text-dark");
+            }
+        }
+        
+        if (qaLink) {
+            if (hasClones) {
+                qaLink.href = "/QA";
+                qaLink.classList.remove("disabled", "pointer-events-none");
+                qaLink.classList.add("text-dark");
+            } else {
+                qaLink.href = "#";
+                qaLink.classList.add("disabled", "pointer-events-none");
+                qaLink.classList.remove("text-dark");
+            }
+        }
+    }, [userClones.length]);
+
     //////////////////////////////////////////////////////////////////
     ////////// MUTATE CLONE //////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
@@ -603,12 +636,12 @@ function CloneCRUD(props) {
                                     </div>
                                     <div className="mt-5 mt-md-1 col-md-6 d-flex align-items-center">
                                         <div className="d-flex">
-                                            <div className="form-check me-3" data-bs-toggle="tooltip" title="If checked other users will be able to talk to your clone. This means any information you enter about your clone will be publicly available. Leave unchecked for privacy.">
+                                            {/* <div className="form-check me-3" data-bs-toggle="tooltip" title="If checked other users will be able to talk to your clone. This means any information you enter about your clone will be publicly available. Leave unchecked for privacy.">
                                                 <input className="form-check-input" type="checkbox" id="makePublic" checked={makePublic} onChange={(e) => setMakePublic(e.target.checked)} />
                                                 <label className="form-check-label" for="makePublic">
                                                     Make Public
                                                 </label>
-                                            </div>
+                                            </div> */}
                                             <div className="form-check" data-bs-toggle="tooltip" title="If checked some records of your conversations and interactions with this clone may be logged. Logs are useful for improving code quality and resolving errors. Leave unchecked for privacy. Third parties such as ElevenLabs and OpenAI do their own logging which can't be controlled here.">
                                                 <input className="form-check-input" type="checkbox" id="allowLogging" checked={allowLogging} onChange={(e) => setAllowLogging(e.target.checked)} />
                                                 <label className="form-check-label" for="allowLogging">

@@ -4,7 +4,7 @@
 OpenClone-DevContainer-StatusBar is a VS Code extension that provides visual environment indication in the status bar when working with the OpenClone IAC application. It displays custom text and status bar color to clearly identify which development environment you're currently working in.
 
 ## Purpose
-**Environment Awareness**: Prevents confusion when working across multiple development environments (local, remote, kind, vultr_dev, etc.) by providing prominent visual cues in the VS Code interface.
+**Environment Awareness**: Prevents confusion when working across multiple development environments (local, remote, vultr_dev, etc.) by providing prominent visual cues in the VS Code interface.
 
 **IAC Integration**: Specifically designed for OpenClone IAC workflows where developers frequently switch between different deployment environments and need clear visual confirmation of their current context.
 

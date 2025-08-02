@@ -26,11 +26,10 @@ resource "kubernetes_deployment" "openclone-sadtalker" {
     null_resource.init_db
   ]
   
+  wait_for_rollout = false
+  
   metadata { name = "openclone-sadtalker-deployment" }
 
-  timeouts {
-    create = "30m"
-  }
 
   spec {
     replicas = 1                                                     # Number of pod replicas to run  # TODO USE Use a Horizontal Pod Autoscaler (HPA)
@@ -39,6 +38,10 @@ resource "kubernetes_deployment" "openclone-sadtalker" {
     template {                                                       # this is the pod template 
       metadata { labels = { pod_id = "openclone-sadtalker-pod" } }
       spec {
+        node_selector = {
+          "vke.vultr.com/node-pool" = var.vultr_gpu_node_pool_label
+        }
+        
         container {
           image = var.image_name_openclone_sadtalker # The container image pulled from your registry.
           name  = "openclone-sadtalker"              # The name of the container inside the pod.

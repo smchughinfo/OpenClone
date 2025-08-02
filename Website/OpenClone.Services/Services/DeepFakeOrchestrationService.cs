@@ -40,7 +40,8 @@ namespace OpenClone.Services.Services
 
         void GenerateDeepFake(int cloneId)
         {
-            var sourceImagePath = _cloneMetadataService.GetCloneImageNoBG(cloneId);
+            //var sourceImagePath = _cloneMetadataService.GetCloneImageNoBG(cloneId);
+            var sourceImagePath = _cloneMetadataService.GetCloneImageWithBG(cloneId);
             var textToSpeakPath = _cloneMetadataService.GetTextToSpeakPath(cloneId);
             var m3u8Path = _cloneMetadataService.GetM3U8Path(cloneId);
             _renderingService.GenerateDeepFakeStream(sourceImagePath, textToSpeakPath, m3u8Path);
