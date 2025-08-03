@@ -11,7 +11,12 @@ namespace OpenClone.UI.Configuration
             {
                 options.AddPolicy("SplashPagePolicy", policy =>
                 {
-                    policy.WithOrigins("https://clonezone.me", "http://clonezone.me")
+                    policy.SetIsOriginAllowed(origin => 
+                        {
+                            if (string.IsNullOrEmpty(origin)) return false;
+                            var uri = new Uri(origin);
+                            return uri.Host == "clonezone.me" || uri.Host.EndsWith(".clonezone.me");
+                        })
                           .AllowAnyMethod()
                           .AllowAnyHeader()
                           .AllowCredentials();
