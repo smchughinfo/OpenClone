@@ -36,9 +36,6 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                            </li>
-                            <li class="nav-item">
                                 @* you cant use asp-page here because i want the CloneManager url but that gets rerouted to the CloneCRUD page*@
                                 <a class="nav-link text-dark" href="/CloneManager">Clone Manager</a>
                             </li>

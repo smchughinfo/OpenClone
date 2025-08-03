@@ -21,6 +21,6 @@ namespace OpenClone.Core
         public static string OpenCloneCategory = "Website";
         // must include using Microsoft.Extensions.Logging; in the file that uses this. in .net10+ they have global usings
         
-        public static string HelpEmailAddress = "admin@clonezone.com";
+        public static string HelpEmailAddress = "clonezone.me@gmail.com";
     }
 }

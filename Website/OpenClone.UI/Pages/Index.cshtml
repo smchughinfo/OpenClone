@@ -51,19 +51,19 @@
     <div class="container">
         <h1 class="display-2 fw-bold mb-4">OpenClone Demo</h1>
         <p class="lead fs-4 mb-4">Create AI-powered digital clones that talk, think, and interact just like you</p>
-        <p class="fs-5 mb-5">Experience the future of personal AI with lifelike avatars powered by cutting-edge deepfake technology</p>
-        
         @if (User.Identity.IsAuthenticated)
         {
-            <a href="/CloneManager" class="btn btn-light btn-get-started me-3">
+            <p class="fs-5">Experience the future of personal AI with lifelike avatars powered by cutting-edge deepfake technology</p>
+            <!--<a href="/CloneManager" class="btn btn-outline-light btn-lg me-3">
                 <i class="bi bi-person-plus"></i> Create Your Clone
             </a>
-            <a href="/ChatBot" class="btn btn-outline-light btn-lg">
+            <a href="/ChatBot" class="btn btn-outline-light btn-lg disabled" id="chatWithClonesBtn">
                 <i class="bi bi-chat-dots"></i> Chat with Clones
-            </a>
+            </a>-->
         }
         else
         {
+            <p class="fs-5 mb-5">Experience the future of personal AI with lifelike avatars powered by cutting-edge deepfake technology</p>
             <button type="button" class="btn btn-outline-light btn-lg me-3" data-bs-toggle="modal" data-bs-target="#videoModal">
                 <i class="bi bi-play-circle"></i> Watch The Video
             </button>
@@ -189,13 +189,13 @@ else
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4">
-                        <a href="/QA/QuestionCategories" class="btn btn-outline-success btn-lg w-100">
+                        <a href="/QA/QuestionCategories" class="btn btn-outline-success btn-lg w-100 disabled" id="trainAiBtn">
                             <i class="bi bi-chat-square-quote d-block mb-2" style="font-size: 2rem;"></i>
-                            Train AI
+                            Answer Questions
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4">
-                        <a href="/ChatBot" class="btn btn-outline-info btn-lg w-100">
+                        <a href="/ChatBot" class="btn btn-outline-info btn-lg w-100 disabled" id="chatNowBtn">
                             <i class="bi bi-chat-dots d-block mb-2" style="font-size: 2rem;"></i>
                             Chat Now
                         </a>
@@ -205,3 +205,53 @@ else
         </div>
     </div>
 }
+
+<script>
+// One-off JavaScript for Index page - Get user's clones
+document.addEventListener('DOMContentLoaded', function() {
+    // Only run for authenticated users
+    @if (User.Identity.IsAuthenticated)
+    {
+        <text>
+        // Call GetClones API and dump to console
+        fetch('/api/CloneCrud/GetClones', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'same-origin' // Include cookies for authentication
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            window.xxxx = data;
+            console.log('User clones data:', data);
+            
+            // Enable buttons if user has clones
+            if (data && data.length > 0) {
+                const chatWithClonesBtn = document.getElementById('chatWithClonesBtn');
+                const trainAiBtn = document.getElementById('trainAiBtn');
+                const chatNowBtn = document.getElementById('chatNowBtn');
+                
+                if (chatWithClonesBtn) {
+                    chatWithClonesBtn.classList.remove('disabled');
+                }
+                if (trainAiBtn) {
+                    trainAiBtn.classList.remove('disabled');
+                }
+                if (chatNowBtn) {
+                    chatNowBtn.classList.remove('disabled');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching clones:', error);
+        });
+        </text>
+    }
+});
+</script>
