@@ -25,7 +25,7 @@
     @Html.Partial("_LoaderDialogPartial")
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
+            <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">OpenClone</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -56,9 +56,9 @@
                             <a class="nav-link text-dark" href="https://github.com/smchughinfo/OpenClone/" target="_blank" rel="noopener noreferrer">About</a>
                         </li>
                     </ul>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
-            <partial name="_LoginPartial" />
         </nav>
     </header>
     <div class="container-fluid">

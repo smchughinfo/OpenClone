@@ -107,10 +107,25 @@ button.accept-policy {
   text-decoration: underline;
 }
 
+/* Header styling */
+.navbar-nav .nav-link {
+  white-space: nowrap;
+}
+
+#manage {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-width: 768px) {
   .footer-content {
     flex-direction: column;
     gap: 1rem;
     text-align: center;
+  }
+  
+  #manage {
+    max-width: 150px;
   }
 }
