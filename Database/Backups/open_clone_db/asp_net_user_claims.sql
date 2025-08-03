@@ -23,6 +23,7 @@ SET row_security = off;
 
 INSERT INTO public.asp_net_user_claims (id, user_id, claim_type, claim_value) VALUES (1, '8634b089-149e-48a8-b8c2-fc2d4a40df2a', 'CanCreateQuestions', '');
 
+
 --
 -- Name: asp_net_user_claims_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --

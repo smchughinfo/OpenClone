@@ -21,13 +21,14 @@ SET row_security = off;
 -- Data for Name: chat_session; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public.chat_session (id, clone_id) VALUES (1, 2);
 
 
 --
 -- Name: chat_session_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.chat_session_id_seq', 1, false);
+SELECT pg_catalog.setval('public.chat_session_id_seq', 1, true);
 
 
 --
