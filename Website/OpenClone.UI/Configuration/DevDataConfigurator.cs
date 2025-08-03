@@ -21,9 +21,7 @@ namespace OpenCloneUI.Configuration
 
         private static async Task CreateCloneVoices(IServiceScope scope)
         {
-            await EnsureCloneHasVoice(1, scope);
             await EnsureCloneHasVoice(2, scope);
-            await EnsureCloneHasVoice(4, scope);
         }
 
         private static async Task EnsureCloneHasVoice(int cloneId, IServiceScope scope)
@@ -70,20 +68,13 @@ namespace OpenCloneUI.Configuration
             if (devAdminUser != null)
             {
                 await userManager.AddToRoleAsync(devAdminUser, "Overlord");
-            }
 
-            var devAdminUser2 = userManager.Users.SingleOrDefault(u => u.UserName == "seanmchugh.info@gmail.com");
-            if (devAdminUser2 != null)
-            {
-                var devAdminUser2Claims = await userManager.GetClaimsAsync(devAdminUser2);
-                if (!devAdminUser2Claims.Any(c => c.Type == "CanCreateQuestions"))
+                var devAdminUserClaims = await userManager.GetClaimsAsync(devAdminUser);
+                if (!devAdminUserClaims.Any(c => c.Type == "CanCreateQuestions"))
                 {
-                    await userManager.AddClaimAsync(devAdminUser2, new System.Security.Claims.Claim("CanCreateQuestions", ""));
+                    await userManager.AddClaimAsync(devAdminUser, new System.Security.Claims.Claim("CanCreateQuestions", ""));
                 }
             }
-            // YOU HAVE TO RELOG IN THE USER CAUSE IT DOESNT DELETE THE COOKIE. SO EITHER TELL THEM TO RELOGIN OR SEE IF THERES A SANCTOINED WAY TO DELETE THE COOKIE OR FIGURE OUT WHAT COOKIE IT IS AND DELTE IT.
-            //var iir = await userManager.IsInRoleAsync(devAdminUser, "Overlord");
-            //await userManager.AddToRoleAsync(devAdminUser, "Smurf");
         }
 
         // TODO: this isn't really dev data. it would have a role in production. however, it is likely you will revisit this before moving to production
