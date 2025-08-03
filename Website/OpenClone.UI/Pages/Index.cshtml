@@ -13,11 +13,7 @@
         margin: -20px -15px 40px -15px;
     }
     .feature-card {
-        transition: transform 0.3s ease;
         height: 100%;
-    }
-    .feature-card:hover {
-        transform: translateY(-5px);
     }
     .feature-icon {
         font-size: 3rem;
@@ -26,15 +22,17 @@
     }
     .btn-get-started {
         background: linear-gradient(45deg, #667eea, #764ba2);
-        border: none;
+        border: 2px solid white;
         padding: 12px 30px;
         font-size: 1.1rem;
         border-radius: 50px;
         transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
     }
     .btn-get-started:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
+        border-color: white;
     }
     .stats-section {
         background-color: #f8f9fa;
@@ -51,7 +49,7 @@
 <!-- Hero Section -->
 <div class="hero-section text-center">
     <div class="container">
-        <h1 class="display-2 fw-bold mb-4">OpenClone</h1>
+        <h1 class="display-2 fw-bold mb-4">OpenClone Demo</h1>
         <p class="lead fs-4 mb-4">Create AI-powered digital clones that talk, think, and interact just like you</p>
         <p class="fs-5 mb-5">Experience the future of personal AI with lifelike avatars powered by cutting-edge deepfake technology</p>
         
@@ -66,11 +64,11 @@
         }
         else
         {
-            <a href="/Identity/Account/Register" class="btn btn-light btn-get-started me-3">
-                <i class="bi bi-rocket-takeoff"></i> Get Started Free
-            </a>
-            <a href="/About" class="btn btn-outline-light btn-lg">
-                <i class="bi bi-info-circle"></i> Learn More
+            <button type="button" class="btn btn-outline-light btn-lg me-3" data-bs-toggle="modal" data-bs-target="#videoModal">
+                <i class="bi bi-play-circle"></i> Watch The Video
+            </button>
+            <a href="/Identity/Account/Register" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-rocket-takeoff"></i> Try It Out
             </a>
         }
     </div>
@@ -81,9 +79,9 @@
     <!-- Features Section -->
     <div class="container my-5">
         <div class="row text-center mb-5">
-            <div class="col-lg-8 mx-auto">
-                <h2 class="display-5 fw-bold mb-3">Why Choose OpenClone?</h2>
-                <p class="lead text-muted">Build your digital twin with advanced AI that captures your personality, voice, and appearance</p>
+            <div class="col-lg-12 mx-auto">
+                <h2 class="display-5 fw-bold mb-3">Open Source</h2>
+                <p class="lead text-muted">Developer-friendly architecture with automated deployment. Go from <a href="https://github.com/seanmchugh513/openclone" target="_blank" class="text-decoration-none">download</a> to production in minutes, not hours.</p>
             </div>
         </div>
         
@@ -91,9 +89,9 @@
             <div class="col-md-4">
                 <div class="card feature-card border-0 shadow-sm h-100">
                     <div class="card-body text-center p-4">
-                        <i class="bi bi-robot feature-icon"></i>
-                        <h4 class="fw-bold">AI-Powered Conversations</h4>
-                        <p class="text-muted">Train your clone with Q&A sessions to create natural, contextual conversations that reflect your knowledge and personality.</p>
+                        <i class="bi bi-diagram-3 feature-icon"></i>
+                        <h4 class="fw-bold">Kubernetes Microservice Architecture</h4>
+                        <p class="text-muted">Scalable containerized services including database, video generation, background removal, and web interface deployed with Terraform and Kubernetes orchestration.</p>
                     </div>
                 </div>
             </div>
@@ -101,9 +99,9 @@
             <div class="col-md-4">
                 <div class="card feature-card border-0 shadow-sm h-100">
                     <div class="card-body text-center p-4">
-                        <i class="bi bi-camera-video feature-icon"></i>
-                        <h4 class="fw-bold">Lifelike Video Generation</h4>
-                        <p class="text-muted">Generate realistic talking videos using state-of-the-art deepfake technology that brings your clone to life.</p>
+                        <i class="bi bi-code-slash feature-icon"></i>
+                        <h4 class="fw-bold">.NET MVC/React Front End</h4>
+                        <p class="text-muted">Modern web application built with ASP.NET Core MVC, React components, SignalR real-time communication, and Webpack bundling for optimal performance.</p>
                     </div>
                 </div>
             </div>
@@ -111,9 +109,9 @@
             <div class="col-md-4">
                 <div class="card feature-card border-0 shadow-sm h-100">
                     <div class="card-body text-center p-4">
-                        <i class="bi bi-mic feature-icon"></i>
-                        <h4 class="fw-bold">Voice Cloning</h4>
-                        <p class="text-muted">Capture your unique voice patterns and speaking style to create authentic audio that sounds exactly like you.</p>
+                        <i class="bi bi-cpu feature-icon"></i>
+                        <h4 class="fw-bold">AI Microservices</h4>
+                        <p class="text-muted">Integrated AI services including SadTalker for deepfake video generation, OpenAI for conversational intelligence, and ElevenLabs for voice synthesis.</p>
                     </div>
                 </div>
             </div>
@@ -125,9 +123,9 @@
         <div class="container">
             <div class="row text-center">
                 <div class="col-md-4">
-                    <div class="stat-number">AI</div>
-                    <h5>Powered Intelligence</h5>
-                    <p class="text-muted">Advanced language models create natural conversations</p>
+                    <div class="stat-number"><i class="bi bi-cloud"></i></div>
+                    <h5>Cloud Ready</h5>
+                    <p class="text-muted">Automated deployment to Vultr cloud</p>
                 </div>
                 <div class="col-md-4">
                     <div class="stat-number">∞</div>
@@ -135,9 +133,9 @@
                     <p class="text-muted">Train your clone with unlimited Q&A sessions</p>
                 </div>
                 <div class="col-md-4">
-                    <div class="stat-number">24/7</div>
-                    <h5>Always Available</h5>
-                    <p class="text-muted">Your digital clone never sleeps</p>
+                    <div class="stat-number"><i class="bi bi-shield-check"></i></div>
+                    <h5>Privacy First</h5>
+                    <p class="text-muted">Logs are optional and disabled by default</p>
                 </div>
             </div>
         </div>
@@ -145,11 +143,33 @@
 
     <!-- CTA Section -->
     <div class="container text-center my-5 py-5">
-        <h2 class="display-6 fw-bold mb-3">Ready to Create Your Digital Twin?</h2>
-        <p class="lead text-muted mb-4">Join the future of personal AI and create a clone that represents you</p>
-        <a href="/Identity/Account/Register" class="btn btn-get-started btn-lg">
-            <i class="bi bi-person-plus"></i> Start Creating Your Clone
-        </a>
+        <h2 class="display-6 fw-bold mb-3">Ready for Upload?</h2>
+        <p class="lead text-muted mb-4">Try the demo system or fork the repository to deploy your own instance</p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="/Identity/Account/Register" class="btn btn-outline-primary btn-lg">
+                <i class="bi bi-person-plus"></i> Try Demo
+            </a>
+            <a href="https://github.com/seanmchugh513/openclone" target="_blank" class="btn btn-outline-secondary btn-lg">
+                <i class="bi bi-github"></i> View Source
+            </a>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel">OpenClone Demo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.youtube.com/embed/jwSBE1EIevA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 }
 else
