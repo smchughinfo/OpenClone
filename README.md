@@ -57,9 +57,10 @@ Ready to create your first clone? Here's how:
 
 ### Option 1: Full Setup (Recommended)
 1. **Download** - Clone this repository to your computer
-2. **Configure** - Set up the environment variables below 
-3. **Launch** - Run `StartStopScripts/run-all.bat` to start everything
-4. **Create** - Visit `http://localhost:8080` and build your first clone!
+2. **Configure** - Set up the environment variables below
+3. **Database** - Run `StartStopScripts/Database/restore.bat` to set up database and OpenCloneFS
+4. **Launch** - Run `StartStopScripts/run-all.bat` to start everything
+5. **Create** - Visit `http://localhost:8080` and build your first clone!
 
 ### Option 2: Step-by-Step
 Want to start individual services? Use these batch files:
