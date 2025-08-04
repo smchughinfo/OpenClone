@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpenClone - AI Clone Service</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
@@ -140,16 +141,32 @@
             text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
         }
         
-        .fallback-link {
+        #offlineButtons {
             pointer-events: all;
             margin-top: 2rem;
-            padding: 12px 24px;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            min-height: 60px; /* Reserve space for buttons */
+        }
+        
+        #offlineButtons.hidden {
+            display: flex;
+            visibility: hidden;
+        }
+        
+        .fallback-link {
+            padding: 0 24px;
+            font-size: 16px;
             background: rgba(56, 189, 248, 0.1);
             border: 1px solid rgba(56, 189, 248, 0.3);
             border-radius: 8px;
             color: #38bdf8;
             text-decoration: none;
             font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
         }
@@ -157,7 +174,88 @@
         .fallback-link:hover {
             background: rgba(56, 189, 248, 0.2);
             border-color: rgba(56, 189, 248, 0.5);
-            transform: translateY(-2px);
+        }
+        
+        .video-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .video-modal-content {
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 12px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90%;
+            overflow: hidden;
+        }
+        
+        .video-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        
+        .video-modal-header h3 {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .video-modal-body {
+            padding: 20px;
+        }
+        
+        .ratio {
+            position: relative;
+            width: 100%;
+        }
+        
+        .ratio-16x9 {
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        
+        .ratio iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
         }
         
         .debug-controls {
@@ -256,9 +354,35 @@
             <div id="countdownNumber" class="countdown-number">5</div>
         </div>
         
-        <a id="fallbackLink" href="https://app.clonezone.me" class="fallback-link" style="display: none;">
-            Access OpenClone
-        </a>
+        <div id="offlineButtons" class="hidden">
+            <button id="tutorialBtn" class="fallback-link" onclick="showVideo()">
+                Watch Tutorial Video
+            </button>
+            <button id="fallbackBtn" class="fallback-link" onclick="window.open('https://app.clonezone.me', '_blank')">
+                Try Connecting Anyway
+            </button>
+        </div>
+        
+        <!-- Invisible spacer to maintain layout when countdown is hidden -->
+        <div id="countdownSpacer" style="display: none;">
+            <p class="countdown-text" style="visibility: hidden;">Redirecting in</p>
+            <div class="countdown-number" style="visibility: hidden;">5</div>
+        </div>
+    </div>
+    
+    <!-- Video Modal -->
+    <div id="videoModal" class="video-modal">
+        <div class="video-modal-content">
+            <div class="video-modal-header">
+                <h3>OpenClone Tutorial</h3>
+                <button id="closeVideoModal" class="close-btn">&times;</button>
+            </div>
+            <div class="video-modal-body">
+                <div class="ratio ratio-16x9">
+                    <iframe id="tutorialIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
     </div>
     
     <!-- Debug Controls -->
@@ -692,8 +816,14 @@
             } else {
                 statusIndicator.className = 'status-indicator offline';
                 statusText.textContent = 'Server Offline';
-                fallbackLink.style.display = 'inline-block';
-                fallbackLink.textContent = 'Try connecting anyway';
+                
+                // Hide countdown container and show spacer to maintain layout
+                countdownContainer.style.display = 'none';
+                const countdownSpacer = document.getElementById('countdownSpacer');
+                countdownSpacer.style.display = 'block';
+                
+                const offlineButtons = document.getElementById('offlineButtons');
+                offlineButtons.classList.remove('hidden');
             }
         }
         
@@ -727,10 +857,48 @@
             });
         }
         
+        // Video modal functionality
+        function showVideo() {
+            const videoModal = document.getElementById('videoModal');
+            const tutorialIframe = document.getElementById('tutorialIframe');
+            
+            tutorialIframe.src = 'https://www.youtube.com/embed/cZOO1pzmcWQ';
+            videoModal.style.display = 'flex';
+        }
+        
+        // Initialize video modal controls
+        function initVideoModal() {
+            const videoModal = document.getElementById('videoModal');
+            const closeVideoModal = document.getElementById('closeVideoModal');
+            const tutorialIframe = document.getElementById('tutorialIframe');
+            
+            closeVideoModal.addEventListener('click', () => {
+                videoModal.style.display = 'none';
+                tutorialIframe.src = ''; // Stop video playback
+            });
+            
+            // Close modal when clicking outside
+            videoModal.addEventListener('click', (e) => {
+                if (e.target === videoModal) {
+                    videoModal.style.display = 'none';
+                    tutorialIframe.src = ''; // Stop video playback
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && videoModal.style.display === 'flex') {
+                    videoModal.style.display = 'none';
+                    tutorialIframe.src = ''; // Stop video playback
+                }
+            });
+        }
+        
         // Initialize
         window.addEventListener('resize', onWindowResize);
         initThree();
         initControls();
+        initVideoModal();
         updateStatus();
     </script>
 </body>
