@@ -117,6 +117,17 @@ namespace OpenClone.Services.Services.Chat
         public async Task<string> SendMessage(ChatSession chatSession, string messageToClone)
         {
             var systemMessage = await GetSystemMessage(chatSession.CloneId, messageToClone);
+
+            // Replace IDENTITY_CATEGORY placeholders with actual values
+            var identityMessageData = (await GetSystemMessageData(chatSession.CloneId)).Where(d => d.Category == IDENTITY_CATEGORY);
+            foreach (var data in identityMessageData)
+            {
+                if (!string.IsNullOrEmpty(data.Value))
+                {
+                    systemMessage = systemMessage.Replace($"{{{data.Key}}}", data.Value);
+                }
+            }
+
             chatSession.ChatMessages.Add(new ChatMessage()
             {
                 Message = messageToClone, 
