@@ -13,8 +13,6 @@ namespace OpenClone.UI.Configuration.Services
             _logger = loggerFactory.CreateLogger(GlobalVariables.OpenCloneCategory);
         }
 
-        // TODO: THIS NEEDS UNIT TESTS!!! I think this is the most complicated function in the entire program. This is a perfect candidate for unit tests.
-        // TODO: you should add flags to the ancillary apps to tell them not to do any logging either.
         public string GenerateAndLogErrorInformation(HttpContext context, Exception exception, bool sendTopExceptionMessageToUser, bool? forceLog)
         {
             var errorMessage = "";

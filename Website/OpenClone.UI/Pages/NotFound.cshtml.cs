@@ -9,7 +9,7 @@ namespace OpenClone.Pages
     {
         public NotFoundModel()
         {
-            // todo: add logging? 
+ 
         }
 
         public void OnGet()

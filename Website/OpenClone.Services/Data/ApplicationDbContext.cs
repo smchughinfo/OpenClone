@@ -14,7 +14,6 @@ using System.Reflection.Emit;
 using OpenClone.Core.Models.Enums;
 
 
-// TODO: currently all entities are in the core project but some of them could be included in only the services project. which would be the correct pattern
 
 // this was originally under areas/identity when applicationdbcontet and identitydbcontext were seperate.
 // do you lose any security by not having udner the identity area?
@@ -53,7 +52,6 @@ public class ApplicationDbContext
         SetupQuestion(modelBuilder);
         SetupAnswer(modelBuilder);
         SetupGenerativeImage(modelBuilder);
-        // TODO: check that cascade and no action work here
         SetupClone(modelBuilder);
         SetupApplicationUser(modelBuilder);
         modelBuilder.UseSnakeCase();
@@ -73,8 +71,7 @@ public class ApplicationDbContext
             .HasOne(c => c.ApplicationUser)
             .WithMany()
             .HasForeignKey(c => c.ApplicationUserId)
-            //.OnDelete(DeleteBehavior.NoAction); // TODO: IMPORTANT - I DONT THINK THIS IS RIGHT. ACTUALLY I AM CHANGING IT NOW...
-            .OnDelete(DeleteBehavior.Cascade);    // TODO: IMPORTANT - VERIFY THIS IS RIGHT. WHEN DELETE APPLICATION USER SHOULD DELETE CLONE ....WHICH SHOULD DELETE CLONE'S CUSTOMS QUESTIONS AND THE CLONE'S ANSWERS
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Clone>()
             .HasOne(c => c.DeepFakeMode)
@@ -97,17 +94,9 @@ public class ApplicationDbContext
             .HasForeignKey(q => q.ApplicationUserId)
             .IsRequired(false);*/
 
-        //.HasPrincipalKey<ApplicationUser>(A => A.Id);
-        //.OnDelete(DeleteBehavior.Cascade);
-
-        //modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers");
-        //   .HasDiscriminator<string>("ApplicationUser");
 
 
-        /*modelBuilder.Entity<ApplicationUser>()
-            .HasOne(a => a.ActiveClone)
-            .WithMany()
-            .OnDelete(DeleteBehavior.Cascade);*/
+
     }
 
     private void SetupQuestion(ModelBuilder modelBuilder)
@@ -132,7 +121,6 @@ public class ApplicationDbContext
             a.CloneId,
             a.QuestionId
         });
-        //modelBuilder.Entity<Answer>().HasIndex(a => new { a.CloneId, a.QuestionId }).IsUnique();
 
         modelBuilder.Entity<Answer>()
             .HasOne(a => a.Question)

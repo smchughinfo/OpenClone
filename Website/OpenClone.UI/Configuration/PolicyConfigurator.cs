@@ -41,7 +41,7 @@ namespace OpenCloneUI.Configuration
                 {
                     if(user.Identity.Name == null)
                     {
-                        return false; // TODO: check logging to make sure unlogged in users dont get logged as having failed first computed policy to execute this code
+                        return false;
                     }
 
                     using (var scope = StaticServiceProvider.ServiceProvider.CreateScope())

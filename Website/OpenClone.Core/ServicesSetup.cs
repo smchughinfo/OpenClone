@@ -31,7 +31,7 @@ namespace OpenClone.Core
                 var serviceProvider = services.BuildServiceProvider();
                 var dbLoggerProvider = new LoggerProvider(filter, serviceProvider);
 
-                // IMPORTANT NOTE: this disaster cost you 1 weekend. This is necessary for dotnet ef migrations add foo too work. See DoMigrations.ps1 in the database generat and populate program (*note - adding this for visibility -> TODO: IMPORTANT NOTE)
+                // This is necessary for dotnet ef migrations add foo to work. See DoMigrations.ps1 in the database generation and populate program.
                 if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("OpenClone_EF_MIGRATION")))
                 {
                     builder.AddProvider(dbLoggerProvider);

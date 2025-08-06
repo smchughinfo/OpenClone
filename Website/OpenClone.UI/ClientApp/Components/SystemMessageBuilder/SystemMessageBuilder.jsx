@@ -1,5 +1,4 @@
-﻿// TODO: everywhere in the app where its called systemMessage it shuold be renamed to system prompt
-
+﻿
 import './SystemMessageBuilder.css';
 
 import { get, post } from 'js/services/network.js';

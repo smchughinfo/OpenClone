@@ -1,7 +1,4 @@
-﻿// TODO: YOU MIGHT WANT TO CALL THIS CLONEMETADATA SINCE IT MIRRORS THE SERVER SIDE CLONEMETADATA SERVICE
-// TODO: IMPORTANT verify you cannot access another accoutns clones. the code that allows/disallows is in OpenCloneFSMiddleware
-
-function getCloneImagePath(cloneId, noBackground) {
+﻿function getCloneImagePath(cloneId, noBackground) {
     if (noBackground) {
         return `OpenCloneFS/Clones/${cloneId}/clone-image-no-bg.png`;
     }

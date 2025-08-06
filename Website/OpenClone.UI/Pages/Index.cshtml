@@ -54,12 +54,6 @@
         @if (User.Identity.IsAuthenticated)
         {
             <p class="fs-5">Experience the future of personal AI with lifelike avatars powered by cutting-edge deepfake technology</p>
-            <!--<a href="/CloneManager" class="btn btn-outline-light btn-lg me-3">
-                <i class="bi bi-person-plus"></i> Create Your Clone
-            </a>
-            <a href="/ChatBot" class="btn btn-outline-light btn-lg disabled" id="chatWithClonesBtn">
-                <i class="bi bi-chat-dots"></i> Chat with Clones
-            </a>-->
         }
         else
         {
@@ -228,7 +222,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
-            window.xxxx = data;
             console.log('User clones data:', data);
             
             // Enable buttons if user has clones

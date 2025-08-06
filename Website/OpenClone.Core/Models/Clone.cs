@@ -28,7 +28,7 @@ namespace OpenClone.Core.Models
         [SystemMessageData]
         public string? NickName { get; set; }
         [SystemMessageData]
-        public string? Age { get; set; } // TODO: birthday instead? it's my birthday!
+        public string? Age { get; set; }
         [SystemMessageData]
         public string? Biography { get; set; }
         [SystemMessageData]

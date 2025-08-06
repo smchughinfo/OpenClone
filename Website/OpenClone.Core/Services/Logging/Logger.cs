@@ -41,7 +41,7 @@ namespace OpenClone.Core.Services.Logging
                 Tags = "", 
                 Level = logLevel.GetPythonEquivelant(),
                 MachineName = Environment.MachineName,
-                IPAddress = Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)?.ToString() // TODO: put this into some kind of network service. youll have to have something like that for awareness of other nodes anyways. e.g. where is the database server, what are the render containers, etc.
+                IPAddress = Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)?.ToString()
             };
 
             _logWriter.Queue(logEntry);

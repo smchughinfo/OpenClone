@@ -9,7 +9,7 @@ using OpenClone.UI.Extensions;
 
 namespace OpenClone.Pages
 {
-    [IgnoreAntiforgeryToken] // todo: antiforgery token shits
+    [IgnoreAntiforgeryToken]
     public class CloneCRUDModel : PageModel
     {
         public CloneCRUDModel() { }

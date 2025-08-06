@@ -16,7 +16,7 @@ namespace OpenClone.UI.Configuration.Services
 
         public static void ConfigureCoreServices(WebApplicationBuilder webApplicationBuilder)
         {
-            var openCloneLogLevel = (LogLevel)Enum.Parse(typeof(LogLevel), System.Environment.GetEnvironmentVariable("OpenClone_OpenCloneLogLevel")); // TODO: these environment variables shouldl ideally be in the configuration service but thats not avaialable early in program.cs. maybe put them in globalvriables? idk but they should all be in one place.
+            var openCloneLogLevel = (LogLevel)Enum.Parse(typeof(LogLevel), System.Environment.GetEnvironmentVariable("OpenClone_OpenCloneLogLevel"));
             var systemLogLevel = (LogLevel)Enum.Parse(typeof(LogLevel), System.Environment.GetEnvironmentVariable("OpenClone_SystemLogLevel"));
             Core.ServicesSetup.DoSetup(webApplicationBuilder.Services, openCloneLogLevel, systemLogLevel);
         }

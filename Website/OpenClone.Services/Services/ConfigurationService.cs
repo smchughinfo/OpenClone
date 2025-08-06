@@ -9,9 +9,6 @@ namespace OpenClone.Services.Services
 {
     public class ConfigurationService
     {
-        // TODO: THIS WHOLE THING SHOULD BE A STATIC CLASS LIKE GLOBALVARIABLES.CS. AND THEN OTHER PLACES WHERE YOU DO CALLS TO GETENVIRONMENTVARIABLES CAN USE THIS TOO. ...I GUESS IF YOU WANT TO DO IT RIGHT YOU COULD HAVE ONE AT INFRASTRUCTURE AND UI LEVELS AND ANOTHER AT CORE LEVEL
-        // TODO: turn these into properties
-        // TODO: MAKE SURE YOU AUTHENTICATE VIDEO STREAMS https://chat.openai.com/share/eb0ca5e6-ada9-4ab9-a0ea-2c7e09f7da38
         private readonly IConfiguration _configuration;
         public ConfigurationService(IConfiguration configuration) 
         {
@@ -50,7 +47,6 @@ namespace OpenClone.Services.Services
 
         public string GetJWTokenKey()
         {
-            // TODO: IMPORTANT - set this to a different value in production
             return Environment.GetEnvironmentVariable("OpenClone_JWT_SecretKey");
         }
 
@@ -59,7 +55,6 @@ namespace OpenClone.Services.Services
             return Environment.GetEnvironmentVariable("OpenClone_U2Net_HostAddress");
         }
 
-        // TODO: you should really append path to this members in here and in clonemetadataservice that return a file
         public string GetQuickFakeAudio() 
         {
             return Path.Join(GetOpenCloneFSPath(), "quick-fake-audio.wav");

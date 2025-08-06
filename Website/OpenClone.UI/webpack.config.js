@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    devtool: 'eval-source-map', // todo: take out in production
+    devtool: 'eval-source-map',
     entry: {
         answer: './ClientApp/Pages/QA/Answer/Answer.jsx', 
         edit: './ClientApp/Pages/QA/Edit/Edit.jsx',

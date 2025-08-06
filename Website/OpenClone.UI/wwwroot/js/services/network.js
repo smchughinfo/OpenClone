@@ -56,8 +56,7 @@ function processResponse(xhr, resolve) {
             console.error(aspNetErrorMessage);
         }
         else {
-            // TODO: this should not be in prod, lol
-            debugger;
+            console.error("Unexpected error occurred");
         }
         throw (xhr);
     }

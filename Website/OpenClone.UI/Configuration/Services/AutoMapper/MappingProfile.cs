@@ -20,7 +20,6 @@ namespace OpenClone.UI.Configuration.Services.AutoMapper
             CreateMap<Clone, Get_Clone_DTO>();
 
             CreateMap<DeepFakeModeLookup, int>().ConstructUsing(d => d.Id);
-            // TODO: delete this -> CreateMap<int, DeepFakeModeLookup>().ConstructUsing(id => new DeepFakeModeLookup(id));
         }
     }
 }

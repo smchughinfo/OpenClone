@@ -132,9 +132,6 @@ function CloneCRUD(props) {
 
         // always reset recording video
         cleanupVideoStreams(videoRef.current);
-        //const [isCapturingPhoto, setIsCapturingPhoto] = React.useState(false);
-        //const [videoRef, setVideoRef] = React.useState(React.createRef());
-        //const [canvasRef, setCanvasRef] = React.useState(React.createRef());
 
     }
     React.useEffect(handleActiveCloneChanged, [activeClone])

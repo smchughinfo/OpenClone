@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace OpenClone.Services.Services.OpenAI.DTOs
 {
-    // TODO: your DTO naming conventions are all over the place.
     internal class CompletionDTO
     {
         public string Id { get; set; }

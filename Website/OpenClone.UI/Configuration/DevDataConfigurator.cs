@@ -11,7 +11,6 @@ namespace OpenCloneUI.Configuration
     {
         public static async Task Configure(WebApplication app)
         {
-            // TODO: THIS SHOULD ONLY RUN IF ASPNETCORE_ENVIRONMENT environment variable is set to true
             using (var scope = app.Services.CreateScope())
             {
                 await ConfigureRolesAndClaims(scope);
@@ -26,8 +25,6 @@ namespace OpenCloneUI.Configuration
 
         private static async Task EnsureCloneHasVoice(int cloneId, IServiceScope scope)
         {
-            // TODO: IMPORTANT - this is okay for development. and actually required as ElevenLabs will return BadRequest if you try to create multiple
-            //       clones with the same name. However, in production how should this be managed?
             await scope.ServiceProvider.GetService<ElevenLabsService>().DeleteUnusedVoices();
 
             var cloneCRUDService = scope.ServiceProvider.GetService<CloneCRUDService>();
@@ -77,7 +74,6 @@ namespace OpenCloneUI.Configuration
             }
         }
 
-        // TODO: this isn't really dev data. it would have a role in production. however, it is likely you will revisit this before moving to production
         private static async Task CreateRoles(RoleManager<IdentityRole> roleManager)
         {
             // List of roles to create.

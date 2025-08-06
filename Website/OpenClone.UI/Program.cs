@@ -1,6 +1,3 @@
-// add qa -> chatgpt sum this personality -> system prompt
-// switch to openvoice and grok
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Options;
@@ -92,7 +89,7 @@ app.UseStaticFiles(new StaticFileOptions
 OpenCloneFSMiddleware.SetupURL(app); // server from /OpenCloneFS
 
 // REDIRECT HTTP TO HTTPS
-app.UseHttpsRedirection(); // TODO: IMPORTANT - THIS DOESNT SEEM TO WORK (can goto http://127.0.0.1 in container. ...is it a problem though? will be 80 in prod so who cares.
+app.UseHttpsRedirection(); 
 
 // REDIRECT 404'S TO 404 PAGE
 _404Configurator.Configure404(app);

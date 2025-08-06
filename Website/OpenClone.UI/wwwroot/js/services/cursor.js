@@ -1,4 +1,4 @@
-﻿$("head").append("<style> .show-loader { cursor: progress !important }</style>"); // TODO: do a better loader
+﻿$("head").append("<style> .show-loader { cursor: progress !important }</style>");
 function turnCursorToSpinner() {
     $("*").addClass("show-loader");
 }

@@ -32,7 +32,6 @@ namespace OpenClone.Authorization
                  */
             }
 
-            //var identityUser = _userManager.GetUs .GetUserId(context.User.Identity);
             var canCreateQuestions = context.User.HasClaim("CanCreateQuestions", "");
             var isOwner = question.Owner == context.User.Identity.Name;
             if (canCreateQuestions && isOwner)

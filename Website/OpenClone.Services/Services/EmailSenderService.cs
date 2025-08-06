@@ -16,12 +16,10 @@ namespace OpenClone.Services.Services
 
         public async Task Execute(string apiKey, string subject, string message, string toEmail)
         {
-            // TODO: is this okay? synchronous or whatever. ...clean this email thing up
             await Task.Run(() =>
             {
                 try
                 {
-                    // TODO: THIS PASSWORD SHOULD BE IN SECRETS
                     SendEmail("admin@openclone.ai", Environment.GetEnvironmentVariable("OpenClone_ZOHO_EMAIL_PASSWORD"), toEmail, message);
                 }
                 catch (Exception ex)
