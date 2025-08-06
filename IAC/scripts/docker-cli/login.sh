@@ -2,13 +2,6 @@
 
 source /vultr-api/registries.sh
 
-#login_to_container_registry_orig() {
-#    registry=$(get_registry openclone)
-#    username=$(echo "$registry" | jq -r '.root_user.username')
-#    password=$(echo "$registry" | jq -r '.root_user.password')
-#    echo "$password" | docker login "$vultr_region".vultrcr.com -u "$username" --password-stdin
-#}
-
 login_to_container_registry() {
     echo "🔍 Starting container registry login process..."
     

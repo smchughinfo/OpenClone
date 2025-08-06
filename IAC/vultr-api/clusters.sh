@@ -34,9 +34,9 @@ create_kubernetes_cluster() {
         version="$kubernetes_version"                   \
         node_pools=$(jo -a \
             $(jo                                        \
-                node_quantity="$node_quantity"         \
-                min_nodes="$min_nodes"                 \
-                max_nodes="$max_nodes"                 \
+                node_quantity="$node_quantity"          \
+                min_nodes="$min_nodes"                  \
+                max_nodes="$max_nodes"                  \
                 auto_scaler=true                        \
                 label="$pool_label"                     \
                 plan="$cpu_node_plan"                   \

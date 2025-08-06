@@ -3,7 +3,7 @@
 source /vultr-api/api-base.sh
 
 registry_endpoint="registry"
-registries_endpoint="registries" # for some reason they use this registries as the endpoint sometimes. so sometimes registry, sometimes registries
+registries_endpoint="registries" 
 
 ################################################################################
 ######## REGISTRY CRUD #########################################################

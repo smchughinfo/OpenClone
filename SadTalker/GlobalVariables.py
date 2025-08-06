@@ -18,4 +18,4 @@ applicationLog = LogWeaver("SadTalker", server_ip_address, level=LogWeaver.INFO,
 ffmpegLog = LogWeaver("ST_FFMPEG", server_ip_address, level=LogWeaver.INFO, loggerName="ST_FFMPEG")
 applicationLog.increment_run_number()
 
-os.environ["CUDA_VISIBLE_DEVICES"] = os.getenv("OpenClone_CUDA_VISIBLE_DEVICES", "0") # this allows all of the environment variables to start with OpenClone''
+os.environ["CUDA_VISIBLE_DEVICES"] = os.getenv("OpenClone_CUDA_VISIBLE_DEVICES", "0")

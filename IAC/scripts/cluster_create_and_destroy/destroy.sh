@@ -10,16 +10,14 @@ source /scripts/cluster_create_and_destroy/vultr/cluster.sh
 ################################################################################
 
 destroy() {
-  # actually this steps slows down deletion dramatically in some cases (for example can't get image name from registry) --- run_terraform_destroy # i think this step is actually not necessary as everything it does gets covered by destroying the cluster and the workspace. but here it is anyways, just in case... oh, and if it fails oh well, just continue executing the rest of the destroy script.
   ensure_success destroy_cluster_in_environment
   cleanup_cluster
   cleanup_environment_specific_cluster_remnants
 
-  # inform user of the situation...
   print_cluster_destroy_message
 }
 
-run_terraform_destroy() { # this function is not actually used by any of the automations. but it is the "right way" to do the destroy
+run_terraform_destroy() { 
     terraform -chdir="/terraform" destroy -auto-approve \
     -var="image_name_openclone_sadtalker=$(get_current_remote_image_name openclone-sadtalker)" \
     -var="image_name_openclone_u-2-net=$(get_current_remote_image_name openclone-u-2-net)" \
