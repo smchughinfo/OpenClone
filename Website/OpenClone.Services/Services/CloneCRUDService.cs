@@ -126,10 +126,6 @@ namespace OpenClone.Services.Services
 
         private async Task SetCloneImage(int cloneId, Image image)
         {
- 
-            // this function tries to be resilient to failures.
-
-            // this one is safe to delete 
             _cloneMetadataService.DeleteDeepFakeDir(cloneId);
 
             // use temporary paths so if file operations fail we can revert
@@ -203,7 +199,6 @@ namespace OpenClone.Services.Services
                 {
                     var cloneToDelete = await _applicationDbContext.Clone.SingleAsync(c => c.Id == cloneId && c.ApplicationUserId == userId);
 
-                    // delete clone's voice from ElevenLabs
                     var voiceId = await _cloneMetadataService.GetVoiceId(cloneId);
                     try
                     {
@@ -232,7 +227,6 @@ namespace OpenClone.Services.Services
                         await _cloneMetadataService.SetActiveCloneToCloneWithMostRecentCreateDate(userId);
                     }
 
-                    // Commit the transaction if everything is successful
                     await transaction.CommitAsync();
 
                 }
@@ -243,7 +237,6 @@ namespace OpenClone.Services.Services
                 }
             }
 
-            // delete from file system
             Directory.Delete(cloneDir, true);
         }
     }

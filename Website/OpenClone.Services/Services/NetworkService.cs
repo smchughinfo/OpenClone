@@ -48,9 +48,6 @@ namespace OpenClone.Services.Services
             if (apiKeys.HasFlag(CustomHeaders.APIKeyElevenLabs)) client.DefaultRequestHeaders.Add("xi-api-key", _configurationService.GetElevenLabsKey());
             if (apiKeys.HasFlag(CustomHeaders.ExpectMP3)) client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("audio/mpeg"));
             if (apiKeys.HasFlag(CustomHeaders.ExpectJson)) client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-
-            //httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");//
         }
 
         private async Task<T> CastResponse<T>(HttpContent httpContent, bool expectJson = false)
@@ -107,7 +104,7 @@ namespace OpenClone.Services.Services
         private async Task<T> PostJSON<T>(string url, object data, CustomHeaders customerHeaders)
         {
             var json = JsonSerializer.Serialize(data);
-            var content = new StringContent(json, Encoding.UTF8, "application/json"); // assumes we are sending json
+            var content = new StringContent(json, Encoding.UTF8, "application/json"); 
 
             var client = new HttpClient();
             SetHeaders(client, customerHeaders);
@@ -123,7 +120,7 @@ namespace OpenClone.Services.Services
             var client = new HttpClient();
             SetHeaders(client, customerHeaders);
 
-            var response = await client.PostAsync(url, formData); // <--------------------- i am getting cannot access a disposed object here
+            var response = await client.PostAsync(url, formData); 
             return await ProcessResponse<T>(response, customerHeaders);
         }
 
@@ -165,7 +162,6 @@ namespace OpenClone.Services.Services
             var form = new MultipartFormDataContent();
             data.IterateOverProperties((name, value) =>
             {
-                // if you need to send multiple files add an else for value.IsArrayOfFileStreams and in your loop run the same logic as you are here.
                 if(value.IsFileStream())
                 {
                     var fileSteam = (FileStream)value;

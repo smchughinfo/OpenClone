@@ -25,11 +25,6 @@ namespace OpenCloneUI.Configuration
                 return applicationUser.ActiveCloneId != null;
             });
 
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("NiceUser", policy => policy.RequireClaim("CanCreateQuestions"));
-            });
-
             builder.Services.AddScoped<IAuthorizationHandler, DeleteQuestionAuthorizationHandler>();
         }
 

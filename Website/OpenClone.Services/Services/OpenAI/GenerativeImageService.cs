@@ -28,7 +28,6 @@ namespace OpenClone.Services.Services.OpenAI
 {
     public class GenerativeImageService
     {
-        // not important - you will redo that later when you add more images when going to prod. this is a non-issue
         private readonly ConfigurationService _configurationService;
         private readonly CompletionService _openAIService;
         private readonly ApplicationDbContext _applicationDbContext;

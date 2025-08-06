@@ -2,12 +2,10 @@
 
 import { get, post } from 'js/services/network.js';
 import { logError } from 'js/services/error.js';
-import { formatDateTime } from 'js/idk-where-these-go/utils.js'
+import { formatDateTime } from 'js/core/utils.js'
 import { validateAndRun } from 'js/services/form-utilities.js';
 
 function Edit(props) {
-    //alert("on this page you should have tooltips for the buttons, a confirm before the question is deleted with a don't ask me again which sets a cookie for this particular dialog (e.g. pass a sting into the confirm dialog and it will check for that string - if the strin exists it will just not display itself and return true or whatever it needs to do), and the delete icon should be a trash can")
-
     const [answers, setAnswers] = React.useState([]);
     const [customQuestion, setCustomQuestion] = React.useState("");
     const [customAnswer, setCustomAnswer] = React.useState("");
@@ -22,7 +20,7 @@ function Edit(props) {
         setAnswers(_answers);
         if (!supressLoader) window.hideLoader();
     }
-    React.useEffect(() => getAllAnswers(), []); // you have to call it this way because react's useEffect doesnt know how to handle returned promises
+    React.useEffect(() => getAllAnswers(), []);
 
     function onAnswerTextChange(index, event) {
         const newAnswers = answers.map((answer, i) => {

@@ -57,7 +57,6 @@ namespace OpenClone.Services.Services
 
         public async Task<Dictionary<string, string>> GetRelatedQA(int cloneId, string textToRelate)
         {
-            // actual code
             var searchResultsList = await _answerService.GetClosest(textToRelate, 10, dbSet => dbSet.Where(a => a.CloneId == cloneId), saveIfNew: false);
             var searchResults = new Dictionary<string, string>();
             foreach (var searchResult in searchResultsList)
@@ -70,10 +69,8 @@ namespace OpenClone.Services.Services
 
         private async Task<Question> CreateCustomQuestion(int cloneId, string questionText)
         {
-            // MODERATION
             await AuthorizeModeration(questionText);
 
-            // GUARDS
             questionText = questionText.Trim();
             if (questionText == "")
             {
@@ -86,7 +83,6 @@ namespace OpenClone.Services.Services
                 throw new Exception($"Question \"{questionText}\" already exists");
             }
 
-            // CREATE QUESTION
             var newQuestion = new Question
             {
                 QuestionCategoryId = GlobalVariables.UserDefinedQuestionCategoryId,
@@ -97,14 +93,12 @@ namespace OpenClone.Services.Services
             _applicationDbContext.Question.Add(newQuestion);
             await _applicationDbContext.SaveChangesAsync();
 
-            // GET EMBEDDINGS FOR QUESTION
             await _questionEmbeddingService.FetchOrGenerateEmbedding(
                 questionText,
                 q => { q.CloneId = cloneId; q.Text = questionText; },
                 true
             );
 
-            // ADD STARTER IDEAS (mainly just getting these so i don't have to redesign the starter ideas section of answer.jsx)
             var starterIdeas = await GetQuestionStarterIdeas(questionText);
             newQuestion.StarterIdea1 = starterIdeas[0];
             newQuestion.StarterIdea2 = starterIdeas[1];
@@ -116,9 +110,6 @@ namespace OpenClone.Services.Services
 
         public async Task<Answer> CreateOrUpdateAnswer(int cloneId, int questionId, string answer)
         {
-            // first save answer without embedding.
-            // next get embedding - match it on answertext + cloneid of the saved answer
-
             answer = answer.Trim();
 
             await AuthorizeModeration(answer);
@@ -139,7 +130,6 @@ namespace OpenClone.Services.Services
             answerToSave.AnswerDate = DateTime.UtcNow;
             await _applicationDbContext.SaveChangesAsync();
 
-            // update record with the embedding
             await _answerEmbeddingService.FetchOrGenerateEmbedding(
                 answerToSave.Text,
                 a => { a.Text = answerToSave.Text; a.CloneId = cloneId; },
@@ -158,20 +148,16 @@ namespace OpenClone.Services.Services
 
         public async Task DeleteAnswer(int cloneId, int questionId)
         {
-            // delete answer
             var answerToDelete = await _applicationDbContext.Answer.FindAsync(cloneId, questionId);
             _applicationDbContext.Answer.Remove(answerToDelete);
 
-            // delete question if this was a user defined question
             var question = await _applicationDbContext.Question.SingleAsync(q => q.Id == questionId);
             if (question.CloneId == cloneId)
             {
                 _applicationDbContext.Question.Remove(question);
             }
 
-            // save changes 
             await _applicationDbContext.SaveChangesAsync();
-
         }
 
         public async Task<int> GetQuestionCategoryId(string categoryName)
@@ -252,15 +238,12 @@ namespace OpenClone.Services.Services
 
         public async Task<List<QuestionWithAnswer_DTO>> GetQuestionsWithAnswerStatusInCategory(int cloneId, string categoryName)
         {
-            // get category questions
             var questionsInCategory = GetQuestionsInCategory(categoryName);
 
-            // get user answers
             categoryName = QuestionCategory.UrlFriendlyToName(categoryName);
             var categoryId = await GetQuestionCategoryId(categoryName);
             var answersInCategory = GetAnswersForQuestionCategory(cloneId, categoryId);
 
-            // combine into dto and return
             return CreateQuestionWithAnswerStatus_DTOs(questionsInCategory, answersInCategory);
         }
 
@@ -370,10 +353,7 @@ namespace OpenClone.Services.Services
             var answeredQuestionsInCategory = GetAnswersForQuestionCategory(cloneId, questionCategory.Id);
             return questionCategory.Questions.Where(q => !answeredQuestionsInCategory.Any(a => a.QuestionId == q.Id)).ToList();
         }
-
-        /// <summary>
-        /// Throws exception if question belongs to another user
-        /// </summary>
+        
         private void AuthorizeQuestionAccess(int questionId, int cloneId)
         {
             var question = _applicationDbContext.Question.SingleOrDefault(q => q.Id == questionId);

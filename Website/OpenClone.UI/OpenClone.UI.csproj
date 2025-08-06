@@ -51,11 +51,10 @@
 
 	<ItemGroup>
 		<None Include="..\.editorconfig" Link=".editorconfig" />
-		<None Include="wwwroot\js\idk-where-these-go\utils.js" />
+		<None Include="wwwroot\js\core\utils.js" />
 		<None Include="wwwroot\js\services\openclone-fs.js" />
 		<None Include="wwwroot\js\services\network.js" />
 		<None Include="wwwroot\js\signalr\chat-hub.js" />
-		<None Include="wwwroot\js\idk-where-these-go\site.js" />
 	</ItemGroup>
 
 	<ItemGroup>

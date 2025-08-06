@@ -35,14 +35,13 @@ function Answer(props) {
         }
         setCategoryQuestions(categoryQuestions);
     }
-    React.useEffect(() => getCategoryQuestions(), []); // you have to call it this way because react's useEffect doesnt know how to handle returned promises
+    React.useEffect(() => getCategoryQuestions(), []);
 
     function advanceToNextQuestion() {
         var _navToQuestionId = getNavToQuestionId();
         var _activeQuestion = _navToQuestionId ? getNextQuestionBasedOnCookie(_navToQuestionId) : getNextQuestionBasedOnAnswerStatus();
         updateActiveQuestion(_activeQuestion);
         scrollToQuestion(_activeQuestion.questionId);
-        //document.getElementById(`questionId-${_activeQuestion.questionId}`).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     React.useEffect(() => { categoryQuestions.length > 0 && advanceToNextQuestion() }, [categoryQuestions]);
 
