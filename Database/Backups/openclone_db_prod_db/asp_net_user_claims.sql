@@ -3,7 +3,7 @@ SET session_replication_role = 'replica';
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.1
+-- Dumped from database version 15.13 (Debian 15.13-1.pgdg120+1)
 -- Dumped by pg_dump version 16.1
 
 SET statement_timeout = 0;
@@ -21,7 +21,7 @@ SET row_security = off;
 -- Data for Name: asp_net_user_claims; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.asp_net_user_claims (id, user_id, claim_type, claim_value) VALUES (1, '9e965efb-1f9b-4ef5-93bc-8778a7c10ff6', 'CanCreateQuestions', '');
+INSERT INTO public.asp_net_user_claims (id, user_id, claim_type, claim_value) VALUES (1, '8634b089-149e-48a8-b8c2-fc2d4a40df2a', 'CanCreateQuestions', '');
 
 
 --

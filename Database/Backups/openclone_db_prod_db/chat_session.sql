@@ -3,7 +3,7 @@ SET session_replication_role = 'replica';
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.1
+-- Dumped from database version 15.13 (Debian 15.13-1.pgdg120+1)
 -- Dumped by pg_dump version 16.1
 
 SET statement_timeout = 0;
@@ -21,13 +21,14 @@ SET row_security = off;
 -- Data for Name: chat_session; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public.chat_session (id, clone_id) VALUES (1, 2);
 
 
 --
 -- Name: chat_session_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.chat_session_id_seq', 1, false);
+SELECT pg_catalog.setval('public.chat_session_id_seq', 1, true);
 
 
 --
