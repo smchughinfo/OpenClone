@@ -21,7 +21,7 @@ SET row_security = off;
 -- Data for Name: clone; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.clone (id, application_user_id, voice_id, create_date, system_message, allow_logging, first_name, last_name, nick_name, age, biography, city, state, occupation, make_public, deep_fake_mode_lookup_id) VALUES (2, '8634b089-149e-48a8-b8c2-fc2d4a40df2a', 'IzMHk4rAH5R1WtuWZzGC', '2023-06-07 04:19:18.102585+00', NULL, true, 'Sean', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO public.clone (id, application_user_id, voice_id, create_date, system_message, allow_logging, first_name, last_name, nick_name, age, biography, city, state, occupation, make_public, deep_fake_mode_lookup_id) VALUES (2, '8634b089-149e-48a8-b8c2-fc2d4a40df2a', 'IzMHk4rAH5R1WtuWZzGC', '2025-08-04 04:19:18.102585+00', NULL, true, 'Sean', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 
 --

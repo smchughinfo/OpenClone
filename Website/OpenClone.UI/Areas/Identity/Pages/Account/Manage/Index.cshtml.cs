@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using OpenClone.Core.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenClone.Areas.Identity.Pages.Account.Manage
 {
@@ -26,52 +28,24 @@ namespace OpenClone.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public string Username { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
+        public List<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
+        public bool IsAdmin { get; set; }
+        
         [TempData]
         public string StatusMessage { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        [BindProperty]
-        public InputModel Input { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public class InputModel
-        {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
-        }
-
         private async Task LoadAsync(ApplicationUser user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
-            Username = userName;
-
-            Input = new InputModel
+            IsAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+            
+            if (IsAdmin)
             {
-                PhoneNumber = phoneNumber
-            };
+                Users = _userManager.Users.ToList();
+            }
+            else
+            {
+                Users = new List<ApplicationUser> { user };
+            }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -86,33 +60,47 @@ namespace OpenClone.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostDeleteAsync(string userId)
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load current user.");
             }
 
-            if (!ModelState.IsValid)
+            var userToDelete = await _userManager.FindByIdAsync(userId);
+            if (userToDelete == null)
             {
-                await LoadAsync(user);
-                return Page();
+                StatusMessage = "Error: User not found.";
+                return RedirectToPage();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            var isAdmin = await _userManager.IsInRoleAsync(currentUser, "Admin");
+            
+            if (!isAdmin && currentUser.Id != userId)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
+                StatusMessage = "Error: You can only delete your own account.";
+                return RedirectToPage();
+            }
+
+            var result = await _userManager.DeleteAsync(userToDelete);
+            if (result.Succeeded)
+            {
+                if (currentUser.Id == userId)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
+                    await _signInManager.SignOutAsync();
+                    return Redirect("/");
+                }
+                else
+                {
+                    StatusMessage = $"User {userToDelete.UserName} has been deleted.";
                 }
             }
+            else
+            {
+                StatusMessage = "Error: Could not delete user.";
+            }
 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
     }

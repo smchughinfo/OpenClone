@@ -21,7 +21,7 @@ SET row_security = off;
 -- Data for Name: asp_net_roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.asp_net_roles (id, name, normalized_name, concurrency_stamp) VALUES ('d759eb91-d1d4-4672-8797-62dca8397cf4', 'Overlord', 'OVERLORD', NULL);
+INSERT INTO public.asp_net_roles (id, name, normalized_name, concurrency_stamp) VALUES ('d759eb91-d1d4-4672-8797-62dca8397cf4', 'Admin', 'ADMIN', NULL);
 INSERT INTO public.asp_net_roles (id, name, normalized_name, concurrency_stamp) VALUES ('151269dd-d7a7-478a-8ca3-ef5ed64a1af6', 'SuperUser', 'SUPERUSER', NULL);
 INSERT INTO public.asp_net_roles (id, name, normalized_name, concurrency_stamp) VALUES ('d94487aa-39ac-4b00-a3a4-2e5739698ea2', 'User', 'USER', NULL);
 

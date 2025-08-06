@@ -67,7 +67,7 @@ namespace OpenCloneUI.Configuration
             var devAdminUser = userManager.Users.SingleOrDefault(u => u.UserName == "seanmchugh513@gmail.com");
             if (devAdminUser != null)
             {
-                await userManager.AddToRoleAsync(devAdminUser, "Overlord");
+                await userManager.AddToRoleAsync(devAdminUser, "Admin");
 
                 var devAdminUserClaims = await userManager.GetClaimsAsync(devAdminUser);
                 if (!devAdminUserClaims.Any(c => c.Type == "CanCreateQuestions"))
@@ -81,7 +81,7 @@ namespace OpenCloneUI.Configuration
         private static async Task CreateRoles(RoleManager<IdentityRole> roleManager)
         {
             // List of roles to create.
-            string[] roles = new string[] { "Overlord", "SuperUser", "User" };
+            string[] roles = new string[] { "Admin", "SuperUser", "User" };
 
             foreach (var roleName in roles)
             {
