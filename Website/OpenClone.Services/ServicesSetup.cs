@@ -40,7 +40,6 @@ namespace OpenClone.Services
             services.AddScoped<ChatService, ChatService>();
 
             // TRANSIENT
-            services.AddTransient<IEmailSender, EmailSenderService>();
             services.AddTransient<AudioService, AudioService>(); 
 
             // THIRD PARTY

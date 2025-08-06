@@ -72,6 +72,9 @@ StaticServiceProvider.ServiceProvider = app.Services; // this allows dependency 
 // ###### STEP 3: MIDDLEWARE CONFIGURATION AND APPLICATION PIPELINE SETUP ###############
 // ######################################################################################
 
+// ROLES
+RoleConfigurator.Configure(app).Wait();
+
 // DEVELOPMENT DATA
 DevDataConfigurator.Configure(app).Wait();
 
@@ -108,6 +111,8 @@ app.UseMiddleware<OpenCloneFSMiddleware>(); // allow files to be served from /Op
 // CONFIGURE ASP.NET MIDDLEWARE
 app.UseCors("SplashPagePolicy"); // Enable CORS for splash page requests
 app.UseRouting(); // Configures routing for the application, allowing it to match incoming requests to appropriate endpoints.
+app.UseAuthentication(); // Enable authentication
+app.UseMiddleware<OpenClone.UI.Middleware.OrphanedUserMiddleware>(); // Handle users with invalid cookies after DB restore
 app.UseAuthorization(); // Adds the middleware required for authentication and authorization, enabling the application to authenticate and authorize requests.
 app.MapRazorPages(); // Configures the routing system to handle Razor Pages, which are used for building UI views and handling user interactions in MVC-based applications.
 app.MapControllers(); // Configures the routing system to handle Web API controllers, allowing the application to process API requests and generate JSON responses.

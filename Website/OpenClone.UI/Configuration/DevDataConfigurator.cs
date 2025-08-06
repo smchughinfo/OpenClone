@@ -14,13 +14,8 @@ namespace OpenCloneUI.Configuration
             using (var scope = app.Services.CreateScope())
             {
                 await ConfigureRolesAndClaims(scope);
-                await CreateCloneVoices(scope);
+                await EnsureCloneHasVoice(2, scope);
             }
-        }
-
-        private static async Task CreateCloneVoices(IServiceScope scope)
-        {
-            await EnsureCloneHasVoice(2, scope);
         }
 
         private static async Task EnsureCloneHasVoice(int cloneId, IServiceScope scope)
@@ -59,37 +54,18 @@ namespace OpenCloneUI.Configuration
             var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
             var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
 
-            CreateRoles(roleManager).Wait();
-
             var devAdminUser = userManager.Users.SingleOrDefault(u => u.UserName == "seanmchugh513@gmail.com");
             if (devAdminUser != null)
             {
                 await userManager.AddToRoleAsync(devAdminUser, "Admin");
 
-                var devAdminUserClaims = await userManager.GetClaimsAsync(devAdminUser);
-                if (!devAdminUserClaims.Any(c => c.Type == "CanCreateQuestions"))
-                {
-                    await userManager.AddClaimAsync(devAdminUser, new System.Security.Claims.Claim("CanCreateQuestions", ""));
-                }
-            }
-        }
-
-        private static async Task CreateRoles(RoleManager<IdentityRole> roleManager)
-        {
-            // List of roles to create.
-            string[] roles = new string[] { "Admin", "SuperUser", "User" };
-
-            foreach (var roleName in roles)
-            {
-                // Check if the role exists.
-                var roleExists = await roleManager.RoleExistsAsync(roleName);
-
-                // If not, create the role.
-                if (!roleExists)
-                {
-                    await roleManager.CreateAsync(new IdentityRole(roleName));
-                }
-            }
+                // claims are not actually being used. 
+                // var devAdminUserClaims = await userManager.GetClaimsAsync(devAdminUser);
+                // if (!devAdminUserClaims.Any(c => c.Type == "CanCreateQuestions"))
+                // {
+                //     await userManager.AddClaimAsync(devAdminUser, new System.Security.Claims.Claim("CanCreateQuestions", ""));
+                // }
+            }    
         }
     }
 }

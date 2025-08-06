@@ -18,7 +18,7 @@ namespace OpenClone.Services.Services
 
         public ApplicationUser GetApplicationUser(string username)
         {
-            return _applicationDbContext.ApplicationUser.Single(u => u.UserName == username);
+            return _applicationDbContext.ApplicationUser.SingleOrDefault(u => u.UserName == username);
         }
 
         public int? GetActiveCloneId(string userId)
