@@ -29,7 +29,7 @@ Claude can execute infrastructure commands inside the IAC dev container:
 - **Command Execution**: Use `/StartStopScripts/Claude/iac-exec.sh "command"` for single commands
 - **Shared Terminal**: User creates IAC tmux session via VS Code button, then asks Claude to join
 - **Container Tools**: kubectl (`k`), terraform, vultr-api, and deployment scripts
-- **Full Documentation**: See `/IAC/CLAUDE.md` for comprehensive integration instructions
+- **Full Documentation**: See `/Deployment/IAC/CLAUDE.md` for comprehensive integration instructions
 
 ## Shared Terminal Setup (ALWAYS DO THIS FIRST)
 At the start of every session:

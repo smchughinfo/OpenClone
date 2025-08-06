@@ -133,7 +133,7 @@ This automated workflow ensures consistent, repeatable deployments while handlin
 This devcontainer has a PowerShell companion script (referred to as the "PowerShell Buddy" or "Host Command Runner") that can execute commands on the Windows host environment when needed.
 
 ### How it works:
-1. **Host Command Runner**: Located at `/IAC/scripts/devcontainer-host/host-command-runner.ps1`
+1. **Host Command Runner**: Located at `/Deployment/IAC/scripts/devcontainer-host/host-command-runner.ps1`
 2. **Command Interface**: Create a batch file at `/scripts/devcontainer-host/script-to-run.bat` with the Windows commands you want to execute
 3. **Synchronous Execution**: The PowerShell buddy runs the batch file on the host and waits for completion
 4. **Cleanup**: After execution, `script-to-run.bat` is automatically deleted

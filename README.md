@@ -32,10 +32,10 @@ Image segmentation service that removes backgrounds from user photos and perform
 ### 📊 **LogViewer** (Python Flask)
 Monitoring dashboard that provides system insights, error tracking, and performance metrics across all OpenClone components.
 
-### 🔧 **IAC** (Kubernetes + Terraform)
+### 🔧 **Deployment/IAC** (Kubernetes + Terraform)
 DevOps infrastructure for deploying OpenClone to cloud environments, including Kubernetes clusters, databases, and monitoring systems.
 
-**Note on Kubernetes Versions**: The IAC system uses pinned Kubernetes versions for stability. If deployment fails with "Invalid K8 version" errors, check available versions with the Vultr API and update the version in `/IAC/setup-container.sh`. While auto-updating to latest versions is possible, manual version control prevents unexpected breaking changes from new Kubernetes releases.
+**Note on Kubernetes Versions**: The IAC system uses pinned Kubernetes versions for stability. If deployment fails with "Invalid K8 version" errors, check available versions with the Vultr API and update the version in `/Deployment/IAC/setup-container.sh`. While auto-updating to latest versions is possible, manual version control prevents unexpected breaking changes from new Kubernetes releases.
 
 ### 🤖 **Code Assistant Integrattion**
 Technical documentation and context files for AI-powered development assistance. 
