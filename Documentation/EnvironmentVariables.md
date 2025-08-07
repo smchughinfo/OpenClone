@@ -55,8 +55,6 @@ OpenClone_U2Net_HostAddress=http://127.0.0.1:5002
 
 # Cloud Deployment (Optional - for Vultr hosting)
 OpenClone_Vultr_API_Key=<your-vultr-api-key>
-OpenClone_Server_0_IP_Address=<your-server-ip>
-OpenClone_Server_0_Password=<your-server-password>
 OpenClone_FTP_User=<your-ftp-username>
 OpenClone_FTP_Password=<your-ftp-password>
 
