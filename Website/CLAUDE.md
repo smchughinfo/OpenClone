@@ -316,27 +316,7 @@ var embeddingDto = await _networkService.Post<EmbeddingDTO>(_endpointUrl, data,
 
 ### **Service Architecture Issues & Technical Debt**
 
-**Major Issue - QAService**: 
-```csharp
-// Line 26 comment in QAService.cs:
-// "THIS PLUS THE ANSWER SERVICE NEEDS A REFACTOR OF EPIC PROPORTIONS"
-```
-- **428 lines** - violates single responsibility principle
-- **9 constructor dependencies** - indicates over-coupling
-- **Multiple concerns**: Question CRUD, Answer CRUD, embeddings, moderation, user isolation
-- **Security noted**: Comments about potential user data leakage between users
-- **Transaction management**: Mixed with business logic
-
-**Recommended Refactor**:
-- `QuestionService` - Question CRUD operations
-- `AnswerService` - Answer CRUD operations  
-- `QAModerationService` - Content moderation workflows
-- `QAEmbeddingService` - Embedding generation and similarity
-- `QASecurityService` - User data isolation enforcement
-
 **Medium Issues**:
-- **Service size imbalance**: QAService 428 lines vs AudioService 45 lines
-- **Missing interfaces**: Concrete classes limit testability and IoC flexibility
 - **Async inconsistency**: Mix of sync and async patterns
 - **Error handling variance**: Different exception patterns across services
 

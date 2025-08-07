@@ -91,38 +91,18 @@ npm run dev
 
 ## Environment Dependencies
 
-### **Required Environment Variables** (OpenClone_ prefix)
-**Database**: Connection strings, credentials
-**Authentication**: JWT configuration, Google OAuth
-**APIs**: OpenAI, ElevenLabs API keys
-**Services**: SadTalker, U-2-Net host addresses
-**File System**: OpenCloneFS path
+### **Required Environment Variables** (OpenClone_ prefix), (these are subject to change but should give you an idea):
+- **Database**: Connection strings, credentials
+- **Authentication**: JWT configuration, Google OAuth
+- **APIs**: OpenAI, ElevenLabs API keys
+- **Services**: SadTalker, U-2-Net host addresses
+- **File System**: OpenCloneFS path
 
 ### **System Requirements**
 - **Windows** with Docker Desktop
 - **NVIDIA Docker support** for GPU-dependent AI services
 - **Node.js** for WebPack development server
 - **Python** virtual environments for LogViewer
-
-## Known Issues & Technical Debt
-
-### **Critical Issues**
-1. **run-all.bat path bug**: References non-existent `../BatchScripts/` directory
-2. **WebPack stop.bat**: Kills all Node processes (too aggressive)
-3. **LogViewer paths**: Reference `../../logviewer/` but should be `../../LogViewer/` (case sensitivity)
-
-### **Architecture Limitations**
-- **Local development only** - not suitable for production deployment
-- **Windows-specific** batch script format
-- **Interactive terminal windows** prevent automation
-- **GPU hardware dependency** for AI services
-
-### **Recommended Improvements**
-1. **Fix path references** in run-all.bat
-2. **Refined stop mechanisms** for WebPack (target specific processes)
-3. **Cross-platform support** with shell script equivalents
-4. **Environment validation** checks before startup
-5. **Service health checks** and startup verification
 
 ## Usage Patterns
 

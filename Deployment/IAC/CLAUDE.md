@@ -182,7 +182,7 @@ This manual cleanup prevents resource accumulation and unexpected charges from r
 ## IAC Architecture & Environment
 
 ### **Script Organization**
-**Rule**: All logic belongs in `/scripts` directory
+**Rule**: All logic belongs in `/scripts` directory (minimal logic related to simplifying/normalizing vultr's api can go in `/vultr-api`)
 - **Modular Design**: Functionality separated into focused scripts
 - **Reusable Components**: Shared logic across different deployment contexts
 - **Function-Based Execution**: Scripts callable via `/scripts/shell-helpers/function-runner.sh`
@@ -246,10 +246,7 @@ This manual cleanup prevents resource accumulation and unexpected charges from r
 ### **Kubernetes Architecture**
 
 **Current Implementation**:
-- **Single Node Pool**: Simplified cluster configuration for development time constraints
-
-**Scalability Groundwork**:
-- **Multi-Node Ready**: Infrastructure patterns support cluster expansion (with some additional development work)
+- **Multi Node Pool**: Uses one node pool for cpu deployments (cpu_node_pool) and and another for gpu deployments (gpu_node_pool)
 
 ### **Environment Uniqueness**
 
