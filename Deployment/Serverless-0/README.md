@@ -6,6 +6,8 @@
 
 This is a static web application that serves as the primary splash page for OpenClone. Deployed to Cloudflare Pages, it acts as the main entry point that users see when visiting your OpenClone domain. The page performs real-time health checks against your self-hosted OpenClone instance and either automatically redirects users to the live application after a 5-second countdown, or provides fallback options including a tutorial video when the server is offline.
 
+*Serverless-0 is a play on words. An old version of OpenClone used a rube goldberg deployment strategy called "server 0". That strategy/approach was subsequently removed. Since this page can be thought of as a "serverless site" the play on words becomes Serverless-0. Get it? ha ha*
+
 ## CloneZone Flow:
 - **Server Online** → `https://clonezone.me` redirects to `https://app.clonezone.me`
 - **Server Offline** → `https://clonezone.me` shows OpenClone tutorial video as fallback
