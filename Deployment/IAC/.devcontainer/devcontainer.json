@@ -37,7 +37,6 @@
         "TF_VAR_openclone_googleclientid": "${localEnv:OpenClone_GoogleClientId}",
         "TF_VAR_openclone_googleclientsecret": "${localEnv:OpenClone_GoogleClientSecret}",
         "TF_VAR_openclone_elevenlabsapikey": "${localEnv:OpenClone_ElevenLabsAPIKey}",
-        "TF_VAR_openclone_email_dkim": "${localEnv:OpenClone_email_dkim}",
         "TF_VAR_openclone_ftp_user": "${localEnv:openclone_ftp_user}",
         "TF_VAR_openclone_ftp_password": "${localEnv:openclone_ftp_password}",
         "TF_VAR_letsencrypt_email": "${localEnv:OpenClone_Admin_Email}",

@@ -1,7 +1,3 @@
-# Environment Variables Setup
-
-Copy these settings and update with your own values. You can set these in your system environment or create a `.env` file:
-
 ## Required API Keys
 ```bash
 # AI Services (Required)
@@ -57,10 +53,6 @@ OpenClone_OpenCloneFS=C:/Users/seanm/Desktop/OpenClone/OpenCloneFS
 # AI Service Endpoints (Default local addresses)
 OpenClone_SadTalker_HostAddress=http://127.0.0.1:5001
 OpenClone_U2Net_HostAddress=http://127.0.0.1:5002
-
-# Email (Optional - for DKIM)
-OpenClone_email_dkim=v=<your-dkim-public-key>
-OpenClone_ZOHO_EMAIL_PASSWORD=<your-zoho-password>
 
 # Cloud Deployment (Optional - for Vultr hosting)
 OpenClone_Vultr_API_Key=<your-vultr-api-key>

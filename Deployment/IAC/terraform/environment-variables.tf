@@ -42,8 +42,6 @@ variable "image_name_openclone_u-2-net"                 { default = "" }
 variable "image_name_openclone_database"                { default = "" }
 variable "image_name_openclone_website"                 { default = "" }
         
-variable "openclone_email_dkim"                         { default = "" }
-        
 variable "OpenClone_Root_Dir"                           { default = "" }
         
 variable "sftp_nodeport"                                { default = "" }
