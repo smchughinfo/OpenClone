@@ -19,7 +19,7 @@ OpenClone_JWT_SecretKey=<your-jwt-secret-key>
 ## Database Settings (Default values work for local development)
 ```bash
 # Database Configuration
-OpenClone_DB_Host=<your-computers-ip>
+OpenClone_DB_Host=127.0.0.1
 OpenClone_DB_Port=5433
 OpenClone_Postgres_Password=puppies
 OpenClone_postgres_superuser_password=openclone-super
@@ -28,15 +28,15 @@ OpenClone_postgres_superuser_password=openclone-super
 OpenClone_OpenCloneDB_Name=open_clone
 OpenClone_OpenCloneDB_User=openclone
 OpenClone_openclonedb_password=kittens
-OpenClone_DefaultConnection=Host=<your-computers-ip>;Port=5433;Database=open_clone;Username=openclone;Password=kittens;Include Error Detail=true;
-OpenClone_DefaultConnection_Super=Host=<your-computers-ip>;Port=5433;Database=open_clone;Username=postgres;Password=openclone-super;Include Error Detail=true;
+OpenClone_DefaultConnection=Host=127.0.0.1;Port=5433;Database=open_clone;Username=openclone;Password=kittens;Include Error Detail=true;
+OpenClone_DefaultConnection_Super=Host=127.0.0.1;Port=5433;Database=open_clone;Username=postgres;Password=openclone-super;Include Error Detail=true;
 
 # Logging Database
 OpenClone_LogDB_Name=open_clone_logging
 OpenClone_LogDB_User=logs
 OpenClone_logdb_password=bunnies
-OpenClone_LogDbConnection=Host=<your-computers-ip>;Port=5433;Database=open_clone_logging;Username=logs;Password=bunnies;
-OpenClone_LogDbConnection_Super=Host=<your-computers-ip>;Port=5433;Database=open_clone_logging;Username=postgres;Password=openclone-super;
+OpenClone_LogDbConnection=Host=127.0.0.1;Port=5433;Database=open_clone_logging;Username=logs;Password=bunnies;
+OpenClone_LogDbConnection_Super=Host=127.0.0.1;Port=5433;Database=open_clone_logging;Username=postgres;Password=openclone-super;
 ```
 
 ## Miscellaneous Settings
