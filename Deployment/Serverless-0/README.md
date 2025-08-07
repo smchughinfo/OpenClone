@@ -1,15 +1,17 @@
-# Serverless-0 - OpenClone Fallback Page
+# Serverless-0 - OpenClone Splash Page
 
 ![OpenClone Serverless-0](/Documentation/serverless-0.png)
 
 ## What is this?
 
-This is a static web application that serves as the primary entry point and fallback page for OpenClone self-hosting setups. When deployed to Cloudflare Pages, it performs health checks against the self-hosted OpenClone instance and either redirects users to the live application or provides fallback options including a tutorial video.
+This is a static web application that serves as the primary splash page for OpenClone. Deployed to Cloudflare Pages, it acts as the main entry point that users see when visiting your OpenClone domain. The page performs real-time health checks against your self-hosted OpenClone instance and either automatically redirects users to the live application after a 5-second countdown, or provides fallback options including a tutorial video when the server is offline.
 
-The page includes an animated Three.js particle system that visualizes the "clone" concept with orbital spawning effects and dynamic color transitions based on server status. It handles offline scenarios gracefully by offering users alternative ways to access content.
+## CloneZone Flow:
+- **Server Online** → `https://clonezone.me` redirects to `https://app.clonezone.me`
+- **Server Offline** → `https://clonezone.me` shows OpenClone tutorial video as fallback
 
 ## How to run it
 
-Deploy the static files to Cloudflare Pages or any static hosting platform. The page requires no server-side processing and works entirely in the browser. Point your domain's DNS to the hosting platform and configure it as the primary entry point for your OpenClone domain.
+You'll need to modify the `index.html` file to point to your own domain. Deploy the Serverless-0 files to Cloudflare Pages and use Cloudflare as your name servers. Add "*" and "www" A records pointing to the Cloudflare Page you just setup. Add an "app" A record pointing to the computer you will be hosting on. Configure port forwarding and firewalls as needed.
 
 For technical implementation details, see [CLAUDE.md](CLAUDE.md).
