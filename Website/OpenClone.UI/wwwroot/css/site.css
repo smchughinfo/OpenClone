@@ -1,4 +1,3 @@
-/* TODO: site.js and site.css shoudl be the only globally available css/js (aside from window.showerror and windowloader, etc. partial views). all other css/js should be loaded via import in each react page/component */
 
 html {
   font-size: 14px;

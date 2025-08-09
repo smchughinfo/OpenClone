@@ -9,7 +9,7 @@ using OpenClone.UI.Extensions;
 
 namespace OpenCloneUI.Pages.QA
 {
-    [IgnoreAntiforgeryToken] // todo: what's this?
+    [IgnoreAntiforgeryToken]
     [Authorize]
     public class AnswerModel : PageModel
     {
@@ -30,7 +30,6 @@ namespace OpenCloneUI.Pages.QA
         //[Route("/QA/Answer/{categoryName}")]
         public void OnGet()
         {
-            // TODO: this method could be more async
             var activeCloneId = _applicationUserService.GetActiveCloneId(User.GetId()).Value;
 
             var categoryName = HttpContext.Request.Path.ToString().Split('/')[3]; // this should be reliable. invalid categories are 404'd via PagesAndControllersConfigurator

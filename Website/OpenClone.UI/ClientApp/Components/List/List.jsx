@@ -20,7 +20,6 @@ function List(props) {
             )
         }
     }
-
     function renderLinkList() {
         return (
             <div className="list-group"> {
@@ -63,7 +62,6 @@ function List(props) {
             </ul>
         )
     }
-
 
     return (
         <div className="list card">

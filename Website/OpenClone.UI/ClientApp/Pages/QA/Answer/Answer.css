@@ -46,10 +46,6 @@
     transition: transform 0.5s ease;
 }
 
-    .vision-board img:hover {
-        transform: scale(3) translate(0, 30px);
-    }
-
 #answerForm {
     border: none;
     padding: 0;

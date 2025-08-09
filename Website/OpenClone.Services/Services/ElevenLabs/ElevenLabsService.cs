@@ -25,7 +25,6 @@ namespace OpenClone.Services.Services.ElevenLabs
 {
     public class ElevenLabsService
     {
-        // todo:  private readonly is superflous here to be honest. and really everywhere. private by default and your services dont have any public properties that can be modified. chatgpt disagrees. but i disagree with chatgpt on this one...
         private readonly string _baseUrl = "https://api.elevenlabs.io/v1";
 
         private readonly CloneMetadataService _cloneMetadataService;
@@ -65,7 +64,7 @@ namespace OpenClone.Services.Services.ElevenLabs
                     stability = .5,
                     similarity_boost = .9,
                     style = .5,
-                    use_speaker_boost = true // todo: does this work? was True in python. same effect?
+                    use_speaker_boost = true
                 }
             };
 
@@ -121,7 +120,7 @@ namespace OpenClone.Services.Services.ElevenLabs
         public async Task DeleteUnusedVoices()
         {
             var elevenLabsVoiceIds = (await GetVoiceList())
-                .Where(v => v.Category != "premade") // TODO: anything else (it errors when you try to delete these)?
+                .Where(v => v.Category != "premade")
                 .Select(v => v.VoiceId)
                 .ToList();
             var dbVoiceIds = await _cloneMetadataService.GetAllVoiceIds();

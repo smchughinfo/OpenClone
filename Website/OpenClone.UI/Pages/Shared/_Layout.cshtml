@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
-    <script src="~/js/idk-where-these-go/site.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/popper.js/umd/popper.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -25,7 +24,7 @@
     @Html.Partial("_LoaderDialogPartial")
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
+            <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">OpenClone</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -36,10 +35,6 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                @* you cant use asp-page here because i want the CloneManager url but that gets rerouted to the CloneCRUD page*@
                                 <a class="nav-link text-dark" href="/CloneManager">Clone Manager</a>
                             </li>
 
@@ -48,7 +43,7 @@
                                 <a id="chatbotLink" class="nav-link @(hasClone ? "text-dark" : "disabled pointer-events-none")" asp-area="" asp-page="@(hasClone ? "/ChatBot" : "#")">ChatBot</a>
                             </li>
                             <li class="nav-item">
-                                <a id="qaLink" class="nav-link @(hasClone ? "text-dark" : "disabled pointer-events-none")" href="@(hasClone ? "/QA" : "#")">QA</a> @* have to use an anchor tag here because of the  @page "/QA" directive at the top of QuestionCategories.cshtml *@
+                                <a id="qaLink" class="nav-link @(hasClone ? "text-dark" : "disabled pointer-events-none")" href="@(hasClone ? "/QA" : "#")">QA</a>
                             </li>
                         }
 
@@ -56,9 +51,9 @@
                             <a class="nav-link text-dark" href="https://github.com/smchughinfo/OpenClone/" target="_blank" rel="noopener noreferrer">About</a>
                         </li>
                     </ul>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
-            <partial name="_LoginPartial" />
         </nav>
     </header>
     <div class="container-fluid">
@@ -85,6 +80,6 @@
         </div>
     </footer>
 
-    @await RenderSectionAsync("Scripts", required: false) @* TODO: delete this? *@
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

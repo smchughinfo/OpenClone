@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using OpenClone.Authorization;
 using OpenClone.Core;
 using OpenClone.Core.Extensions;
 using OpenClone.Core.Models;
@@ -21,7 +20,6 @@ namespace OpenClone.Pages
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         public IAuthorizationService _authorizationService;
-        public string IsAutho = "Nope";
 
         public IndexModel(ILoggerFactory loggerFactory, UserManager<ApplicationUser> userManager, IAuthorizationService authorizationService, ApplicationDbContext applicationDbContext, GenerativeImageService generativeImageService, ElevenLabsService elevenLabsService, EmbeddingService<Answer> embeddingsService, CompletionService completionService)
         {
@@ -32,15 +30,6 @@ namespace OpenClone.Pages
 
         public async Task<IActionResult>  OnGetAsync()
         {
-            var authorizationOperation = await _authorizationService.AuthorizeAsync(
-                    User,
-                    new ClaimAndPolicyQuestionExampleToBeDeleted() { Owner = "seanmchugh.info@gmail.com" },
-                    AuthorizationOperations.Delete
-                    );
-            if(authorizationOperation.Succeeded)
-            {
-                IsAutho = "Yes, you are authorized";
-            }
             return Page();
         }
     }

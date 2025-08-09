@@ -132,9 +132,6 @@ function CloneCRUD(props) {
 
         // always reset recording video
         cleanupVideoStreams(videoRef.current);
-        //const [isCapturingPhoto, setIsCapturingPhoto] = React.useState(false);
-        //const [videoRef, setVideoRef] = React.useState(React.createRef());
-        //const [canvasRef, setCanvasRef] = React.useState(React.createRef());
 
     }
     React.useEffect(handleActiveCloneChanged, [activeClone])
@@ -312,7 +309,7 @@ function CloneCRUD(props) {
         // onCameraAvailable
         (isAvailable, devices) => {
             if (isAvailable) {
-                // this should wait until you're ready to actually take the photo. it calls it available too soon.
+                console.log("Camera available");
             }
         },
         // onError
@@ -394,15 +391,6 @@ function CloneCRUD(props) {
                             <form id="cloneForm" noValidate>
                                 <div className="mb-3">
                                     <div className="row g-2">
-
-
-
-
-
-
-
-
-
                                         <div className="col-md-6">
                                             <label className="form-label">Profile Image: <span className="text-danger">*</span></label>
                                             <div className="mb-3">
@@ -419,21 +407,6 @@ function CloneCRUD(props) {
                                                     <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
                                                 </div>
                                             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                             <div className="mb-3">
                                                 <div className="d-flex gap-2">
                                                     {!isCapturingPhoto ?
@@ -457,7 +430,6 @@ function CloneCRUD(props) {
                                                                         console.log("Video is playing:", !videoRef.current.paused);
                                                                     }
 
-                                                                    // Then call your functions
                                                                     cameraCapture.capturePhoto(videoRef.current, canvasRef.current);
                                                                     cameraCapture.stopCamera();
                                                                 }}>
@@ -474,14 +446,6 @@ function CloneCRUD(props) {
                                                     )}
                                                 </div>
                                             </div>
-
-
-
-
-
-
-
-
                                             <div className="text-muted mb-2">Choose a file or take a photo:</div>
                                             <input
                                                 id="cloneImageInput"
@@ -495,46 +459,6 @@ function CloneCRUD(props) {
                                                 Profile image is required. Please upload a file or take a photo.
                                             </div>
                                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                         <div className="col-md-6">
                                             <label className="form-label">Audio Sample: <span className="text-danger">*</span></label>
                                             <div className="mb-3">
@@ -544,12 +468,6 @@ function CloneCRUD(props) {
                                                     </audio>
                                                 </div>
                                             </div>
-
-
-
-
-
-
                                             <div className="mb-3">
                                                 <div className="d-flex gap-2">
                                                     {!isRecording ?
@@ -569,7 +487,6 @@ function CloneCRUD(props) {
                                                     }
                                                 </div>
                                             </div>
-
                                             <div className="text-muted mb-2">Choose a file or record directly:</div>
                                             <input
                                                 id="cloneAudioInput"
@@ -582,11 +499,6 @@ function CloneCRUD(props) {
                                             <div className="invalid-feedback">
                                                 Audio Sample is required. Please upload a file or record audio.
                                             </div>
-
-
-
-
-
                                         </div>
                                     </div>
                                 </div>

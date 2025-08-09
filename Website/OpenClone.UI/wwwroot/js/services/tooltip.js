@@ -1,9 +1,4 @@
-﻿/*function setToolTips(scope) {
-    const tooltipTriggerList = document.querySelectorAll(scope ? scope : '[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-}*/
-
-function setToolTips(scope) {
+﻿function setToolTips(scope) {
     const tooltipTriggerList = document.querySelectorAll(scope ? scope : '[data-bs-toggle="tooltip"]');
 
     tooltipTriggerList.forEach(tooltipTriggerEl => {

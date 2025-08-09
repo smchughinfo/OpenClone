@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Build.Framework;
 using Microsoft.Extensions.DependencyInjection;
-using OpenClone.Authorization;
 using OpenClone.Core.Models;
 using OpenClone.Services;
 using OpenClone.Services.Services;
@@ -22,15 +21,8 @@ namespace OpenCloneUI.Configuration
             {
                 var applicationUserService = serviceScope.ServiceProvider.GetService<ApplicationUserService>();
                 var applicationUser = applicationUserService.GetApplicationUser(user.Identity.Name);
-                return applicationUser.ActiveCloneId != null;
+                return applicationUser?.ActiveCloneId != null;
             });
-
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("NiceUser", policy => policy.RequireClaim("CanCreateQuestions"));
-            });
-
-            builder.Services.AddScoped<IAuthorizationHandler, DeleteQuestionAuthorizationHandler>();
         }
 
         static void AddComputedPolicy(WebApplicationBuilder builder, string policyName, Func<IServiceScope, ClaimsPrincipal, bool> computedPolicy)
@@ -41,7 +33,7 @@ namespace OpenCloneUI.Configuration
                 {
                     if(user.Identity.Name == null)
                     {
-                        return false; // TODO: check logging to make sure unlogged in users dont get logged as having failed first computed policy to execute this code
+                        return false;
                     }
 
                     using (var scope = StaticServiceProvider.ServiceProvider.CreateScope())

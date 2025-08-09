@@ -126,11 +126,6 @@ namespace OpenClone.Services.Services
 
         private async Task SetCloneImage(int cloneId, Image image)
         {
-            // todo: sadtalker will crash if it doesnt recognize a face
-            // todo: can you improve u-2 net by mirroring the image and sending it back in 
-            // this function tries to be resilient to failures.
-
-            // this one is safe to delete 
             _cloneMetadataService.DeleteDeepFakeDir(cloneId);
 
             // use temporary paths so if file operations fail we can revert
@@ -145,8 +140,6 @@ namespace OpenClone.Services.Services
             try
             {
                 await image.SaveAsPngAsync(bgImagePathTmp);
-                //await _renderingService.RemoveBackgroundImage(bgImagePathTmp, noBgImagePathTmp);
-                //await _renderingService.GenerateDeepFakeMp4(noBgImagePathTmp, quickFakeAudioPath, mp4PathTmp, true);
                 await _renderingService.GenerateDeepFakeMp4(bgImagePathTmp, quickFakeAudioPath, mp4PathTmp, true);
 
                 File.Copy(bgImagePathTmp, bgImagePath, true);
@@ -160,7 +153,6 @@ namespace OpenClone.Services.Services
             finally
             {
                 File.Delete(bgImagePathTmp);
-                //File.Delete(noBgImagePathTmp);
                 File.Delete(mp4PathTmp);
             }
         }
@@ -179,12 +171,12 @@ namespace OpenClone.Services.Services
             return _applicationDbContext.Clone.Where(c => c.ApplicationUserId == userId).ToList();
         }
 
-        public Clone GetClone(int cloneId) // TODO: these all need to be async
+        public Clone GetClone(int cloneId)
         {
             return _applicationDbContext.Clone.Single(c => c.Id == cloneId);
         }
 
-        public async Task<Clone> GetCloneAsync(int cloneId) // TODO: DELETE THIS. I JUST DONT WANT TO MAKE ALL THE CALLS TO GETCLONE ASYNC RIGHT NOW. THEY SHOULD BE ONE FUNCTION
+        public async Task<Clone> GetCloneAsync(int cloneId)
         {
             return await _applicationDbContext.Clone.SingleAsync(c => c.Id == cloneId);
         }
@@ -197,7 +189,7 @@ namespace OpenClone.Services.Services
 
         public async Task DeleteClone(string userId, int cloneId)
         {
-            var logErrors = false; // if it fails before this gets set it will lead to a situation where logging is allowed but doesn't happen. but i guess that could happen anywhere since the clone has to be pulled out of the db before we know whether or not we can log. todo: should something be done about that?
+            var logErrors = false;
             var cloneDir = _cloneMetadataService.GetCloneDir(cloneId);
             var isActiveClone = _applicationUserService.GetActiveCloneId(userId) == cloneId;
 
@@ -207,7 +199,6 @@ namespace OpenClone.Services.Services
                 {
                     var cloneToDelete = await _applicationDbContext.Clone.SingleAsync(c => c.Id == cloneId && c.ApplicationUserId == userId);
 
-                    // delete clone's voice from ElevenLabs
                     var voiceId = await _cloneMetadataService.GetVoiceId(cloneId);
                     try
                     {
@@ -236,7 +227,6 @@ namespace OpenClone.Services.Services
                         await _cloneMetadataService.SetActiveCloneToCloneWithMostRecentCreateDate(userId);
                     }
 
-                    // Commit the transaction if everything is successful
                     await transaction.CommitAsync();
 
                 }
@@ -247,8 +237,6 @@ namespace OpenClone.Services.Services
                 }
             }
 
-            // todo: if you wanted to be really thorough you could add clone id to logs and delete all logs as well.
-            // delete from file system
             Directory.Delete(cloneDir, true);
         }
     }

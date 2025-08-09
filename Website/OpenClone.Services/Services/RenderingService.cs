@@ -30,11 +30,6 @@ namespace OpenClone.Services.Services
         }
 
 
-        /*
-         important todo:
-        batch jobs need to be registered in database to avoid duplicate runs conflicting with each other and causing weird errors
-        also prevents user from pressing the run button 100 times and dds'ing the server
-         */
 
 
 
@@ -62,7 +57,6 @@ namespace OpenClone.Services.Services
             }
             catch (Exception ex)
             {
-                // todo: does it ever get here?
                 await _generateDeepfakeStream();
             }
         }

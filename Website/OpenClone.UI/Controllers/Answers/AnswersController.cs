@@ -4,7 +4,6 @@ using OpenClone.Services.Services;
 using OpenClone.UI.Extensions;
 using System.Text.Json;
 
-// TODO: make sure only authorized users can call this
 using Microsoft.AspNetCore.Mvc;
 using OpenClone.Services.Services;
 using OpenClone.UI.Extensions;

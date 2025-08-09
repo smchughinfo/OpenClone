@@ -1,6 +1,3 @@
-// add qa -> chatgpt sum this personality -> system prompt
-// switch to openvoice and grok
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Options;
@@ -75,6 +72,9 @@ StaticServiceProvider.ServiceProvider = app.Services; // this allows dependency 
 // ###### STEP 3: MIDDLEWARE CONFIGURATION AND APPLICATION PIPELINE SETUP ###############
 // ######################################################################################
 
+// ROLES
+RoleConfigurator.Configure(app).Wait();
+
 // DEVELOPMENT DATA
 DevDataConfigurator.Configure(app).Wait();
 
@@ -92,7 +92,7 @@ app.UseStaticFiles(new StaticFileOptions
 OpenCloneFSMiddleware.SetupURL(app); // server from /OpenCloneFS
 
 // REDIRECT HTTP TO HTTPS
-app.UseHttpsRedirection(); // TODO: IMPORTANT - THIS DOESNT SEEM TO WORK (can goto http://127.0.0.1 in container. ...is it a problem though? will be 80 in prod so who cares.
+app.UseHttpsRedirection(); 
 
 // REDIRECT 404'S TO 404 PAGE
 _404Configurator.Configure404(app);
@@ -111,6 +111,8 @@ app.UseMiddleware<OpenCloneFSMiddleware>(); // allow files to be served from /Op
 // CONFIGURE ASP.NET MIDDLEWARE
 app.UseCors("SplashPagePolicy"); // Enable CORS for splash page requests
 app.UseRouting(); // Configures routing for the application, allowing it to match incoming requests to appropriate endpoints.
+app.UseAuthentication(); // Enable authentication
+app.UseMiddleware<OpenClone.UI.Middleware.OrphanedUserMiddleware>(); // Handle users with invalid cookies after DB restore
 app.UseAuthorization(); // Adds the middleware required for authentication and authorization, enabling the application to authenticate and authorize requests.
 app.MapRazorPages(); // Configures the routing system to handle Razor Pages, which are used for building UI views and handling user interactions in MVC-based applications.
 app.MapControllers(); // Configures the routing system to handle Web API controllers, allowing the application to process API requests and generate JSON responses.

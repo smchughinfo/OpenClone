@@ -24,7 +24,7 @@ namespace OpenClone.UI
             var token = new JwtSecurityToken(
                 issuer: _configurationService.GetJWTokenIssuer(),
                 audience: _configurationService.GetJWTokenAudience(),
-                expires: DateTime.Now.AddHours(3), // TODO: expire when? ...how to renew?
+                expires: DateTime.Now.AddHours(3),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

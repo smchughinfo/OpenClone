@@ -1,5 +1,4 @@
-﻿// TODO: everywhere in the app where its called systemMessage it shuold be renamed to system prompt
-
+﻿
 import './SystemMessageBuilder.css';
 
 import { get, post } from 'js/services/network.js';
@@ -14,7 +13,7 @@ const HIGHLIGHT_CLASS = {
     white: "bg-secondary"
 };
 
-let loadingSystemMessage = "Loading...."; // necessary(?) evil temp variable to get everything loaded. Used as third null state (null, '', loadingSystemMessage)
+let loadingSystemMessage = "Loading...."; // Used as third null state (null, '', loadingSystemMessage)
 let defaultSystemMessage = null;
 
 function SystemMessageBuilder(props) {

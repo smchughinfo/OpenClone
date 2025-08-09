@@ -3,6 +3,12 @@
 ### Live Demo
 [https://clonezone.me](https://clonezone.me)
 
+![Architecture](Documentation/architecture.png)
+![Application Flow 1](Documentation/application-flow-1.png)
+![Application Flow 2](Documentation/application-flow-2.png) 
+![Application Flow 3](Documentation/application-flow-3.png)
+![Application Flow 4](Documentation/application-flow-4.png)
+
 ## What Is OpenClone
 
 OpenClone lets you build personalized AI clones that can:
@@ -32,10 +38,10 @@ Image segmentation service that removes backgrounds from user photos and perform
 ### 📊 **LogViewer** (Python Flask)
 Monitoring dashboard that provides system insights, error tracking, and performance metrics across all OpenClone components.
 
-### 🔧 **IAC** (Kubernetes + Terraform)
+### 🔧 **Deployment/IAC** (Kubernetes + Terraform)
 DevOps infrastructure for deploying OpenClone to cloud environments, including Kubernetes clusters, databases, and monitoring systems.
 
-**Note on Kubernetes Versions**: The IAC system uses pinned Kubernetes versions for stability. If deployment fails with "Invalid K8 version" errors, check available versions with the Vultr API and update the version in `/IAC/setup-container.sh`. While auto-updating to latest versions is possible, manual version control prevents unexpected breaking changes from new Kubernetes releases.
+**Note on Kubernetes Versions**: The IAC system uses pinned Kubernetes versions for stability. If deployment fails with "Invalid K8 version" errors, check available versions with the Vultr API and update the version in `/Deployment/IAC/setup-container.sh`. While auto-updating to latest versions is possible, manual version control prevents unexpected breaking changes from new Kubernetes releases.
 
 ### 🤖 **Code Assistant Integrattion**
 Technical documentation and context files for AI-powered development assistance. 
@@ -57,9 +63,10 @@ Ready to create your first clone? Here's how:
 
 ### Option 1: Full Setup (Recommended)
 1. **Download** - Clone this repository to your computer
-2. **Configure** - Set up the environment variables below 
-3. **Launch** - Run `StartStopScripts/run-all.bat` to start everything
-4. **Create** - Visit `http://localhost:8080` and build your first clone!
+2. **Configure** - Set up the environment variables below
+3. **Database** - Run `StartStopScripts/Database/restore.bat` to set up database and OpenCloneFS
+4. **Launch** - Run `StartStopScripts/run-all.bat` to start everything
+5. **Create** - Visit `http://localhost:8080` and build your first clone!
 
 ### Option 2: Step-by-Step
 Want to start individual services? Use these batch files:
@@ -107,77 +114,6 @@ Want to start individual services? Use these batch files:
 
 Ready to create your digital twin? Let's get started! 🚀
 
-## Environment Variables Setup
+## Environment Variables
 
-Copy these settings and update with your own values. You can set these in your system environment or create a `.env` file:
-
-### Required API Keys
-```bash
-# AI Services (Required)
-OpenClone_OPENAI_API_KEY=<your-openai-api-key>
-OpenClone_ElevenLabsAPIKey=<your-elevenlabs-api-key>
-
-# Google Login (Required)
-OpenClone_GoogleClientId=<your-google-client-id>
-OpenClone_GoogleClientSecret=<your-google-client-secret>
-
-# Security (Generate a random string)
-OpenClone_JWT_SecretKey=<your-jwt-secret-key>
-```
-
-### Database Settings (Default values work for local development)
-```bash
-# Database Configuration
-OpenClone_DB_Host=192.168.0.100
-OpenClone_DB_Port=5433
-OpenClone_Postgres_Password=puppies
-OpenClone_postgres_superuser_password=openclone-super
-
-# Main Database
-OpenClone_OpenCloneDB_Name=open_clone
-OpenClone_OpenCloneDB_User=openclone
-OpenClone_openclonedb_password=kittens
-OpenClone_DefaultConnection=Host=192.168.0.100;Port=5433;Database=open_clone;Username=openclone;Password=kittens;Include Error Detail=true;
-OpenClone_DefaultConnection_Super=Host=192.168.0.100;Port=5433;Database=open_clone;Username=postgres;Password=openclone-super;Include Error Detail=true;
-
-# Logging Database
-OpenClone_LogDB_Name=open_clone_logging
-OpenClone_LogDB_User=logs
-OpenClone_logdb_password=bunnies
-OpenClone_LogDbConnection=Host=192.168.0.100;Port=5433;Database=open_clone_logging;Username=logs;Password=bunnies;
-OpenClone_LogDbConnection_Super=Host=192.168.0.100;Port=5433;Database=open_clone_logging;Username=postgres;Password=openclone-super;
-```
-
-### Miscellaneous Settings
-```bash
-# Your Information
-OpenClone_Admin_Email=<your@email.com>
-OpenClone_JWT_Issuer=https://www.clonezone.me
-OpenClone_JWT_Audience=OpenClone
-
-# Self-Hosting Configuration (Only for HTTPS self-hosting)
-OpenClone_Self_Hosting_Domain=app.clonezone.me  # Your domain name
-OpenClone_Admin_Email=<your@email.com>          # For Let's Encrypt certificates
-
-# File Storage (Update paths for your system)
-OpenClone_Root_Dir=C:/Users/seanm/Desktop/OpenClone
-OpenClone_OpenCloneFS=C:/Users/seanm/Desktop/OpenClone/OpenCloneFS
-
-# AI Service Endpoints (Default local addresses)
-OpenClone_SadTalker_HostAddress=http://127.0.0.1:5001
-OpenClone_U2Net_HostAddress=http://127.0.0.1:5002
-
-# Email (Optional - for DKIM)
-OpenClone_email_dkim=v=<your-dkim-public-key>
-OpenClone_ZOHO_EMAIL_PASSWORD=<your-zoho-password>
-
-# Cloud Deployment (Optional - for Vultr hosting)
-OpenClone_Vultr_API_Key=<your-vultr-api-key>
-OpenClone_Server_0_IP_Address=<your-server-ip>
-OpenClone_Server_0_Password=<your-server-password>
-
-# System Settings
-OpenClone_CUDA_VISIBLE_DEVICES=0,1
-OpenClone_OpenCloneLogLevel=Information
-OpenClone_SystemLogLevel=Error
-```
+You'll need to configure several environment variables for OpenClone to work properly. See [Documentation/EnvironmentVariables.md](Documentation/EnvironmentVariables.md) for the complete list of required and optional settings.

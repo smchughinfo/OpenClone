@@ -1,3 +1,5 @@
-/OpenCloneFS/
 .claude
 /Website/SelfHosting/ssl/
+SadTalker_Cache
+/OpenCloneFS
+!/Database/Backups/OpenCloneFS

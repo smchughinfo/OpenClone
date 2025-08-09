@@ -28,8 +28,6 @@ namespace OpenClone.Services.Services.OpenAI
 {
     public class GenerativeImageService
     {
-        // todo: 1469-1502 don't have source image id's
-        // not important - you will redo that later when you add more images when going to prod. this is a non-issue
         private readonly ConfigurationService _configurationService;
         private readonly CompletionService _openAIService;
         private readonly ApplicationDbContext _applicationDbContext;
@@ -57,7 +55,7 @@ namespace OpenClone.Services.Services.OpenAI
                 prompt = prompt,
                 n = 1,
                 size = generativeImageDimension.GetNormalizedName(),
-                quality = generativeImageQuality.GetNormalizedName(), // TODO: im not sure if quality is actually being sent correctly
+                quality = generativeImageQuality.GetNormalizedName(),
             };
             return (await _networkService.Post<GenerativeImageDTO>(endpointUrl, data, CustomHeaders.APIKeyOpenAI | CustomHeaders.ExpectJson)).Data[0].Url;
         }

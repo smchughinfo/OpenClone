@@ -13,8 +13,8 @@ The Database component is the central hub for all database operations in OpenClo
 
 ## Architecture Principles
 - Code-first database design with Entity Framework
-- Stored procedures only when necessary (complexity reduction)
-- ASP.NET Identity tables integrated with main database (complexity reduction)
+- Code furst preferred over stored procedures
+- ASP.NET Identity tables integrated with main database
 - Designed for Kubernetes deployment but supports local development
 
 ## Directory Structure
@@ -128,7 +128,7 @@ The `/Backups` directory contains complete bootstrap data for rapid system setup
 
 **Scope**: Extensive scalability work remains for both database and OpenCloneFS components, but this is considered IAC-level architecture rather than core database/schema work. The Database project focuses on data structure and schema design, while scalability decisions belong in the IAC project.
 
-**Development Status**: Core database functionality is 99% complete - scalability features are architectural enhancements rather than core requirements.
+**Development Status**: Core database functionality is complete - scalability features are architectural enhancements rather than core requirements.
 
 ## Database Management
 - **VS Code Extension**: [ckolkman.vscode-postgres](https://marketplace.visualstudio.com/items?itemName=ckolkman.vscode-postgres)

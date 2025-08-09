@@ -20,11 +20,6 @@ namespace OpenClone.Services
     {
         public static void DoSetup(IServiceCollection services)
         {
-            /*
-                // Transient: New instance every time it's requested.
-                // Scoped: One instance per request.
-                // Singleton: One instance for the entire application.
-             */
 
             // SCOPED
             services.AddScoped<QAService, QAService>();
@@ -45,11 +40,10 @@ namespace OpenClone.Services
             services.AddScoped<ChatService, ChatService>();
 
             // TRANSIENT
-            services.AddTransient<IEmailSender, EmailSenderService>();
             services.AddTransient<AudioService, AudioService>(); 
 
             // THIRD PARTY
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // this also gets done in the UI project, although doing so is redundtant when used with the UI project
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
     }
 }

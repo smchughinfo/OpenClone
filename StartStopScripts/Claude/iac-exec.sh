@@ -12,4 +12,4 @@ fi
 COMMAND="$1"
 
 # Execute command in IAC container and capture output
-docker exec openclone-iac bash -c "cd /workspaces/IAC && $COMMAND"
+docker exec openclone-iac bash -c "cd /workspaces/Deployment/IAC && $COMMAND"

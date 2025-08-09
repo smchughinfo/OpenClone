@@ -10,7 +10,6 @@ using OpenClone.UI.Controllers.Questions;
 using OpenClone.UI.Extensions;
 using System.Text.Json;
 
-// TODO: make sure only authorized users can call this
 namespace OpenClone.UI.Controllers.Questions
 {
     [Route("api/[controller]")]

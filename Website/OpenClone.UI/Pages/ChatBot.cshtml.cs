@@ -13,7 +13,7 @@ using System.Text.Json;
 
 namespace OpenClone.Pages
 {
-    [IgnoreAntiforgeryToken] // todo: do these antiforgery shits
+    [IgnoreAntiforgeryToken]
     public class ChatBotModel : PageModel
     {
         public ChatBotModel() { }

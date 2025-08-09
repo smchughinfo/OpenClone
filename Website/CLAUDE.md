@@ -102,10 +102,9 @@ var hasClone = (await AuthorizationService.AuthorizeAsync(User, "HasActiveClone"
 ```
 
 **DevDataConfigurator**:
-- Development role/claim setup: "Overlord" (god mode), "SuperUser" (staff), "User" (standard)
-- Overloard is cringy. Replace with something better later - UltraSysGod
+- Development role/claim setup: "Admin" (god mode), "SuperUser" (staff), "User" (standard)
 - ElevenLabs voice creation for hardcoded development clones (IDs 1, 2, 4)
-- User-specific permissions (seanmchugh513@gmail.com → Overlord role)
+- User-specific permissions (seanmchugh513@gmail.com → Admin role)
 
 **OpenCloneFSMiddleware**:
 - Static file serving from environment-specified OpenCloneFS path
@@ -153,7 +152,7 @@ var hasClone = (await AuthorizationService.AuthorizeAsync(User, "HasActiveClone"
 
 ### **User Management**
 - Google OAuth authentication
-- Role-based access control (Overlord/SuperUser/User)
+- Role-based access control (Admin/SuperUser/User)
 - Claims-based fine-grained permissions
 - Email confirmation and password reset flows
 
@@ -317,27 +316,7 @@ var embeddingDto = await _networkService.Post<EmbeddingDTO>(_endpointUrl, data,
 
 ### **Service Architecture Issues & Technical Debt**
 
-**Major Issue - QAService**: 
-```csharp
-// Line 26 comment in QAService.cs:
-// "THIS PLUS THE ANSWER SERVICE NEEDS A REFACTOR OF EPIC PROPORTIONS"
-```
-- **428 lines** - violates single responsibility principle
-- **9 constructor dependencies** - indicates over-coupling
-- **Multiple concerns**: Question CRUD, Answer CRUD, embeddings, moderation, user isolation
-- **Security noted**: Comments about potential user data leakage between users
-- **Transaction management**: Mixed with business logic
-
-**Recommended Refactor**:
-- `QuestionService` - Question CRUD operations
-- `AnswerService` - Answer CRUD operations  
-- `QAModerationService` - Content moderation workflows
-- `QAEmbeddingService` - Embedding generation and similarity
-- `QASecurityService` - User data isolation enforcement
-
 **Medium Issues**:
-- **Service size imbalance**: QAService 428 lines vs AudioService 45 lines
-- **Missing interfaces**: Concrete classes limit testability and IoC flexibility
 - **Async inconsistency**: Mix of sync and async patterns
 - **Error handling variance**: Different exception patterns across services
 

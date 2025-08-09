@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace OpenClone.Pages
 {
-    [IgnoreAntiforgeryToken] // todo: do these antiforgery shits
+    [IgnoreAntiforgeryToken]
 
     public class SettingsModel : PageModel
     {

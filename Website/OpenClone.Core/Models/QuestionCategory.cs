@@ -12,12 +12,11 @@ namespace OpenClone.Core.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required] // TODO: index this
+        [Required]
         public string Name { get; set; }
         [Required]
         virtual public IEnumerable<Question> Questions { get; set; }
 
-        //TODO: is there a better place for this?
         public string NameToUrlFriendly()
         {
             var name = Name.Replace("-", "--");
