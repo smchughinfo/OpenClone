@@ -9,7 +9,7 @@ Create real-time deepfake responses of a person using their photo, audio sample,
 
 ## Why Is OpenClone
 
-It's quite obvious to me that clones like these will be common at some point in the future. It will be a trillion dollar industry:
+It's quite obvious to me that clones like these will be common at some point in the future. It will be a huge industry:
 
 - Talk to ancestors
 - "Reincarnation" of sorts
