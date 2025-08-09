@@ -9,7 +9,7 @@ Create real-time deepfake responses of a person using their photo, audio sample,
 
 ## Why Is OpenClone
 
-It's quite obvious to me that clone's like these will be common at some point in the future. It will be a trillion dollar industry. 
+It's quite obvious to me that clones like these will be common at some point in the future. It will be a trillion dollar industry. 
 
 - Talk to ancestors
 - "Reincarnation" of sorts
@@ -17,7 +17,7 @@ It's quite obvious to me that clone's like these will be common at some point in
 - Dating speed runs
 - Modern-day answering machines
 
-Now ask yourself, do you want Meta to be the one cloning you? Do you want to give all of your information over to some company in the typical way? They pay you lip service while collecting your data and using it however they want. That's sounds awful and deeply disrespectful when the subject matter itself is one's identity. Therefore, I propose a OpenClone (or something like it). Data is fully exportable and user-owned, privacy is the default, and the code is open source.
+Now ask yourself, do you want Meta to be the one cloning you? Do you want to give all of your information over to some company in the typical way? They pay you lip service while collecting your data and using it however they want. That sounds awful and deeply disrespectful when the subject matter itself is one's identity. Therefore, I propose OpenClone (or something like it). Data is fully exportable and user-owned, privacy is the default, and the code is open source.
 
 ## How Is OpenClone
 
@@ -25,13 +25,13 @@ Now ask yourself, do you want Meta to be the one cloning you? Do you want to giv
 
 ## Application Logic
 
-OpenClone is a platform for building on top of. The basics are taken care of.
+OpenClone is a platform. The basics are taken care of:
 
 - Accounts and Authorization
 - Microservice Architecture
 - Complete ASP.NET/React website pattern
 - Base Entity Framework data model ready for expansion
-- Real-time log rich-text logging framework
+- Real-time rich-text logging framework
 
 The base logic of OpenClone looks like this:
 
@@ -43,7 +43,7 @@ The base logic of OpenClone looks like this:
 ## Component Overview
 
 - **[Website](/Website)** - OpenClone's interface and logic.
-- **[Database](/Database)** - Contains and application database, a logging database, and environment bootstrap funcionality.
+- **[Database](/Database)** - Contains an application database, a logging database, and environment bootstrap functionality.
 - **[SadTalker](SadTalker)** - A REST API wrapped around the SadTalker (https://github.com/OpenTalker/SadTalker) deepfake project.
 - **[U-2-Net](/U-2-NET)** - A REST API wrapped around the U-2-Net (https://github.com/xuebinqin/U-2-Net) background remover project.
 - **Logging** - [LogWeaver](/LogWeaver/) (Python) and [OpenClone.Core.Logging](/Website/OpenClone.Core/Services/Logging/) (C#) log to the same database. Viewable in real time with [LogViewer](/LogViewer/).
