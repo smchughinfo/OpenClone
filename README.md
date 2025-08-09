@@ -3,6 +3,17 @@
 ### Live Demo
 [https://clonezone.me](https://clonezone.me)
 
+## Application Flow
+
+![Architecture](Documentation/architecture.png)
+
+## Application Flow
+
+![Application Flow 1](Documentation/application-flow-1.png)
+![Application Flow 2](Documentation/application-flow-2.png) 
+![Application Flow 3](Documentation/application-flow-3.png)
+![Application Flow 4](Documentation/application-flow-4.png)
+
 ## What Is OpenClone
 
 OpenClone lets you build personalized AI clones that can:
