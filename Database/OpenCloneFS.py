@@ -8,7 +8,7 @@ def delete_dir(dir_to_delete):
     if os.path.exists(dir_to_delete): 
         shutil.rmtree(dir_to_delete)
 
-def reset_openclone_fs(TODO_UPDATE_THIS=False):
-    if(TODO_UPDATE_THIS == False): return
+def reset_openclone_fs(remote):
+    if(remote == True): return
     delete_dir(openclone_fs_dir)
     shutil.copytree(os.path.join(openclone_root_dir, "Database/Backups/OpenCloneFS"), openclone_fs_dir)
