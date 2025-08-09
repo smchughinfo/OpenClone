@@ -17,7 +17,6 @@ namespace OpenClone.Core
         public const string DELETE_CLONE_FAILED = "An unhandled error occured while deleting the clone. The clone has not been deleted.";
         public const string GENERATE_QUESTION_STARTER_IDEAS_FAILED = "Unable to generate question starter ideas. The question may be phrased too simply. Try adding more detail.";
         public const string DEEPFAKE_FAILED = "DeepFake generation failed to complete on time";
-        public const string ELEVENLABS_FAILED = "ElevenLabs error. This may be due to hitting account access limits.";
 
         public bool SendDetailsToUser { get; set; }
         public bool? ForceLog { get; set; }
