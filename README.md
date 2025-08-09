@@ -9,7 +9,7 @@ Create real-time deepfake responses of a person using their photo, audio sample,
 
 ## Why Is OpenClone
 
-It's quite obvious to me that clones like these will be common at some point in the future. It will be a trillion dollar industry. 
+It's quite obvious to me that clones like these will be common at some point in the future. It will be a trillion dollar industry:
 
 - Talk to ancestors
 - "Reincarnation" of sorts
@@ -17,7 +17,7 @@ It's quite obvious to me that clones like these will be common at some point in 
 - Dating speed runs
 - Modern-day answering machines
 
-Now ask yourself, do you want Meta to be the one cloning you? Do you want to give all of your information over to some company in the typical way? They pay you lip service while collecting your data and using it however they want. That sounds awful and deeply disrespectful when the subject matter itself is one's identity. Therefore, I propose OpenClone (or something like it). Data is fully exportable and user-owned, privacy is the default, and the code is open source.
+Now ask yourself, do you want Meta to be the one cloning you? Do you want to give all of your information over to some company in the typical way? They pay you lip service while collecting your data and using it however they want. That sounds awful and deeply disrespectful when the subject matter is one's identity. Therefore, I propose OpenClone (or something like it). Data is fully exportable and user-owned, privacy is the default, and the code is open source.
 
 ## How Is OpenClone
 
@@ -53,17 +53,17 @@ The base logic of OpenClone looks like this:
 ## How to Run
 
 1. Set [environment variables](Documentation/EnvironmentVariables.md)
-2. Run `StartStopScripts/Database/restore.bat` to set up database and OpenCloneFS
+2. Run `StartStopScripts/Database/restore.bat` to setup environment
 3. Run `StartStopScripts/run-all.bat` to start everything
 
-## 🤖 **Code Assistant Integration** 🤖
+## 🤖 **Code Code Integration** 🤖
 
-Claude Code has special OpenClone integrations defined in its various .md files:
+Claude has special OpenClone integrations defined in its various CLAUDE.md files:
 - Claude can see your most recent screenshot.
 - Ask Claude to summarize what you worked on to [Session Memory](/StartStopScripts/Claude/SessionMemory/). It's sort of like the story of your application. *This feature was added late in the development of OpenClone so most of the "story" is not there*.
 - [StartStopScripts/Claude/start.bat](StartStopScripts/Claude/start.bat) will launch Claude along with a shared tmux terminal for pair programming.
-- Nested claude.md files provide knowledge about each project
+- Nested CLAUDE.md files provide knowledge about each project
 
 ## Lies
 
-For simplicity I have told you a few [lies](/Documentation/lies.md). 
+For simplicity, I have told you a few [lies](/Documentation/lies.md). 
