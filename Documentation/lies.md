@@ -11,5 +11,5 @@
         - No thought into how to properly scale the database has been done. At worst, it could be swapped out with a managed database, but I like the idea of the system being self-contained.
 - Development on Linux would need some porting. Obviously the system RUNS on Linux since it's all containerized, but development relies on a few batch scripts that don't have Linux shell equivalents.
 - Not so much of a lie, but the Website's data model and Service layer could use a refactor. I think a lot of that code is really good, but some of it is disorganized. CloneCRUD.cs, for example, is prime for a refactor. Good methods, but maybe they belong in other places; some are sync when they should be async, etc.
-
+- Development at the end was rushed. I was just trying to get it done. There are definitely bugs and UI nicities on the website that need to be worked out.
 
