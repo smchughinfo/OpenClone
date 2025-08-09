@@ -3,117 +3,67 @@
 ### Live Demo
 [https://clonezone.me](https://clonezone.me)
 
+## What Is OpenClone
+
+Create real-time deepfake responses of a person using their photo, audio sample, and their bio + Q/A.
+
+## Why Is OpenClone
+
+It's quite obvious to me that clones like these will be common at some point in the future. It will be a trillion dollar industry:
+
+- Talk to ancestors
+- "Reincarnation" of sorts
+- Yourself, as an agent
+- Dating speed runs
+- Modern-day answering machines
+
+Now ask yourself, do you want Meta to be the one cloning you? Do you want to give all of your information over to some company in the typical way? They pay you lip service while collecting your data and using it however they want. That sounds awful and deeply disrespectful when the subject matter is one's identity. Therefore, I propose OpenClone (or something like it). Data is fully exportable and user-owned, privacy is the default, and the code is open source.
+
+## How Is OpenClone
+
 ![Architecture](Documentation/architecture.png)
+
+## Application Logic
+
+OpenClone is a platform. The basics are taken care of:
+
+- Accounts and Authorization
+- Microservice Architecture
+- Complete ASP.NET/React website pattern
+- Base Entity Framework data model ready for expansion
+- Real-time rich-text logging framework
+
+The base logic of OpenClone looks like this:
+
 ![Application Flow 1](Documentation/application-flow-1.png)
 ![Application Flow 2](Documentation/application-flow-2.png) 
 ![Application Flow 3](Documentation/application-flow-3.png)
 ![Application Flow 4](Documentation/application-flow-4.png)
 
-## What Is OpenClone
-
-OpenClone lets you build personalized AI clones that can:
-- 🗣️ **Talk like you** - Train with your voice for realistic speech
-- 🎭 **Look like you** - Create lifelike video avatars 
-- 🧠 **Think like you** - Learn from Q&A sessions to capture your personality
-- 💬 **Chat naturally** - Have conversations that feel authentic
-
-Perfect for content creators, educators, businesses, or anyone who wants to create their digital twin!
-
 ## Component Overview
 
-OpenClone is a distributed system of specialized components working together:
+- **[Website](/Website)** - OpenClone's interface and logic.
+- **[Database](/Database)** - Contains an application database, a logging database, and environment bootstrap functionality.
+- **[SadTalker](SadTalker)** - A REST API wrapped around the SadTalker (https://github.com/OpenTalker/SadTalker) deepfake project.
+- **[U-2-Net](/U-2-NET)** - A REST API wrapped around the U-2-Net (https://github.com/xuebinqin/U-2-Net) background remover project.
+- **Logging** - [LogWeaver](/LogWeaver/) (Python) and [OpenClone.Core.Logging](/Website/OpenClone.Core/Services/Logging/) (C#) log to the same database. Viewable in real time with [LogViewer](/LogViewer/).
+- **[Deployment](/Deployment/)** - Can be deployed as a Vultr Kubernetes cluster or self-hosted.
+- **[Start/Stop Scripts](/StartStopScripts/)** - Batch scripts make it easy to turn the various applications on.
 
-### 🌐 **Website** (ASP.NET Core)
-The main web interface where users create and interact with their digital clones. Features user authentication, clone management, chat, and video generation orchestration.
+## How to Run
 
-### 🗄️ **Database** (PostgreSQL + pgVector)
-Dual-database architecture with the main OpenClone database for user data and clones, plus a separate logging database. Supports vector embeddings for AI personality matching.
+1. Set [environment variables](Documentation/EnvironmentVariables.md)
+2. Run `StartStopScripts/Database/restore.bat` to setup environment
+3. Run `StartStopScripts/run-all.bat` to start everything
 
-### 🎭 **SadTalker** (Python + GPU)
-AI-powered deepfake video generation service that creates realistic talking head videos from still images and audio. Requires NVIDIA GPU for optimal performance.
+## 🤖 **Code Code Integration** 🤖
 
-### 🖼️ **U-2-Net** (Python + GPU) 
-Image segmentation service that removes backgrounds from user photos and performs image preprocessing for clone creation.
+Claude has special OpenClone integrations defined in its various CLAUDE.md files:
+- Claude can see your most recent screenshot.
+- Ask Claude to summarize what you worked on to [Session Memory](/StartStopScripts/Claude/SessionMemory/). It's sort of like the story of your application. *This feature was added late in the development of OpenClone so most of the "story" is not there*.
+- [StartStopScripts/Claude/start.bat](StartStopScripts/Claude/start.bat) will launch Claude along with a shared tmux terminal for pair programming.
+- Nested CLAUDE.md files provide knowledge about each project
 
-### 📊 **LogViewer** (Python Flask)
-Monitoring dashboard that provides system insights, error tracking, and performance metrics across all OpenClone components.
+## Lies
 
-### 🔧 **Deployment/IAC** (Kubernetes + Terraform)
-DevOps infrastructure for deploying OpenClone to cloud environments, including Kubernetes clusters, databases, and monitoring systems.
-
-**Note on Kubernetes Versions**: The IAC system uses pinned Kubernetes versions for stability. If deployment fails with "Invalid K8 version" errors, check available versions with the Vultr API and update the version in `/Deployment/IAC/setup-container.sh`. While auto-updating to latest versions is possible, manual version control prevents unexpected breaking changes from new Kubernetes releases.
-
-### 🤖 **Code Assistant Integrattion**
-Technical documentation and context files for AI-powered development assistance. 
-
-## Working with This Repository
-
-This project is designed to work with AI coding assistants. The repository includes AI-optimized documentation and integration tools:
-
-### 🚀 **Quick Start with Claude Code**
-1. Open this repository in Claude Code
-2. Run `/OpenClone/StartStopScripts/Claude/start.bat` for shared development environment
-3. Use the `cr` command anytime to have Claude analyze and update documentation
-
-*AI Assistant documentation was created with Claude Code format.*
-
-## Quick Start
-
-Ready to create your first clone? Here's how:
-
-### Option 1: Full Setup (Recommended)
-1. **Download** - Clone this repository to your computer
-2. **Configure** - Set up the environment variables below
-3. **Database** - Run `StartStopScripts/Database/restore.bat` to set up database and OpenCloneFS
-4. **Launch** - Run `StartStopScripts/run-all.bat` to start everything
-5. **Create** - Visit `http://localhost:8080` and build your first clone!
-
-### Option 2: Step-by-Step
-Want to start individual services? Use these batch files:
-- `StartStopScripts/Database/start.bat` - Start the database
-- `StartStopScripts/SadTalker/start.bat` - Start video generation
-- `StartStopScripts/U-2-Net/start.bat` - Start background removal
-- `StartStopScripts/Website/start.bat` - Start the main website
-
-## What You'll Need
-
-### Required Software
-- **Docker Desktop** - For running all the AI services
-- **NVIDIA GPU** (recommended) - Makes video generation much faster
-- **Node.js** - For the website frontend
-
-### API Keys (Get these free accounts)
-- **OpenAI API Key** - For AI conversations ([Get one here](https://platform.openai.com/api-keys))
-- **ElevenLabs API Key** - For voice cloning ([Get one here](https://elevenlabs.io/))
-- **Google OAuth** - For user login ([Setup guide](https://developers.google.com/identity/protocols/oauth2))
-
-## How It Works
-
-1. **Create Your Clone** - Upload a photo and record some audio samples
-2. **Train the AI** - Answer questions to teach your clone how to respond
-3. **Generate Videos** - Watch your clone come to life in realistic talking videos
-4. **Chat & Share** - Have conversations with your clone or let others chat with it
-
-## Features
-
-- 🎯 **Quick Setup** - Get started with batch scripts
-- 🔒 **Privacy First** - Your data stays on your computer
-- 🎨 **Customizable** - Train your clone's personality and responses
-- 📱 **Web Interface** - Works in any modern web browser
-- 🚀 **GPU Accelerated** - Optimized for quick video creation
-- 💾 **Export Options** - Download your clone videos and conversations
-
-## Getting Help
-
-- 📖 **Documentation** - Check the individual component README files for detailed setup
-- 🐛 **Issues** - Found a bug? Create an issue in this repository
-- 💡 **Questions** - Need help? Create an issue and we'll assist you
-
-
----
-
-Ready to create your digital twin? Let's get started! 🚀
-
-## Environment Variables
-
-You'll need to configure several environment variables for OpenClone to work properly. See [Documentation/EnvironmentVariables.md](Documentation/EnvironmentVariables.md) for the complete list of required and optional settings.
+For simplicity, I have told you a few [lies](/Documentation/lies.md). 
