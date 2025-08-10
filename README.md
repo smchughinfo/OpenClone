@@ -1,5 +1,3 @@
-# OpenClone
-
 ## What Is OpenClone
 
 Create real-time deepfake responses of a person using their photo, audio sample, and their bio + Q/A.
