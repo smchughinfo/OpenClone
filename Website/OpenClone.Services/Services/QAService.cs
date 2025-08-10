@@ -162,6 +162,7 @@ namespace OpenClone.Services.Services
 
         public async Task<int> GetQuestionCategoryId(string categoryName)
         {
+            categoryName = QuestionCategory.UrlFriendlyToName(categoryName);
             return (await _applicationDbContext.QuestionCategory.SingleAsync(c => c.Name == categoryName)).Id;
         }
 
