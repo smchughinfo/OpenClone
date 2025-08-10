@@ -9,7 +9,7 @@ Create real-time deepfake responses of a person using their photo, audio sample,
 
 ## Why Is OpenClone
 
-It's quite obvious to me that clones like these will be common at some point in the future. It will be a trillion dollar industry:
+It's quite obvious to me that clones like these will be common at some point in the future. It will be a huge industry:
 
 - Talk to ancestors
 - "Reincarnation" of sorts
@@ -17,7 +17,7 @@ It's quite obvious to me that clones like these will be common at some point in 
 - Dating speed runs
 - Modern-day answering machines
 
-Now ask yourself, do you want Meta to be the one cloning you? Do you want to give all of your information over to some company in the typical way? They pay you lip service while collecting your data and using it however they want. That sounds awful and deeply disrespectful when the subject matter is one's identity. Therefore, I propose OpenClone (or something like it). Data is fully exportable and user-owned, privacy is the default, and the code is open source.
+Now ask yourself, do you want Meta to be the one cloning you? Do you want to give all of your information over to some company in the typical way? They pay you lip service while collecting your data and using it however they want. That sounds awful and deeply disrespectful when the subject matter is one's identity. Therefore, I propose OpenClone. Data is fully exportable and user-owned, privacy is the default, and the code is open source.
 
 ## How Is OpenClone
 
@@ -56,7 +56,7 @@ The base logic of OpenClone looks like this:
 2. Run `StartStopScripts/Database/restore.bat` to setup environment
 3. Run `StartStopScripts/run-all.bat` to start everything
 
-## 🤖 **Code Code Integration** 🤖
+## 🤖 **Claude Code Integration** 🤖
 
 Claude has special OpenClone integrations defined in its various CLAUDE.md files:
 - Claude can see your most recent screenshot.
