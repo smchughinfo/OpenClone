@@ -56,7 +56,7 @@ The base logic of OpenClone looks like this:
 2. Run `StartStopScripts/Database/restore.bat` to setup environment
 3. Run `StartStopScripts/run-all.bat` to start everything
 
-## 🤖 **Code Code Integration** 🤖
+## 🤖 **Claude Code Integration** 🤖
 
 Claude has special OpenClone integrations defined in its various CLAUDE.md files:
 - Claude can see your most recent screenshot.
