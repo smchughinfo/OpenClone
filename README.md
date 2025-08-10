@@ -1,11 +1,16 @@
 # OpenClone
 
-### Live Demo
-[https://clonezone.me](https://clonezone.me)
-
 ## What Is OpenClone
 
 Create real-time deepfake responses of a person using their photo, audio sample, and their bio + Q/A.
+
+### Live Demo
+[https://clonezone.me](https://clonezone.me)
+
+## Video Demonstration
+
+[![OpenClone Demo](https://seanmchugh.dev/github-images/poster.png)](https://www.youtube.com/watch?v=nDsLsFpFoxI)
+
 
 ## Why Is OpenClone
 
