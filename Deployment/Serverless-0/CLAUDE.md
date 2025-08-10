@@ -18,7 +18,7 @@ The page performs health checks against the self-hosted OpenClone instance:
 2. **Server Offline**: Shows "Server Offline" status with red indicator and displays fallback options
 
 ### Fallback Options (When Server Offline)
-- **Tutorial Video Button**: Opens embedded YouTube tutorial (`https://www.youtube.com/embed/cZOO1pzmcWQ`)
+- **Tutorial Video Button**: Opens embedded YouTube tutorial (`https://www.youtube.com/embed/nDsLsFpFoxI`)
 - **Try Connecting Anyway Button**: Opens `https://app.clonezone.me` in new tab for users who want to attempt connection despite offline status
 
 ## Visual Effects

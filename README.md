@@ -1,7 +1,9 @@
-# OpenClone
-
-### Live Demo
+## Live Demo
 [https://clonezone.me](https://clonezone.me)
+
+## Video Demonstration
+
+[![OpenClone Demo](https://seanmchugh.dev/github-images/poster.png)](https://www.youtube.com/watch?v=nDsLsFpFoxI)
 
 ## What Is OpenClone
 

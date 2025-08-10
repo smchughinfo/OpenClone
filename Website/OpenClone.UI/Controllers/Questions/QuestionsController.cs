@@ -30,7 +30,8 @@ namespace OpenClone.UI.Controllers.Questions
                 questions = _qaService.OrderByRoundRobin(questions);
             }
             else {
-                questions = await _qaService.GetQuestionsWithAnswerStatusInCategory(_activeCloneId, categoryName);
+                var categoryId = await _qaService.GetQuestionCategoryId(categoryName);
+                questions = await _qaService.GetQuestionsWithAnswerStatusInCategory(_activeCloneId, categoryId);
             }
             
             return Ok(questions);
