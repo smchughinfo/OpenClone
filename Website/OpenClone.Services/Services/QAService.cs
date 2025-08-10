@@ -207,10 +207,10 @@ namespace OpenClone.Services.Services
         public async Task<List<QuestionWithAnswer_DTO>> GetAllQuestionsWithAnswerStatus(int cloneId)
         {
             var allQuestions = new List<QuestionWithAnswer_DTO>();
-            var questionCategories = GetQuestionCategories().Select(c => c.NameToUrlFriendly()).ToList();
-            foreach (var category in questionCategories)
+            var questionCategories = GetQuestionCategories().Select(c => c.Id).ToList();
+            foreach (var categoryId in questionCategories)
             {
-                var categoryQuestions = await GetQuestionsWithAnswerStatusInCategory(cloneId, category);
+                var categoryQuestions = await GetQuestionsWithAnswerStatusInCategory(cloneId, categoryId);
                 allQuestions.AddRange(categoryQuestions);
             }
             return allQuestions;
@@ -236,14 +236,10 @@ namespace OpenClone.Services.Services
             return orderedQuestions;
         }
 
-        public async Task<List<QuestionWithAnswer_DTO>> GetQuestionsWithAnswerStatusInCategory(int cloneId, string categoryName)
+        public async Task<List<QuestionWithAnswer_DTO>> GetQuestionsWithAnswerStatusInCategory(int cloneId, int categoryId)
         {
-            var questionsInCategory = GetQuestionsInCategory(categoryName);
-
-            categoryName = QuestionCategory.UrlFriendlyToName(categoryName);
-            var categoryId = await GetQuestionCategoryId(categoryName);
+            var questionsInCategory = GetQuestionsInCategory(cloneId, categoryId);
             var answersInCategory = GetAnswersForQuestionCategory(cloneId, categoryId);
-
             return CreateQuestionWithAnswerStatus_DTOs(questionsInCategory, answersInCategory);
         }
 
@@ -332,11 +328,13 @@ namespace OpenClone.Services.Services
             return unansweredQuestions;
         }
 
-        public List<Question> GetQuestionsInCategory(string categoryName)
+        public List<Question> GetQuestionsInCategory(int cloneId, int categoryId)
         {
-            categoryName = QuestionCategory.UrlFriendlyToName(categoryName);
-            var questionCategory = _applicationDbContext.QuestionCategory.Single(c => c.Name == categoryName);
-            return questionCategory.Questions.Where(q => questionCategory.Id == q.QuestionCategoryId).ToList();
+            var questionCategory = _applicationDbContext.QuestionCategory.Single(c => c.Id == categoryId);
+            return questionCategory.Questions
+                .Where(q => questionCategory.Id == q.QuestionCategoryId)
+                .Where(q => questionCategory.Id == GlobalVariables.UserDefinedQuestionCategoryId ? q.CloneId == cloneId : true)
+                .ToList();
         }
 
         public List<Question> GetUnansweredQuestionsInCategory(int cloneId, string categoryName)
