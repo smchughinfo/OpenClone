@@ -20,8 +20,8 @@ namespace OpenClone.Services.Services
     public enum CustomHeaders { 
         APIKeyOpenAI=1,
         APIKeyElevenLabs=2,
-        ExpectMP3=3,
-        ExpectJson=4 
+        ExpectMP3=4,
+        ExpectJson=8 
     }
 
     public class NetworkService
